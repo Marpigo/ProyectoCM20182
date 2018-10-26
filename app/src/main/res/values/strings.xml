@@ -16,7 +16,6 @@
     <string name="s_web_syncronizar">Update food-drinks</string>
 
 
-
     <!-- Strings Activity Usuario-->
     <string name="s_name_user">Name</string>
     <string name="s_email_user">Email</string>
@@ -35,6 +34,26 @@
     <string name="s_notification">Notification</string>
 
     <string name="s_welcome">Welcome</string>
+    <string name="title_activity_navigation_drawer">Servicios</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Control G</string>
+    <string name="nav_header_subtitle">udea.edu.co</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- Strings related to Menu -->
+    <string name="s_menu">Menu</string>
+    <string name="s_inventory">Inventory</string>
+    <string name="s_breeding">Breeding</string>
+    <string name="s_diary">Diary</string>
+    <string name="s_product">Product</string>
+
+
+    <!-- Strings Activity Menu - Navigation_drawer.xml -->
+    <string name="s_close">close</string>
+    <string name="s_option">Optiones</string>
 
 
 </resources>

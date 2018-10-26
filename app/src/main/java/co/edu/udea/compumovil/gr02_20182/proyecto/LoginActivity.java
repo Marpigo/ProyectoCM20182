@@ -3,6 +3,7 @@ package co.edu.udea.compumovil.gr02_20182.proyecto;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragments.PerfilFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.User;
 import co.edu.udea.compumovil.gr02_20182.proyecto.SQLiteconexion.DatabaseSQLite;
 import co.edu.udea.compumovil.gr02_20182.proyecto.SQLiteconexion.DatabaseSQLiteUser;
@@ -67,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                 campos = validateCampo(campoName.getText().toString(), campoPassword.getText().toString());
                 if(campos.length() == 0)
                 {
-                  //  PerfilFragment.user_login= campoName.getText().toString(); //User logueado
-                 //   PerfilFragment.user_pass= campoPassword.getText().toString();
+                    PerfilFragment.user_login= campoName.getText().toString(); //User logueado
+                    PerfilFragment.user_pass= campoPassword.getText().toString();
                     openNavigationDrawer();
             }else{
                     Toast.makeText(this, campos, Toast.LENGTH_SHORT).show();
@@ -81,14 +83,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void openNavigationDrawer() {
-      //  Intent miIntent = new Intent(LoginActivity.this, ServiciosActivityNavigationDrawer.class);
-      //  startActivity(miIntent);
-      //  finish();
+        Intent miIntent = new Intent(LoginActivity.this, ActivityNavigationDrawer.class);
+        startActivity(miIntent);
+        finish();
     }
 
     public void openCreateUser() {
-     //   Intent miIntent = new Intent(LoginActivity.this, UsuarioAtivity.class);
-      //  startActivity(miIntent);
+        Intent miIntent = new Intent(LoginActivity.this, UsuarioAtivity.class);
+        startActivity(miIntent);
     }
 
 

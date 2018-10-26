@@ -65,10 +65,11 @@
                 android:id="@+id/butLoguin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
                 android:onClick="onClick"
                 android:text="@string/s_entrar_loguin"
-                android:textColor="@android:color/background_light" />
+                android:layout_marginTop="16dp"
+                android:background="@color/accent_material_light_1"
+                android:textColor="@android:color/background_light"/>
 
         </TableRow>
 
