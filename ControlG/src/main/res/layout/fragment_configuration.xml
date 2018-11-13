@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragment.ConfigurationFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|fill_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/s_profile"
+                android:textColor="@android:color/background_dark" />
+
+            <ImageView
+                android:id="@+id/imgProfileEdition"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/ic_person_red_24dp"
+                android:onClick="onClick"
+                android:scaleType="center"
+                tools:ignore="OnClick"
+                tools:scaleType="fitStart" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Switch
+                android:id="@+id/switch2"
+                android:layout_width="228dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:onClick="onClick"
+                android:text="@string/s_keep_session"
+                tools:ignore="OnClick" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/s_notification" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/cheAuthorization_notification"
+                android:layout_width="211dp"
+                android:layout_height="wrap_content"
+                android:text="@string/s_authorization_notification" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/cheSound_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/s_sound_notification" />
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

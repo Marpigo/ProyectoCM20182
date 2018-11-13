@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">Control G</string>
+
+
+    <!-- Firebase -->
+    <string name="s_Firebase_loguin_opciones">Loguin</string>
+    <string name="s_Firebase_loguin_google">Google</string>
+    <string name="s_Firebase_loguin_user">User</string>
+    <string name="s_Google_Autenticacion_fallo">Authentication failed.Google service"</string>
+    <string name="s_Google_verificar">Check</string>
+    <string name="s_requerimiento">request</string>
+    <string name="s_gestonar">Manage</string>
+    <string name="s_Firebase_registro">Successful Registration</string>
+    <string name="s_Firebase_eliminar">Delete register</string>
+    <string name="s_Firebase_eliminar_continua">confirm</string>
+
+    <!-- Strings Activity Usuario-->
+    <string name="s_name_user">Name</string>
+    <string name="s_email_user">Email</string>
+    <string name="s_register_user">Register</string>
+    <string name="s_create_Account">Create Account</string>
+    <string name="s_user_update">Register update </string>
+
+    <!-- Strings Fragment Configuration-->
+    <string name="s_name_loguin">Name</string>
+    <string name="s_pass_loguin">Pass</string>
+    <string name="s_entrar_loguin">Enter</string>
+    <string name="s_edit_profile">Edit Profile</string>
+    <string name="s_authorization_notification">Authorization Notification</string>
+    <string name="s_sound_notification">Sound Notification</string>
+    <string name="s_keep_session">Keep Session</string>
+    <string name="s_notification">Notification</string>
+
+    <string name="s_welcome">Welcome</string>
+    <string name="title_activity_navigation_drawer">Servicios</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Control G</string>
+    <string name="nav_header_subtitle">udea.edu.co</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- Strings related to Menu -->
+    <string name="s_menu">Menu</string>
+    <string name="s_inventory">Inventory</string>
+    <string name="s_breeding">Breeding</string>
+    <string name="s_diary">Diary</string>
+    <string name="s_product">Product</string>
+
+
+    <!-- Strings Activity Menu - Navigation_drawer.xml -->
+    <string name="s_profile">Profile</string>
+    <string name="s_close">close</string>
+    <string name="s_option">Optiones</string>
+    <string name="title_activity_loguin_tabbed">LoguinTabbed</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="s_plates_list">Plates list</string>
+    <string name="s_configuration">Configuration</string>
+    <string name="s_sing_off">Sing off</string>
+    <string name="s_about">About</string>
+    <string name="s_institution">udea.edu.co</string>
+
+
+
+</resources>

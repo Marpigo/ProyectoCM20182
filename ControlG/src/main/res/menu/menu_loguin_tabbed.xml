@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="co.edu.udea.compumovil.gr02_20182.proyecto.LoguinTabbed">
+    <item
+        android:id="@+id/action_clsose_tab"
+        android:orderInCategory="100"
+        android:title="@string/s_close"
+        app:showAsAction="never" />
+</menu>
