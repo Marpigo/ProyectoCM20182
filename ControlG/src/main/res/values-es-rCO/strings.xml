@@ -85,5 +85,10 @@
     <string name="s_Firebase_user_eliminar_continua">Confirmar</string>
     <string name="s_Firebase_eliminar">Eliminar Registro</string>
     <string name="s_Firebase_eliminar_continua">Confirmar</string>
+    <string name="s_inventory">Inventario</string>
+    <string name="s_levante">Levante</string>
+    <string name="s_diary">Agendar</string>
+    <string name="s_product">Productos</string>
+    <string name="s_news">Noticias</string>
 
 </resources>

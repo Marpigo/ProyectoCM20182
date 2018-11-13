@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigurationFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
 
 public class ActivityNavigationDrawer extends AppCompatActivity
@@ -113,6 +114,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_navigation_drawer, menu);
+
+        openFragmentControlMenu();
         return true;
     }
 
@@ -139,7 +142,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         if (id == R.id.nav_diary) {
             // Handle the camera action
-        } else if (id == R.id.nav_breeding) {
+        } else if (id == R.id.nav_levante) {
 
         } else if (id == R.id.nav_inventory) {
 
@@ -166,9 +169,9 @@ public class ActivityNavigationDrawer extends AppCompatActivity
                 UsuarioAtivity.modo = 1;/*Modo edicion*/
                 openUsuarioActividad();
                 break;
-         //   case R.id.imageViewLogo:
-           //     openFragmentServices();/*Presionar el logo muestra el menu*/
-             //   break;
+            case R.id.imageViewLogo:
+                openFragmentControlMenu();/*Presionar el logo muestra el menu*/
+                break;
         }
     }
 
@@ -195,6 +198,11 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         Intent miIntent = new Intent(ActivityNavigationDrawer.this, LoguinTabbed.class);
         startActivity(miIntent);
         finish();
+    }
+
+    private void openFragmentControlMenu() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new ControlMenuFragment()).commit();
     }
 
     private void openFragmentConfiguration() {
