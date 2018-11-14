@@ -2,6 +2,13 @@
     <string name="app_name">Control G</string>
 
 
+    <!-- Menu -->
+
+    <string name="s_menu_insumo">Supply</string>
+    <string name="s_menu_animales">Animal</string>
+    <string name="s_menu_levante">Levante</string>
+    <string name="s_menu_agenda">Agendar</string>
+
     <!-- Firebase -->
     <string name="s_Firebase_loguin_opciones">Loguin</string>
     <string name="s_Firebase_loguin_google">Google</string>

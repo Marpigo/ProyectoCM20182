@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
@@ -10,46 +11,44 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="396dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <Button
                 android:id="@+id/txtLote_item_levante"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="Nombre"
-                android:textColor="@android:color/background_dark"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_width="379dp"
+                android:layout_height="33dp"
+                android:background="@android:color/darker_gray"
+                android:text="@string/s_lote_detalle" />
 
             <TextView
                 android:id="@+id/txtName_item_levante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="Nombre"
+                android:layout_marginLeft="10dp"
+                android:text="@string/s_nombre_detalle"
                 android:textColor="@android:color/background_dark"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/txtGenero_item_levante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="Nombre"
+                android:layout_marginLeft="10dp"
+                android:text="@string/s_genero_detalle"
                 android:textColor="@android:color/background_dark"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/txtFecha_item_levante"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
-                android:text="precio"
+                android:layout_marginLeft="10dp"
+                android:text="@string/s_fecha_detalle"
                 android:textColor="@android:color/background_dark"
                 android:textSize="14sp" />
 
@@ -60,8 +59,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorPrimary"
         android:layout_below="@+id/idImagen"
-        android:layout_marginTop="11dp" />
+        android:layout_marginTop="11dp"
+        android:background="@android:color/darker_gray" />
 
 </LinearLayout>

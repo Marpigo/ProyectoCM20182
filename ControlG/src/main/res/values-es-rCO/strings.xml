@@ -99,5 +99,12 @@
     <string name="s_numero_chapeta_detalle">Numero de chapeta</string>
     <string name="s_observacion_detalle">Obsrvación</string>
     <string name="s_dos_puntos">:</string>
+    <string name="s_menu_gestionar_animales">Gestionar Insumo</string>
+    <string name="s_menu_gestionar_agenda">Gestionar Agenda</string>
+    <string name="s_menu_gestionar_insumo">Gestionar Insumo</string>
+    <string name="s_menu_agenda">Agendar</string>
+    <string name="s_menu_animales">Animal</string>
+    <string name="s_menu_insumo">Insumo</string>
+    <string name="s_menu_levante">Levante</string>
 
 </resources>

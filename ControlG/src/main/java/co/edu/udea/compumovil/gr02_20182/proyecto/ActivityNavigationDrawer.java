@@ -1,6 +1,7 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -23,18 +24,23 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigurationFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 
 public class ActivityNavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        FragmentListLevanteRecycler.OnFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
 
 
 
-   // static List<Bebida> recibirListDrink;
+    static List<Levante> recibirListLevante;
    // static List<Comida> recibirListFood;
 
 
@@ -54,6 +60,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         final FloatingActionsMenu fabgrupo = (FloatingActionsMenu) findViewById(R.id.fabGrupo);
         com.getbase.floatingactionbutton.FloatingActionButton fablevante = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabLevante);
         com.getbase.floatingactionbutton.FloatingActionButton fabinsumo  = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabInsumo);
+        com.getbase.floatingactionbutton.FloatingActionButton fabagendar  = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgendear);
 
 
         fablevante.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +74,16 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         fabinsumo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           //     openActividadFood();
+                openFragmentInsumoGestionar();
+                fabgrupo.collapse();
+            }
+        });
+
+
+        fabagendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //     openActividadFood();
                 fabgrupo.collapse();
             }
         });
@@ -83,8 +99,17 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         autenticadoUser();
+        iniciarFirebaseListDrink();
     }
 
+
+    void iniciarFirebaseListDrink()
+    {
+        LevanteFirebase levanteFirebase = new LevanteFirebase();
+        levanteFirebase.limpiarLista();
+        levanteFirebase.cargarListLevante();
+        recibirListLevante = LevanteFirebase.levanteList;
+    }
 
     public void autenticadoUser()
     {
@@ -156,7 +181,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         openFragmentConfiguration();
         } else if (id == R.id.nav_Sing_off) {
             singOff();
+        } else if (id == R.id.nav_about) {
+            openFragmentAcercaDe();
         }
+
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -228,9 +258,25 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListLevanteRecycler()).commit();
     }
 
+    private void openFragmentInsumoGestionar() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new InsumoGestionarFragment()).commit();
+    }
+
+
+    private void openFragmentAcercaDe() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new AcercadeFragment()).commit();
+    }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
