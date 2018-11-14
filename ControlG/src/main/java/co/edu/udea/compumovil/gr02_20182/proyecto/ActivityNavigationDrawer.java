@@ -23,10 +23,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
-
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigurationFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
 
 public class ActivityNavigationDrawer extends AppCompatActivity
@@ -52,19 +52,19 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
 
         final FloatingActionsMenu fabgrupo = (FloatingActionsMenu) findViewById(R.id.fabGrupo);
-        com.getbase.floatingactionbutton.FloatingActionButton fabdrink = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabDrink);
-        com.getbase.floatingactionbutton.FloatingActionButton fabfood  = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabFood);
+        com.getbase.floatingactionbutton.FloatingActionButton fablevante = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabLevante);
+        com.getbase.floatingactionbutton.FloatingActionButton fabinsumo  = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabInsumo);
 
 
-        fabfood.setOnClickListener(new View.OnClickListener() {
+        fablevante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-         //       openActividadDdrink();
+                openFragmentLevanteGestionar();
                 fabgrupo.collapse();
             }
         });
 
-        fabdrink.setOnClickListener(new View.OnClickListener() {
+        fabinsumo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
            //     openActividadFood();
@@ -143,7 +143,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         if (id == R.id.nav_diary) {
             // Handle the camera action
         } else if (id == R.id.nav_levante) {
-
+            openFragmentRecyclerLevante();
         } else if (id == R.id.nav_inventory) {
 
         } else if (id == R.id.nav_product) {
@@ -216,6 +216,16 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     private void openUsuarioActividad() {
         Intent miIntent = new Intent(ActivityNavigationDrawer.this, UsuarioAtivity.class);
         startActivity(miIntent);
+    }
+
+    private void openFragmentLevanteGestionar() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new LevanteGestionarFragment()).commit();
+    }
+
+    private void openFragmentRecyclerLevante() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListLevanteRecycler()).commit();
     }
 
 

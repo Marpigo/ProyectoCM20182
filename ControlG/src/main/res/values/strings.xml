@@ -50,6 +50,18 @@
     <string name="s_news">News</string>
 
 
+    <!-- Strings Fragment Levante -->
+    <string name="s_lote_detalle">Lot</string>
+    <string name="s_nombre_detalle">Name or number</string>
+    <string name="s_genero_detalle">Gender</string>
+    <string name="s_raza_detalle">Race</string>
+    <string name="s_tipo_ingreso_detalle">Type of Income</string>
+    <string name="s_fecha_detalle">Date</string>
+    <string name="s_numero_chapeta_detalle">Pin number</string>
+    <string name="s_observacion_detalle">Observation</string>
+    <string name="s_dos_puntos">:</string>
+
+
     <!-- Strings Activity Menu - Navigation_drawer.xml -->
     <string name="s_profile">Profile</string>
     <string name="s_close">close</string>

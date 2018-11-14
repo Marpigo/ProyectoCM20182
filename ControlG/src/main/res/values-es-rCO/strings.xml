@@ -90,5 +90,14 @@
     <string name="s_diary">Agendar</string>
     <string name="s_product">Productos</string>
     <string name="s_news">Noticias</string>
+    <string name="s_lote_detalle">Lote</string>
+    <string name="s_nombre_detalle">Nombre</string>
+    <string name="s_genero_detalle">Genero</string>
+    <string name="s_raza_detalle">Raza</string>
+    <string name="s_tipo_ingreso_detalle">Tipo de ingreso</string>
+    <string name="s_fecha_detalle">Fecha</string>
+    <string name="s_numero_chapeta_detalle">Numero de chapeta</string>
+    <string name="s_observacion_detalle">Obsrvación</string>
+    <string name="s_dos_puntos">:</string>
 
 </resources>
