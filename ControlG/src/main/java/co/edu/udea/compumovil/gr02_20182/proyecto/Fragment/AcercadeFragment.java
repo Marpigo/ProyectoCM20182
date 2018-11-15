@@ -1,4 +1,4 @@
-package co.edu.udea.compumovil.gr02_20182.proyecto;
+package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
 
 public class AcercadeFragment extends Fragment {

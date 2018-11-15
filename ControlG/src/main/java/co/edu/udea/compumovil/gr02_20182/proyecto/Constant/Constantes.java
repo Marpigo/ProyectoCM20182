@@ -24,5 +24,15 @@ public class Constantes {
     public static final String CAMPO_NUMBERPIN_L="numberPin";
     public static final String CAMPO_OBSERVATION_L="observation";
 
+    public static final String TABLA_INSUMO="insumo";
+    public static final String CAMPO_ID_I= "id";
+    public static final String CAMPO_SUPPLY_I = "supply";
+    public static final String CAMPO_PRESENTATION_I = "presentation";
+    public static final String CAMPO_LINE_I = "line";
+    public static final String CAMPO_BRAND_I = "brand";
+    public static final String CAMPO_SPECIES_I = "species";
+    public static final String CAMPO_FECHA_I = "datei";
+    public static final String CAMPO_SALDO_I ="balance";
+
 
 }

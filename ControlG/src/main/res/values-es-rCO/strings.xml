@@ -106,5 +106,11 @@
     <string name="s_menu_animales">Animal</string>
     <string name="s_menu_insumo">Insumo</string>
     <string name="s_menu_levante">Levante</string>
+    <string name="s_insumo_detalle">Insumo</string>
+    <string name="s_presentacion_detalle">Presentación</string>
+    <string name="s_filtro_referencia_detalle">Filtro de referencia</string>
+    <string name="s_linea_detalle">Linea</string>
+    <string name="s_marca_detalle">Marca</string>
+    <string name="s_especies_detalle">Especies</string>
 
 </resources>

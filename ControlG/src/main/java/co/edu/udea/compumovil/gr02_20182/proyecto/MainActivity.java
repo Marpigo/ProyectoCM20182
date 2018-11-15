@@ -13,6 +13,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "Notificación";
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        PerfilFragment.logueado = 1;
                         openNavigationDrawer();
                     }
                 }, 3000);

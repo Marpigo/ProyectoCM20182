@@ -6,24 +6,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_levante"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_cow_head_icon"
             android:title="@string/s_levante" />
         <item
-            android:id="@+id/nav_diary"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/s_diary" />
+            android:id="@+id/nav_insumo"
+            android:icon="@drawable/ic_insumo"
+            android:title="@string/s_insumo_detalle" />
         <item
-            android:id="@+id/nav_inventory"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/s_inventory" />
+            android:id="@+id/nav_agendar"
+            android:icon="@drawable/ic_diary"
+            android:title="@string/s_diary" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_person_red_24dp"
             android:title="@string/s_profile" />
-        <item
-            android:id="@+id/nav_product"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/s_product" />
         <item
             android:id="@+id/nav_configuration"
             android:icon="@drawable/ic_configuracion_red_24dp"

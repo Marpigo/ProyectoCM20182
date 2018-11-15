@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/colorButtonNormal"
-    tools:context=".InsumoGestionarFragment"
+    tools:context=".Fragment.InsumoGestionarFragment"
     tools:layout_editor_absoluteY="81dp">
 
     <!-- TODO: Update blank fragment layout -->
@@ -20,7 +20,7 @@
         tools:layout_editor_absoluteX="0dp">
 
         <TextView
-            android:id="@+id/texManageA"
+            android:id="@+id/texManageI"
             android:layout_width="197dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -31,7 +31,7 @@
             tools:ignore="RtlCompat" />
 
         <ImageView
-            android:id="@+id/imaNewA"
+            android:id="@+id/imaNewI"
             android:layout_width="49dp"
             android:layout_height="43dp"
             android:onClick="onClick"
@@ -39,7 +39,7 @@
             tools:ignore="OnClick" />
 
         <ImageView
-            android:id="@+id/imaSaveA"
+            android:id="@+id/imaSaveI"
             android:layout_width="57dp"
             android:layout_height="42dp"
             android:onClick="onClick"
@@ -47,7 +47,7 @@
             tools:ignore="OnClick" />
 
         <ImageView
-            android:id="@+id/imaDeleteA"
+            android:id="@+id/imaDeleteI"
             android:layout_width="58dp"
             android:layout_height="42dp"
             android:onClick="onClick"
@@ -73,7 +73,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Insumo"
+                android:text="@string/s_insumo_detalle"
                 android:textColor="@color/colorPrimaryDark" />
 
         </TableRow>
@@ -84,7 +84,7 @@
             android:layout_marginLeft="10dp">
 
             <EditText
-                android:id="@+id/ediChapetaL2"
+                android:id="@+id/ediInsumoI"
                 android:layout_width="238dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/cuadro_texto_blanco"
@@ -101,7 +101,7 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Presentacion"
+                android:text="@string/s_presentacion_detalle"
                 android:textColor="@color/colorPrimaryDark" />
 
         </TableRow>
@@ -112,7 +112,7 @@
             android:layout_marginLeft="10dp">
 
             <EditText
-                android:id="@+id/ediChapetaL"
+                android:id="@+id/ediPresentacionI"
                 android:layout_width="238dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/cuadro_texto_blanco"
@@ -128,7 +128,8 @@
         android:layout_width="349dp"
         android:layout_height="26dp"
         android:layout_margin="10dp"
-        android:text="Filtros para Referencia"
+        android:elevation="10dp"
+        android:text="@string/s_filtro_referencia_detalle"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout2"
         tools:layout_editor_absoluteX="18dp" />
@@ -150,7 +151,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Linea"
+                android:text="@string/s_linea_detalle"
                 android:textColor="@color/colorPrimaryDark" />
 
         </TableRow>
@@ -160,13 +161,12 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp">
 
-            <EditText
-                android:id="@+id/ediChapetaL2"
-                android:layout_width="238dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/cuadro_texto_blanco"
-                android:ems="10"
-                android:inputType="textPersonName" />
+            <Spinner
+                android:id="@+id/spinnerLineaI"
+                android:layout_width="130dp"
+                android:layout_height="25dp"
+                android:background="@drawable/cuadro_texto_blanco" />
+
         </TableRow>
 
 
@@ -179,7 +179,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Marca"
+                android:text="@string/s_marca_detalle"
                 android:textColor="@color/colorPrimaryDark" />
         </TableRow>
 
@@ -189,7 +189,7 @@
             android:layout_marginLeft="10dp">
 
             <EditText
-                android:id="@+id/ediChapetaL3"
+                android:id="@+id/ediMarcaI"
                 android:layout_width="238dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/cuadro_texto_blanco"
@@ -207,7 +207,7 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Especies"
+                android:text="@string/s_especies_detalle"
                 android:textColor="@color/colorPrimaryDark" />
         </TableRow>
 

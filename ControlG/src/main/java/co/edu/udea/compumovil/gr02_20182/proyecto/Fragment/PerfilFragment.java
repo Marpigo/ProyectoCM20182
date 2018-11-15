@@ -32,6 +32,7 @@ public class PerfilFragment extends Fragment implements GoogleApiClient.OnConnec
     Activity activity;
     private GoogleApiClient googleApiClient;
     static List<User> recibirListUsuario;
+    public static int logueado;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,7 +45,7 @@ public class PerfilFragment extends Fragment implements GoogleApiClient.OnConnec
 
         activity = getActivity();
 
-        int logueado;
+
         logueado = UserFirebase.logueado; //1.Gollge, 2.Usuario
 
         if(logueado == 1)

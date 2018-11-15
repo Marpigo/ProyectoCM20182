@@ -9,6 +9,25 @@
     <string name="s_menu_levante">Levante</string>
     <string name="s_menu_agenda">Agendar</string>
 
+    <!-- Strings Fragment Levante -->
+    <string name="s_lote_detalle">Lot</string>
+    <string name="s_nombre_detalle">Name or number</string>
+    <string name="s_genero_detalle">Gender</string>
+    <string name="s_raza_detalle">Race</string>
+    <string name="s_tipo_ingreso_detalle">Type of Income</string>
+    <string name="s_fecha_detalle">Date</string>
+    <string name="s_numero_chapeta_detalle">Pin number</string>
+    <string name="s_observacion_detalle">Observation</string>
+    <string name="s_dos_puntos">:</string>
+
+    <!-- Strings Fragment Levante -->
+    <string name="s_insumo_detalle">Supply</string>
+    <string name="s_presentacion_detalle">Presentation</string>
+    <string name="s_filtro_referencia_detalle">filter reference detail</string>
+    <string name="s_linea_detalle">Line</string>
+    <string name="s_marca_detalle">Brand</string>
+    <string name="s_especies_detalle">Species</string>
+
     <!-- Firebase -->
     <string name="s_Firebase_loguin_opciones">Loguin</string>
     <string name="s_Firebase_loguin_google">Google</string>
@@ -55,18 +74,6 @@
     <string name="s_diary">Diary</string>
     <string name="s_product">Product</string>
     <string name="s_news">News</string>
-
-
-    <!-- Strings Fragment Levante -->
-    <string name="s_lote_detalle">Lot</string>
-    <string name="s_nombre_detalle">Name or number</string>
-    <string name="s_genero_detalle">Gender</string>
-    <string name="s_raza_detalle">Race</string>
-    <string name="s_tipo_ingreso_detalle">Type of Income</string>
-    <string name="s_fecha_detalle">Date</string>
-    <string name="s_numero_chapeta_detalle">Pin number</string>
-    <string name="s_observacion_detalle">Observation</string>
-    <string name="s_dos_puntos">:</string>
 
 
     <!-- Strings Activity Menu - Navigation_drawer.xml -->

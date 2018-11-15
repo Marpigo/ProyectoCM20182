@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/loguin_b"
-    tools:context=".AcercadeFragment">
+    tools:context=".Fragment.AcercadeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

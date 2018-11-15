@@ -26,22 +26,27 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.InsumoFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AcercadeFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigurationFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListInsumoRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.InsumoGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 
 public class ActivityNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        FragmentListLevanteRecycler.OnFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
+        FragmentListLevanteRecycler.OnFragmentInteractionListener, FragmentListInsumoRecycler.OnFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
 
 
 
     static List<Levante> recibirListLevante;
-   // static List<Comida> recibirListFood;
+    static List<Insumo> recibirListInsumo;
 
 
 
@@ -99,16 +104,25 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         autenticadoUser();
-        iniciarFirebaseListDrink();
+        iniciarFirebaseListLevante();
+        iniciarFirebaseListInsumo();
     }
 
 
-    void iniciarFirebaseListDrink()
+    void iniciarFirebaseListLevante()
     {
         LevanteFirebase levanteFirebase = new LevanteFirebase();
         levanteFirebase.limpiarLista();
         levanteFirebase.cargarListLevante();
         recibirListLevante = LevanteFirebase.levanteList;
+    }
+
+    void iniciarFirebaseListInsumo()
+    {
+        InsumoFirebase insumoFirebase = new InsumoFirebase();
+        insumoFirebase.limpiarLista();
+        insumoFirebase.cargarListInsumo();
+        recibirListInsumo = InsumoFirebase.insumoList;
     }
 
     public void autenticadoUser()
@@ -165,13 +179,13 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_diary) {
+        if (id == R.id.nav_agendar) {
             // Handle the camera action
         } else if (id == R.id.nav_levante) {
             openFragmentRecyclerLevante();
-        } else if (id == R.id.nav_inventory) {
-
-        } else if (id == R.id.nav_product) {
+        } else if (id == R.id.nav_insumo) {
+            openFragmentRecyclerInsumo();
+        } else if (id == R.id.nav_agendar) {
 
 
         } else if (id == R.id.nav_profile) {
@@ -257,6 +271,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListLevanteRecycler()).commit();
     }
+
+    private void openFragmentRecyclerInsumo() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListInsumoRecycler()).commit();
+    }
+
 
     private void openFragmentInsumoGestionar() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
