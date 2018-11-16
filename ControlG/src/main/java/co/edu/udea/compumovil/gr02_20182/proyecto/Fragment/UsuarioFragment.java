@@ -1,19 +1,20 @@
-package co.edu.udea.compumovil.gr02_20182.proyecto;
+package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,14 +30,11 @@ import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.User;
+import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
 
-/*
-* Activity para registrar los usuarios:
-*  Se captura los datos de la activity, para insertar en la bdrestaurant
-*
-* */
-public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
+
 
     static List<User> recibirListUsuario;
     UserFirebase userFirebase = new  UserFirebase();
@@ -44,25 +42,31 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
     private Uri filePath;
 
 
-    ImageView campoPhoto;
+    ImageView campoPhoto; //imagen gris logo
+    ImageView campoPhoto2; //imagen gris camara
     EditText campoName, campoEmail, campoPassword;
     TextView campoId;
+    Bitmap bitmaphoto;
 
     Button butregistrarFirebase;
     public static int modo = 1; /*0.Nuevo, 1.Modificar*/
 
 
-    Bitmap bitmaphoto;
+    Activity activity;
 
+
+    public UsuarioFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_usuario_ativity);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
 
-
-        init();
-        setupActionBar();
+        View view;
+        view = inflater.inflate(R.layout.fragment_usuario, container, false);
+        init(view);
 
 
         int logueado;
@@ -72,14 +76,71 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
         {
             campoName.setText("Usuario Google");
             modo = 0; //nuevo
-
         }else if(logueado == 2){
-
             usuarioLogueado(); //logueo firebase
             modo = 1; //modificar
         }
+
+        campoPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity = getActivity();
+                imagenGallery();
+            }
+        });
+
+        campoPhoto2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity = getActivity();
+                imagenGallery();
+            }
+        });
+
+        setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
+
+        return view;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_gestionar, menu);
+
+        MenuItem menuItem;
+
+        menuItem = menu.findItem(R.id.action_gestionar_guardar);
+        menuItem.setVisible(true);
+
+        menuItem = menu.findItem(R.id.action_gestionar_nuevo);
+        menuItem.setVisible(true);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+
+        }
+        if (id == R.id.action_gestionar_guardar) {
+            usarioGuardar();
+
+        }else if (id == R.id.action_gestionar_nuevo) {
+            limpiar();
+            modo = 1;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     void usuarioLogueado(){
         recibirListUsuario = UserFirebase.usuarioList;
@@ -98,82 +159,19 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-    private void setupActionBar() {
-        android.support.v7.app.ActionBar actionBar= getSupportActionBar();
-        if(actionBar != null)
-        {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
 
-
-    public  void init()
+    public  void init(View view)
     {
-        campoName = (EditText) findViewById(R.id.ediNameUserR);
-        campoEmail = (EditText) findViewById(R.id.ediEmailUserR);
-        campoPassword = (EditText) findViewById(R.id.ediPasswordUserR);
-        campoPhoto = (ImageView) findViewById(R.id.imgPhotoUserR);
-        campoId = (TextView) findViewById(R.id.texId);
+        campoName = (EditText) view.findViewById(R.id.ediNameUserR);
+        campoEmail = (EditText) view.findViewById(R.id.ediEmailUserR);
+        campoPassword = (EditText) view.findViewById(R.id.ediPasswordUserR);
+        campoPhoto = (ImageView) view.findViewById(R.id.imgUsuarioG);
+        campoPhoto2 = (ImageView) view.findViewById(R.id.imgUsuarioG2);
+        campoId = (TextView) view.findViewById(R.id.texId);
     }
 
-
-    public void onClick(View view) {
-        final String name = campoName.getText().toString();
-        final String email = campoEmail.getText().toString();
-        final String password = campoPassword.getText().toString();
-        final String idU = campoId.getText().toString();
-
-        boolean requerimientos = false;
-
-        switch (view.getId()) {
-            case R.id.imaSave:
-                requerimientos = validateCampo(campoName.getText().toString(), campoEmail.getText().toString(), campoPassword.getText().toString());
-                if (requerimientos) {
-                    if (modo == 0 ){ //Nuevo
-                        userFirebase.insertUser(name, email, password, filePath);
-                        Toast.makeText(getApplicationContext(), getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
-                        limpiar();
-                    }else if(modo == 1){ //Modificar
-                        userFirebase.updateUser(idU, name, email, password, filePath);
-                        Toast.makeText(getApplicationContext(), getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
-                        limpiar();
-                    }
-                }
-                break;
-            case R.id.imaNew:
-                limpiar();
-                modo=0;
-                break;
-
-            case R.id.imaDelete:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(getString(R.string.s_Firebase_eliminar) + ": " + campoName.getText().toString())
-                        .setTitle(getString(R.string.s_Firebase_eliminar_continua));
-
-                builder.setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        eliminarUser(idU);
-                        limpiar();
-                        modo =0;
-                    }
-                });
-                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-
-                });
-                builder.show();
-                break;
-
-            case R.id.imgPhotoUserR:
-                imagenGallery();
-                break;
-        }
-    }
 
     public void usarioGuardar(){
-         modo =0; /*0.TEMPORAL */
         final String name = campoName.getText().toString();
         final String email = campoEmail.getText().toString();
         final String password = campoPassword.getText().toString();
@@ -184,15 +182,14 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
         if (requerimientos) {
             if (modo == 0 ){ //Nuevo
                 userFirebase.insertUser(name, email, password, filePath);
-                Toast.makeText(getApplicationContext(), getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
             }else if(modo == 1){ //Modificar
                 userFirebase.updateUser(idU, name, email, password, filePath);
-                Toast.makeText(getApplicationContext(), getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
             }
         }
-
     }
 
 
@@ -210,8 +207,8 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
         campoName.setError(null);
         campoEmail.setError(null);
         campoPassword.setError(null);
-        ConnectivityManager con = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkinfo = con.getActiveNetworkInfo();
+        //ConnectivityManager con = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        //NetworkInfo networkinfo = con.getActiveNetworkInfo();
 
         if (TextUtils.isEmpty(name))
         {campoName.setError(getString(R.string.s_requerimiento).toString());vericar = 1;}
@@ -222,13 +219,13 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
         if (TextUtils.isEmpty(password))
         {campoPassword.setError(getString(R.string.s_requerimiento).toString()); vericar += 1;}
 
-        if(filePath ==null)
-            { Toast.makeText(this, "Imagen", Toast.LENGTH_SHORT).show();vericar += 1;}
+       // if(filePath ==null)
+       // { Toast.makeText(getContext(), "Imagen", Toast.LENGTH_SHORT).show();vericar += 1;}
 
-        if(networkinfo == null && !networkinfo.isConnected()){
+     //   if(networkinfo == null && !networkinfo.isConnected()){
             //Toast.makeText(getApplicationContext(), getString(R.string.s_web_not_conexion), Toast.LENGTH_SHORT).show();
-            vericar += 1;
-        }
+        //    vericar += 1;
+      //  }
         return vericar>0?false:true;
     }
 
@@ -238,15 +235,19 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
         intent.setType("image/");
         startActivityForResult(intent.createChooser(intent,"Seleccionar la aplicación"),10);
     }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        int RESULT_OK = -1;
+
         if(resultCode == RESULT_OK)
         {
             filePath = data.getData();
 
             try {
-                bitmaphoto=MediaStore.Images.Media.getBitmap(this.getContentResolver(),filePath);
+                bitmaphoto=MediaStore.Images.Media.getBitmap(activity.getContentResolver(),filePath);
                 campoPhoto.setImageBitmap(bitmaphoto);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -256,11 +257,14 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
     }
 
     private void limpiar() {
+        campoName.setError(null);
+        campoEmail.setError(null);
+        campoPassword.setError(null);
         campoName.setText("");
         campoEmail.setText("");
         campoPassword.setText("");
         campoId.setText("");
-        campoPhoto.setImageResource(R.drawable.ic_person_red_24dp);
+        campoPhoto.setImageResource(R.drawable.ic_user_loguin);
 
     }
 
@@ -268,7 +272,6 @@ public class UsuarioAtivity extends AppCompatActivity implements GoogleApiClient
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
 
 
 }

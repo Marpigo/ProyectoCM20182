@@ -3,27 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".UsuarioAtivity">
+    android:orientation="vertical"
+    tools:context=".Fragment.UsuarioFragment">
+
 
     <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="104dp"
+        android:id="@+id/tableRow3"
+        android:layout_width="386dp"
+        android:layout_height="130dp"
         android:background="@color/color_title_imagen"
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/imgPhotoUserR"
-            android:layout_width="120dp"
-            android:layout_height="104dp"
+            android:id="@+id/imgUsuarioG"
+            android:layout_width="155dp"
+            android:layout_height="119dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:onClick="onClick"
-            android:src="@drawable/ic_user_loguin" />
+            android:src="@drawable/ic_user_loguin"
+            tools:ignore="OnClick" />
 
         <ImageView
-            android:id="@+id/imgPhotoUserR2"
+            android:id="@+id/imgUsuarioG2"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -32,54 +35,14 @@
             android:src="@drawable/ic_camera_alt_black_24dp" />
     </TableRow>
 
-    <TableRow
-        android:id="@+id/tableRow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/accent_material_light_1x"
-        android:gravity="right|center">
-
-        <TextView
-            android:id="@+id/texManage"
-            android:layout_width="197dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/s_gestonar"
-            android:textAlignment="center"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            tools:ignore="RtlCompat" />
-
-        <ImageView
-            android:id="@+id/imaNew"
-            android:layout_width="49dp"
-            android:layout_height="43dp"
-            android:onClick="onClick"
-            android:src="@drawable/ic_add" />
-
-        <ImageView
-            android:id="@+id/imaSave"
-            android:layout_width="57dp"
-            android:layout_height="42dp"
-            android:onClick="onClick"
-            android:src="@drawable/ic_save" />
-
-        <ImageView
-            android:id="@+id/imaDelete"
-            android:layout_width="58dp"
-            android:layout_height="42dp"
-            android:onClick="onClick"
-            android:src="@drawable/ic_delete" />
-
-    </TableRow>
-
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="277dp"
         android:orientation="vertical">
 
         <TableLayout
-            android:layout_width="match_parent"
+            android:layout_width="358dp"
             android:layout_height="161dp">
 
             <TableRow
@@ -89,13 +52,13 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="100dp"
+                    android:layout_width="54dp"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_user_guia_24dp" />
 
                 <EditText
                     android:id="@+id/ediNameUserR"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:ems="15"
@@ -136,7 +99,7 @@
 
                 <EditText
                     android:id="@+id/ediPasswordUserR"
-                    android:layout_width="wrap_content"
+                    android:layout_width="264dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:ems="10"
@@ -147,18 +110,18 @@
         </TableLayout>
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="332dp"
             android:layout_height="30dp">
 
             <TextView
                 android:id="@+id/texId"
-                android:layout_width="371dp"
+                android:layout_width="306dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="id"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/background_light"
+                android:visibility="visible" />
         </TableRow>
 
     </LinearLayout>
-
 </LinearLayout>

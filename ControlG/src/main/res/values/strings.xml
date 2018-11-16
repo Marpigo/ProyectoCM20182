@@ -41,6 +41,7 @@
     <string name="s_Firebase_eliminar_continua">confirm</string>
 
     <!-- Strings Activity Usuario-->
+    <string name="s_users">Users</string>
     <string name="s_name_user">Name</string>
     <string name="s_email_user">Email</string>
     <string name="s_register_user">Register</string>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.inputmethod.EditorInfo;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -13,6 +15,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         userAutenticadoEstado();
 
         notificaciones();
+
 
 
     }
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        PerfilFragment.logueado = 1;
+                        UserFirebase.logueado = 1;
                         openNavigationDrawer();
                     }
                 }, 3000);

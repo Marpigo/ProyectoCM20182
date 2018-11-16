@@ -112,5 +112,6 @@
     <string name="s_linea_detalle">Linea</string>
     <string name="s_marca_detalle">Marca</string>
     <string name="s_especies_detalle">Especies</string>
+    <string name="s_users">Usuario</string>
 
 </resources>

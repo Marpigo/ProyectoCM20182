@@ -9,10 +9,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -28,7 +31,9 @@ import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.InsumoFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AcercadeFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AgendarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigurationFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListInsumoRecycler;
@@ -36,6 +41,7 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRe
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.InsumoGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.UsuarioFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 
@@ -49,23 +55,25 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     static List<Insumo> recibirListInsumo;
 
 
-
+    Toolbar toolbar;
     private GoogleApiClient googleApiClient;
     private FirebaseAuth firebaseAuth;
-
+    static boolean visible_menu = false; //ocultar icono del menu
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
 
         final FloatingActionsMenu fabgrupo = (FloatingActionsMenu) findViewById(R.id.fabGrupo);
         com.getbase.floatingactionbutton.FloatingActionButton fablevante = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabLevante);
-        com.getbase.floatingactionbutton.FloatingActionButton fabinsumo  = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabInsumo);
-        com.getbase.floatingactionbutton.FloatingActionButton fabagendar  = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgendear);
+        com.getbase.floatingactionbutton.FloatingActionButton fabinsumo = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabInsumo);
+        com.getbase.floatingactionbutton.FloatingActionButton fabagendar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgendear);
 
 
         fablevante.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +96,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         fabagendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //     openActividadFood();
+                openFragmentAgendar();
                 fabgrupo.collapse();
             }
         });
@@ -103,9 +111,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         autenticadoUser();
+
         iniciarFirebaseListLevante();
         iniciarFirebaseListInsumo();
+        openFragmentControlMenu();
     }
 
 
@@ -149,14 +160,26 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         }
     }
 
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_navigation_drawer, menu);
 
-        openFragmentControlMenu();
+        /*
+        //icono guardar suario
+        MenuItem menuItem;
+        getMenuInflater().inflate(R.menu.menu_gestionar, menu);
+        menuItem = menu.findItem(R.id.action_gestionar_guardar);
+        menuItem.setVisible(visible_menu);
+*/
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,7 +190,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -179,15 +202,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_agendar) {
-            // Handle the camera action
-        } else if (id == R.id.nav_levante) {
+        if (id == R.id.nav_levante) {
             openFragmentRecyclerLevante();
         } else if (id == R.id.nav_insumo) {
             openFragmentRecyclerInsumo();
         } else if (id == R.id.nav_agendar) {
-
-
+            openFragmentAgendar();
         } else if (id == R.id.nav_profile) {
             openFragmentPerfil();
 
@@ -210,8 +230,14 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.imgProfileEdition:
-                UsuarioAtivity.modo = 1;/*Modo edicion*/
-                openUsuarioActividad();
+                UsuarioAtivity.modo = 1;/*Modo edicion usuario*/
+                openFragmentUsuario();
+
+                visible_menu = true; //mostrar el icono de guardar
+                this.invalidateOptionsMenu(); // este llamano ejecuta nuevamente onCreateOptionsMenu()
+                toolbar.setTitle(getString(R.string.s_users)); //NOMBRE DE LA OPCION DEL MENU USUARIO
+
+
                 break;
             case R.id.imageViewLogo:
                 openFragmentControlMenu();/*Presionar el logo muestra el menu*/
@@ -253,14 +279,6 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.fragmentContainers, new ConfigurationFragment()).commit();
     }
-    private void openFragmentPerfil() {
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragmentContainers, new PerfilFragment()).commit();
-    }
-    private void openUsuarioActividad() {
-        Intent miIntent = new Intent(ActivityNavigationDrawer.this, UsuarioAtivity.class);
-        startActivity(miIntent);
-    }
 
     private void openFragmentLevanteGestionar() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
@@ -282,6 +300,24 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.fragmentContainers, new InsumoGestionarFragment()).commit();
     }
+
+
+    private void openFragmentAgendar() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new AgendarFragment()).commit();
+    }
+
+    private void openFragmentPerfil() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new PerfilFragment()).commit();
+    }
+
+    private void openFragmentUsuario() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new UsuarioFragment()).commit();
+    }
+
+
 
 
     private void openFragmentAcercaDe() {

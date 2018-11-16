@@ -32,21 +32,18 @@ public class PerfilFragment extends Fragment implements GoogleApiClient.OnConnec
     Activity activity;
     private GoogleApiClient googleApiClient;
     static List<User> recibirListUsuario;
-    public static int logueado;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view;
         view = inflater.inflate(R.layout.fragment_perfil, container, false);
         init(view);
 
-
         activity = getActivity();
 
-
-        logueado = UserFirebase.logueado; //1.Gollge, 2.Usuario
+        int logueado = UserFirebase.logueado; //1.Gollge, 2.Usuario
 
         if(logueado == 1)
         {
@@ -142,6 +139,7 @@ public class PerfilFragment extends Fragment implements GoogleApiClient.OnConnec
 
     }
 
+    /*
     public static class ControlMenuMain extends Fragment {
 
         public ControlMenuMain() {
@@ -156,4 +154,5 @@ public class PerfilFragment extends Fragment implements GoogleApiClient.OnConnec
         }
 
     }
+    */
 }
