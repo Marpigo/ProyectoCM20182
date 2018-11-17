@@ -29,7 +29,7 @@
         android:id="@+id/fabGrupo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="center|end"
         android:layout_margin="@dimen/fab_margin"
 
         app:fab_icon="@drawable/ic_add_circle_black_24dp">
