@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigInsumoFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigLevanteFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigPrivilegioFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigurationFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigUsuarioFragment;
 
@@ -179,8 +180,11 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
                     ConfigInsumoFragment configInsumoFragment = new ConfigInsumoFragment();
                     return  configInsumoFragment;
 
-            }
+                case 3:
+                    ConfigPrivilegioFragment configPrivilegioFragment = new ConfigPrivilegioFragment();
+                    return  configPrivilegioFragment;
 
+            }
 
             return PlaceholderFragment.newInstance(position + 1);
         }
@@ -197,7 +201,7 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
     ///sin uso
     public void iconoMenuGestionActivar(boolean visibles)
     {
-        Toast.makeText(this, "PRUEBA XXXX", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "ACTIVAR O DESACTIVAR", Toast.LENGTH_SHORT).show();
         menu_visible = visibles; //mostrar el icono de gestion
         this.invalidateOptionsMenu(); // este llamano ejecuta nuevamente onCreateOptionsMenu()
     }
