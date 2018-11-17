@@ -46,6 +46,11 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".ConfiguracionAppTabbed"
+            android:label="@string/title_activity_configuracion_app_tabbed"
+            android:parentActivityName=".ActivityNavigationDrawer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

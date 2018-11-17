@@ -10,8 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +31,16 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.Model.User;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
 
-public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
+
+public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
 
 
     static List<User> recibirListUsuario;
     UserFirebase userFirebase = new  UserFirebase();
 
     private Uri filePath;
+
+    static boolean menu_visible = true;
 
 
     ImageView campoPhoto; //imagen gris logo
@@ -55,7 +56,7 @@ public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConne
     Activity activity;
 
 
-    public UsuarioFragment() {
+    public ConfigUsuarioFragment() {
         // Required empty public constructor
     }
 
@@ -65,7 +66,7 @@ public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConne
         // Inflate the layout for this fragment
 
         View view;
-        view = inflater.inflate(R.layout.fragment_usuario, container, false);
+        view = inflater.inflate(R.layout.fragment_config_usuario, container, false);
         init(view);
 
 
@@ -81,10 +82,11 @@ public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConne
             modo = 1; //modificar
         }
 
+        activity = getActivity();
+
         campoPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity = getActivity();
                 imagenGallery();
             }
         });
@@ -92,7 +94,6 @@ public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConne
         campoPhoto2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity = getActivity();
                 imagenGallery();
             }
         });
@@ -102,22 +103,6 @@ public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConne
         return view;
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.menu_gestionar, menu);
-
-        MenuItem menuItem;
-
-        menuItem = menu.findItem(R.id.action_gestionar_guardar);
-        menuItem.setVisible(true);
-
-        menuItem = menu.findItem(R.id.action_gestionar_nuevo);
-        menuItem.setVisible(true);
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
 
     @Override
@@ -219,8 +204,17 @@ public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConne
         if (TextUtils.isEmpty(password))
         {campoPassword.setError(getString(R.string.s_requerimiento).toString()); vericar += 1;}
 
-       // if(filePath ==null)
-       // { Toast.makeText(getContext(), "Imagen", Toast.LENGTH_SHORT).show();vericar += 1;}
+        if(filePath ==null)
+        {
+        /*  Uri uriImage = Uri.parse("android.resource://" + getPackageName() +"/"+R.drawable.user);
+            Uri uri = Uri.parse("android.resource://" + getPackageName() + "/"+ R.raw.color_whele);
+            File file = "archivo";
+            Uri uriImagex = Uri.parse("archivo");
+            filePath = Uri.parse(String.valueOf(R.drawable.user));//advertencia sin foto
+            */
+            Toast.makeText(getContext(), "Imagen", Toast.LENGTH_SHORT).show();
+            vericar += 1;
+        }
 
      //   if(networkinfo == null && !networkinfo.isConnected()){
             //Toast.makeText(getApplicationContext(), getString(R.string.s_web_not_conexion), Toast.LENGTH_SHORT).show();
@@ -253,6 +247,9 @@ public class UsuarioFragment extends Fragment implements GoogleApiClient.OnConne
                 e.printStackTrace();
             }
         }
+
+
+
 
     }
 

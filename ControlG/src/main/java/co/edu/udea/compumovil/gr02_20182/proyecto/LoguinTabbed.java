@@ -132,20 +132,15 @@ public class LoguinTabbed extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            //android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
             switch (position){
                 case 0:
                     LoguinGoogleFragment loguinGoogleFragment = new LoguinGoogleFragment();
                     return  loguinGoogleFragment;
 
-                //  fm.beginTransaction().replace(R.id.contenedor, new LoguinGoogleFragment()).commit();
-
                 case 1:
                     LoguinFirebaseFragment loguinFirebaseFragment = new LoguinFirebaseFragment();
                     return  loguinFirebaseFragment;
-
-                //fm.beginTransaction().replace(R.id.contenedor, new LoguinFirebaseFragment()).commit();
 
             }
             return PlaceholderFragment.newInstance(position + 1);

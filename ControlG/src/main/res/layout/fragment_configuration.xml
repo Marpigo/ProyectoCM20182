@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_configuracion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Fragment.ConfigurationFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content" />
 
     <TableLayout
+        android:id="@+id/tableLayoutConfiguracion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="5dp">
@@ -39,8 +40,8 @@
                 android:background="@drawable/ic_person_red_24dp"
                 android:onClick="onClick"
                 android:scaleType="center"
-                tools:ignore="OnClick"
-                tools:scaleType="fitStart" />
+                tools:scaleType="fitStart"
+                tools:ignore="OnClick" />
         </TableRow>
 
         <TableRow
@@ -93,4 +94,4 @@
     </TableLayout>
 
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
