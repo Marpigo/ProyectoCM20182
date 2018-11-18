@@ -54,6 +54,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     private GoogleApiClient googleApiClient;
     private FirebaseAuth firebaseAuth;
     static boolean visible_menu = false; //ocultar icono del menu
+    FloatingActionsMenu fabgrupo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final FloatingActionsMenu fabgrupo = (FloatingActionsMenu) findViewById(R.id.fabGrupo);
+        fabgrupo = (FloatingActionsMenu) findViewById(R.id.fabGrupo);
         com.getbase.floatingactionbutton.FloatingActionButton fablevante = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabLevante);
         com.getbase.floatingactionbutton.FloatingActionButton fabinsumo = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabInsumo);
         com.getbase.floatingactionbutton.FloatingActionButton fabagendar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgendear);
@@ -109,6 +110,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         iniciarFirebaseListLevante();
         iniciarFirebaseListInsumo();
         openFragmentControlMenu();
+
+        botonFlotante (true); //Mostrar botones flotante
     }
 
     void iniciarFirebaseListLevante()
@@ -156,6 +159,9 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_navigation_drawer, menu);
 
+        MenuItem menuItem;
+        menuItem = menu.findItem(R.id.action_inicio);
+
         return true;
     }
 
@@ -171,9 +177,25 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
+        }else if (id == R.id.action_inicio) {
+            openFragmentControlMenu();
+            botonFlotante(true);
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    public void botonFlotante (boolean mostrar)
+    {
+        if(mostrar)
+        {
+            fabgrupo.setVisibility(View.VISIBLE); //Mostrar o Ocultar el boton flotante
+            fabgrupo.expand();
+        }else if (!mostrar)
+        {
+            fabgrupo.setVisibility(View.INVISIBLE); //Ocultar o Ocultar el boton flotante
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -184,6 +206,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         if (id == R.id.nav_levante) {
             openFragmentRecyclerLevante();
+            botonFlotante(false);
+
         } else if (id == R.id.nav_insumo) {
             openFragmentRecyclerInsumo();
         } else if (id == R.id.nav_agendar) {

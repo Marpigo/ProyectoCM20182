@@ -13,9 +13,4 @@
         android:icon="@drawable/ic_check_gris_24dp"
         app:showAsAction="always"
         android:title="Guardar" />
-
-
-
-
-
 </menu>

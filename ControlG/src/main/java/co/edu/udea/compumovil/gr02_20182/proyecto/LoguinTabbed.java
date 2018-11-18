@@ -135,13 +135,12 @@ public class LoguinTabbed extends AppCompatActivity {
 
             switch (position){
                 case 0:
-                    LoguinGoogleFragment loguinGoogleFragment = new LoguinGoogleFragment();
-                    return  loguinGoogleFragment;
-
-                case 1:
                     LoguinFirebaseFragment loguinFirebaseFragment = new LoguinFirebaseFragment();
                     return  loguinFirebaseFragment;
 
+                case 1:
+                    LoguinGoogleFragment loguinGoogleFragment = new LoguinGoogleFragment();
+                    return  loguinGoogleFragment;
             }
             return PlaceholderFragment.newInstance(position + 1);
         }
