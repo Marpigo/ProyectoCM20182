@@ -1,9 +1,11 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +30,7 @@ import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.InsumoFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AcercadeFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AgendarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
@@ -51,9 +54,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
 
     Toolbar toolbar;
+    boolean menu_visible = false;
+
     private GoogleApiClient googleApiClient;
     private FirebaseAuth firebaseAuth;
     static boolean visible_menu = false; //ocultar icono del menu
+
     FloatingActionsMenu fabgrupo;
 
     @Override
@@ -63,16 +69,24 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        //fabagregar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgregar); //Agregar Levante
+        com.getbase.floatingactionbutton.FloatingActionButton fabagregar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgregar);
+      //  fabagregar.setOnClickListener((View.OnClickListener) this);
+
         fabgrupo = (FloatingActionsMenu) findViewById(R.id.fabGrupo);
         com.getbase.floatingactionbutton.FloatingActionButton fablevante = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabLevante);
         com.getbase.floatingactionbutton.FloatingActionButton fabinsumo = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabInsumo);
         com.getbase.floatingactionbutton.FloatingActionButton fabagendar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgendear);
 
+        botonFlotanteMenu(true);
+
 
         fablevante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFragmentLevanteGestionar();
+                openFragmentRecyclerLevante();
+                botonFlotanteMenu(false);
                 fabgrupo.collapse();
             }
         });
@@ -80,7 +94,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         fabinsumo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFragmentInsumoGestionar();
+                openFragmentRecyclerInsumo();
+                botonFlotanteMenu(false);
                 fabgrupo.collapse();
             }
         });
@@ -90,6 +105,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 openFragmentAgendar();
+                botonFlotanteMenu(false);
                 fabgrupo.collapse();
             }
         });
@@ -111,7 +127,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         iniciarFirebaseListInsumo();
         openFragmentControlMenu();
 
-        botonFlotante (true); //Mostrar botones flotante
+
     }
 
     void iniciarFirebaseListLevante()
@@ -130,6 +146,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         recibirListInsumo = InsumoFirebase.insumoList;
     }
 
+
     public void autenticadoUser()
     {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -137,7 +154,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
                 .build();
 
         googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
+                .enableAutoManage(this, 0, this) //el 1 es para enurar el fragmente
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
@@ -162,7 +179,22 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         MenuItem menuItem;
         menuItem = menu.findItem(R.id.action_inicio);
 
+        getMenuInflater().inflate(R.menu.menu_gestionar, menu);
+        menuItem = menu.findItem(R.id.action_gestionar_guardar);
+        menuItem.setVisible(menu_visible);
+
+        menuItem = menu.findItem(R.id.action_gestionar_nuevo);
+        menuItem.setVisible(menu_visible);
+
         return true;
+    }
+
+    public void iconoMenuGestionActivar(boolean visibles)
+    {
+        //Titele del toolbar
+        //Toast.makeText(this, "ACTIVAR O DESACTIVAR", Toast.LENGTH_SHORT).show();
+        menu_visible = visibles; //mostrar el icono de gestion
+        this.invalidateOptionsMenu(); // este llamano ejecuta nuevamente onCreateOptionsMenu()
     }
 
 
@@ -178,25 +210,29 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         if (id == R.id.action_settings) {
 
         }else if (id == R.id.action_inicio) {
-            openFragmentControlMenu();
-            botonFlotante(true);
-        }
 
+            openFragmentControlMenu();
+            botonFlotanteMenu(true);
+            iconoMenuGestionActivar(false);
+            TituloToolbar(getString(R.string.app_name));
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void botonFlotante (boolean mostrar)
+    public void botonFlotanteMenu (boolean mostrar)
     {
         if(mostrar)
         {
             fabgrupo.setVisibility(View.VISIBLE); //Mostrar o Ocultar el boton flotante
             fabgrupo.expand();
+
         }else if (!mostrar)
         {
             fabgrupo.setVisibility(View.INVISIBLE); //Ocultar o Ocultar el boton flotante
         }
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -206,14 +242,20 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         if (id == R.id.nav_levante) {
             openFragmentRecyclerLevante();
-            botonFlotante(false);
+            botonFlotanteMenu(false);
 
         } else if (id == R.id.nav_insumo) {
             openFragmentRecyclerInsumo();
         } else if (id == R.id.nav_agendar) {
             openFragmentAgendar();
         } else if (id == R.id.nav_profile) {
-            openFragmentPerfil();
+            //openFragmentPerfil();
+            botonFlotanteMenu(false);
+            iconoMenuGestionActivar(true);//mostrar el menu de gestion el toolbar configuracionAppTabbed
+            openFragmentUsuario();
+
+
+            TituloToolbar(getString(R.string.s_users));//Titulo de Toolbar
 
         } else if (id == R.id.nav_configuration) {
             openFragmentConfigurationTabbed();
@@ -228,9 +270,16 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         return true;
     }
 
+    public void TituloToolbar(String menu) {
+        toolbar.setTitle(menu); //Titulo de Toolbar
+    }
+
 
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.fabAgregar:
+                openFragmentLevanteGestionar();
+                break;
 
             case R.id.imageViewLogo:
                 openFragmentControlMenu();/*Presionar el logo muestra el menu*/

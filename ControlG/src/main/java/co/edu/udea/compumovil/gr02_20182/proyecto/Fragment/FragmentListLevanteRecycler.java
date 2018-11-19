@@ -1,5 +1,7 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
+import android.app.Activity;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
@@ -12,15 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
+import co.edu.udea.compumovil.gr02_20182.proyecto.LevanteDetalleFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
 
-public class FragmentListLevanteRecycler extends Fragment {
+public class FragmentListLevanteRecycler extends Fragment{
 
 
 
@@ -29,10 +33,16 @@ public class FragmentListLevanteRecycler extends Fragment {
     public static AdapterDataRecycler_levante adapterlevat;
     RecyclerView recycler;
     List<Levante> levaneList;
+    String idlevante;
+    Activity activity;
+    Context mContext;
+    public static String id_levante  ="";
 
     public FragmentListLevanteRecycler() {
         // Required empty public constructor
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +51,8 @@ public class FragmentListLevanteRecycler extends Fragment {
         View view;
         view = inflater.inflate(R.layout.fragment_list_levante_recycler, container, false);
             generarDatosRecycler(view);
+        activity = getActivity();
+        mContext = getActivity();
 
         return view;
     }
@@ -59,10 +71,34 @@ public class FragmentListLevanteRecycler extends Fragment {
         adapterlevat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                alertDialogBasico(levaneList.get(recycler.getChildAdapterPosition(view)));
+
+                verDetalleLevante(levaneList.get(recycler.getChildAdapterPosition(view)));
                 //interfaceComunicaFragmen.enviarBebida(bebidaList.get(recycler.getChildAdapterPosition(view)));
             }
         });
+
+    }
+
+    public void verDetalleLevante(Levante levante){
+
+
+        id_levante = levante.getId();
+
+        //Toast.makeText(activity, "ID: " +  levante.getId(), Toast.LENGTH_LONG).show();
+        //FragmentManager fm = getFragmentManager();
+        //fm.beginTransaction().replace(R.id.fragmentContainers, new LevanteDetalleFragment()).commit();
+
+        ///FragmentManager fm = ((FragmentActivity) mContext) .getSupportFragmentManager();
+
+        LevanteDetalleFragment dialogoPersonalizado = new LevanteDetalleFragment();
+        dialogoPersonalizado.show(activity.getFragmentManager(), "Detalle levante");
+
+
+        Fragment frag = getFragmentManager().findFragmentByTag("personalizado");
+
+        if (frag != null) {
+            getFragmentManager().beginTransaction().remove(frag).commit();
+        }
 
     }
 
@@ -75,6 +111,8 @@ public class FragmentListLevanteRecycler extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
 
     public void alertDialogBasico(Levante levante){
 

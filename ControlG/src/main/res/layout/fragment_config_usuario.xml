@@ -11,8 +11,8 @@
         android:id="@+id/tableRow3"
         android:layout_width="0dp"
         android:layout_height="130dp"
-        android:background="@color/color_title_imagen"
-        android:gravity="center"
+        android:background="@android:color/darker_gray"
+        android:gravity="bottom|center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,14 +27,14 @@
             android:src="@drawable/ic_user_loguin"
             tools:ignore="OnClick" />
 
-        <ImageView
-            android:id="@+id/imgUsuarioG2"
-            android:layout_width="50dp"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabFotoUsuairo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="10dp"
-            android:onClick="onClick"
-            android:src="@drawable/ic_camera_alt_black_24dp" />
+            android:clickable="true"
+            android:src="@drawable/ic_camera_alt_black_24dp"
+            tools:layout_editor_absoluteX="287dp"
+            tools:layout_editor_absoluteY="70dp" />
     </TableRow>
 
     <LinearLayout

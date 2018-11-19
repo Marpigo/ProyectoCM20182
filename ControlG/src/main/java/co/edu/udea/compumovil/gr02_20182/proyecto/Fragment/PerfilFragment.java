@@ -139,20 +139,5 @@ public class PerfilFragment extends Fragment implements GoogleApiClient.OnConnec
 
     }
 
-    /*
-    public static class ControlMenuMain extends Fragment {
 
-        public ControlMenuMain() {
-            // Required empty public constructor
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.fragment_control_menu, container, false);
-        }
-
-    }
-    */
 }

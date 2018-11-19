@@ -30,9 +30,7 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
-    ImageView Photo_edicion_usuario ;
 
-    boolean menu_visible = false;
     Toolbar toolbar;
 
     @Override
@@ -72,7 +70,6 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
 
     public void onClick(View view) {
 
-        openFragmentUsuairoGestionar();
 
     }
 
@@ -80,7 +77,7 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
 
     public  void init()
     {
-        Photo_edicion_usuario = (ImageView) findViewById(R.id.imgProfileEdition);
+
 
     }
 
@@ -89,18 +86,6 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_configuracion_app_tabbed, menu);
-
-
-        getMenuInflater().inflate(R.menu.menu_gestionar, menu);
-        MenuItem menuItem;
-        menuItem = menu.findItem(R.id.action_gestionar_guardar);
-        menuItem.setVisible(menu_visible);
-
-        menuItem = menu.findItem(R.id.action_gestionar_nuevo);
-        menuItem.setVisible(menu_visible);
-
-        // searchItem = menu.findItem(R.id.action_search_menu).setVisible(false);
-
 
         return true;
     }
@@ -194,42 +179,6 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
             // Show 3 total pages.
             return 4;
         }
-    }
-
-
-
-    ///sin uso
-    public void iconoMenuGestionActivar(boolean visibles)
-    {
-        //Toast.makeText(this, "ACTIVAR O DESACTIVAR", Toast.LENGTH_SHORT).show();
-        menu_visible = visibles; //mostrar el icono de gestion
-        this.invalidateOptionsMenu(); // este llamano ejecuta nuevamente onCreateOptionsMenu()
-    }
-
-
-    //visible_menu = true; //mostrar el icono de guardar
-    // this.invalidateOptionsMenu(); // este llamano ejecuta nuevamente onCreateOptionsMenu()
-
-    private void openFragmentUsuairoGestionar() {
-
-        //Titele del toolbar
-        toolbar.setTitle(getString(R.string.s_users));
-
-        //Ocultar el contenedor de los elementos en el fragmentconfiguracion
-        TableLayout tabLayout = (TableLayout) findViewById(R.id.tableLayoutConfiguracion);
-        tabLayout.setVisibility(View.INVISIBLE);
-
-        iconoMenuGestionActivar(true);//mostrar el menu de gestion el toolbar configuracionAppTabbed
-
-        //Cargar el fragment Usuario gestion
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.container_configuracion, new ConfigUsuarioFragment()).commit();
-
-
-        // < ----------------Selecionar una pagina del tabbed ------------------------>
-        //final ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.containerC);
-        //viewPager.setCurrentItem(1);
-
     }
 
 

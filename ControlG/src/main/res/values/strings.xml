@@ -16,7 +16,7 @@
     <string name="s_raza_detalle">Race</string>
     <string name="s_tipo_ingreso_detalle">Type of Income</string>
     <string name="s_fecha_detalle">Date</string>
-    <string name="s_numero_chapeta_detalle">Pin number</string>
+    <string name="s_numero_chapeta_detalle">Pin</string>
     <string name="s_observacion_detalle">Observation</string>
     <string name="s_dos_puntos">:</string>
 

@@ -107,8 +107,14 @@ public class UserFirebase {
                     mDatabase.child(Constantes.TABLA_USER).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            User user = snapshot.getValue(User.class); //Obtenemos los valores que solo estan declarado en Usuario models
-                            usuarioList.add(user);
+
+                            try{
+                                User user = snapshot.getValue(User.class); //Obtenemos los valores que solo estan declarado en Usuario models
+                                usuarioList.add(user);
+                            }catch (Exception e){
+
+                            }
+
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {

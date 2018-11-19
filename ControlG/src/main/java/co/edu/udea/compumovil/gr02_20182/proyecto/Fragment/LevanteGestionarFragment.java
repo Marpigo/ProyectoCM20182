@@ -5,16 +5,21 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -40,25 +46,18 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
-public class LevanteGestionarFragment extends Fragment {
+public class LevanteGestionarFragment extends Fragment  implements View.OnClickListener{
 
     static List<Levante> recibirListLevante;
     LevanteFirebase levanteFirebase = new LevanteFirebase();
 
 
-
-
     public static int modo = 0; /*0.Nuevo, 1.Modificar*/
 
 
-
-    Button buttfecha;
-    private  int dia,mes,ano;
-
-    //Gestionar Levante
-    ImageView img_guardar;
-    ImageView img_nuevo;
-    ImageView img_borrar;
+    ImageButton imgbfecha;
+    private int dia, mes, ano;
+    private Uri filePath;
 
 
     Spinner spinner_lote;
@@ -71,12 +70,14 @@ public class LevanteGestionarFragment extends Fragment {
     EditText observacion;
 
     Activity activity;
-    ArrayList<String> comboLote =new ArrayList<>();
-    ArrayList<String> comboGnero =new ArrayList<>();
-    ArrayList<String> comboRaza =new ArrayList<>();
-    ArrayList<String> comboIngreso =new ArrayList<>();
+    ArrayList<String> comboLote = new ArrayList<>();
+    ArrayList<String> comboGnero = new ArrayList<>();
+    ArrayList<String> comboRaza = new ArrayList<>();
+    ArrayList<String> comboIngreso = new ArrayList<>();
     public static final int NUMERO_LOTES = 10;
 
+    ImageView campoPhoto;
+    Bitmap bitmaphoto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,94 +97,79 @@ public class LevanteGestionarFragment extends Fragment {
         llenarIngreso();
 
 
+        final FloatingActionButton fabfoto = (FloatingActionButton) view.findViewById(R.id.fabFotoLevante);
+        fabfoto.setOnClickListener(this);
 
-        buttfecha.setOnClickListener(new View.OnClickListener()
-        {
+        imgbfecha.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 abrirFecha();
             }
         });
 
-        img_guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
 
-
-                final String lote = spinner_lote.getSelectedItem().toString();
-                final String name = name_animal.getText().toString();
-                final String genero = spinner_genero.getSelectedItem().toString();
-                final String raza = spinner_raza.getSelectedItem().toString();
-                final String tipoingreso = spinner_tipo_ingreso.getSelectedItem().toString();
-                final String fecha = edi_fecha.getText().toString();
-                final String chapeta = numer_chapeta.getText().toString();
-                final String observa = observacion.getText().toString();
-
-
-                boolean requerimientos = false;
-                requerimientos = validateCampo(name_animal.getText().toString(), edi_fecha.getText().toString(), numer_chapeta.getText().toString());
-                if (requerimientos) {
-                    if (modo == 0 ){ //Nuevo
-                        levanteFirebase.insertLevante(lote, name, genero, raza, tipoingreso, fecha, chapeta, observa);
-                        Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
-                        limpiar();
-                    }else if(modo == 1){ //Modificar
-                        //levanteFirebase.updateLevante(lote. name, genero, raza, tipoingreso, fecha, chapeta, observa);
-                        Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
-                        limpiar();
-                    }
-
-                }
-
-
-
-
-
-            }
-        });
-
-        img_nuevo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        img_borrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
-        return  view;
+        return view;
     }
 
 
-    void init(View view)
-    {
+    //implements View.OnClickListener
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fabFotoLevante:
+                imagenGallery();
+                break;
+        }
+    }
+
+
+
+    public void guardarLevante() {
+        final String lote = spinner_lote.getSelectedItem().toString();
+        final String name = name_animal.getText().toString();
+        final String genero = spinner_genero.getSelectedItem().toString();
+        final String raza = spinner_raza.getSelectedItem().toString();
+        final String tipoingreso = spinner_tipo_ingreso.getSelectedItem().toString();
+        final String fecha = edi_fecha.getText().toString();
+        final String chapeta = numer_chapeta.getText().toString();
+        final String observa = observacion.getText().toString();
+
+        boolean requerimientos = false;
+        requerimientos = validateCampo(name_animal.getText().toString(), edi_fecha.getText().toString(), numer_chapeta.getText().toString());
+        if (requerimientos) {
+            if (modo == 0) { //Nuevo
+                levanteFirebase.insertLevante(lote, name, genero, raza, tipoingreso, fecha, chapeta, observa);
+                Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
+                limpiar();
+            } else if (modo == 1) { //Modificar
+                //levanteFirebase.updateLevante(lote. name, genero, raza, tipoingreso, fecha, chapeta, observa);
+                Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
+                limpiar();
+            }
+
+        }
+    }
+
+    void init(View view) {
         spinner_lote = (Spinner) view.findViewById(R.id.spinnerLote);
         name_animal = (EditText) view.findViewById(R.id.ediNombreL);
         spinner_genero = (Spinner) view.findViewById(R.id.spinnerGenero);
         spinner_raza = (Spinner) view.findViewById(R.id.spinnerRaza);
         spinner_tipo_ingreso = (Spinner) view.findViewById(R.id.spinnerIngreso);
-        edi_fecha= (EditText) view.findViewById(R.id.ediFechaL);
+        edi_fecha = (EditText) view.findViewById(R.id.ediFechaL);
         numer_chapeta = (EditText) view.findViewById(R.id.ediChapetaL);
         observacion = (EditText) view.findViewById(R.id.ediObservacionL);
 
-        buttfecha=(Button)view.findViewById(R.id.butFechaL);
+        imgbfecha = (ImageButton) view.findViewById(R.id.imabFechaL);
 
-        img_guardar=(ImageView)view.findViewById(R.id.imaSaveA);
-        img_borrar=(ImageView) view.findViewById(R.id.imaDeleteA);
-        img_nuevo=(ImageView) view.findViewById(R.id.imaNewA);
+        campoPhoto = (ImageView) view.findViewById(R.id.imgLevante);
+
+
     }
 
-    void llenarLote()
-    {
+    void llenarLote() {
         /*LLenado del Spinner lote*/
+        comboLote.add(getString(R.string.s_lote_detalle));
         int i = 0;
         for (i = 1; i <= NUMERO_LOTES; i++) {
             comboLote.add("Lote " + i);
@@ -191,45 +177,43 @@ public class LevanteGestionarFragment extends Fragment {
         comboLLenado(spinner_lote, comboLote);
     }
 
-    void llenarGenero(){
+    void llenarGenero() {
         /*LLenado del Spinner Genero*/
+        comboGnero.add(getString(R.string.s_genero_detalle));
         comboGnero.add("Macho");
         comboGnero.add("Hembra");
         comboLLenado(spinner_genero, comboGnero);
     }
 
-    void llenarRaza(){
+    void llenarRaza() {
         /*LLenado del Spinner Genero*/
+        comboRaza.add(getString(R.string.s_raza_detalle));
         comboRaza.add("Brahman");
-        comboRaza.add("Cebú");
         comboRaza.add("Caqueteño");
+        comboRaza.add("Casanareño");
+        comboRaza.add("Cebú");
+        comboRaza.add("Chino");
+        comboRaza.add("Hartón");
         comboRaza.add("Lucerna");
         comboRaza.add("Red poll");
-        comboRaza.add("Casanareño");
-        comboRaza.add("Hartón");
-        comboRaza.add("Chino");
-        comboRaza.add("Costeño con Cuernos");
         comboRaza.add("Romosinuano");
-        comboRaza.add("Blanco Orejinegro");
-        Collections.sort(comboRaza);/*Ordenar lista*/
         comboLLenado(spinner_raza, comboRaza);
     }
 
 
-    void llenarIngreso(){
+    void llenarIngreso() {
         /*LLenado del Spinner Genero*/
-        comboIngreso.add("Nacimiento");
-        comboIngreso.add("Compra");
-        comboIngreso.add("Trueque");
+        comboIngreso.add(getString(R.string.s_tipo_ingreso_detalle));
         comboIngreso.add("Consignación");
-        Collections.sort(comboIngreso);/*Ordenar lista*/
+        comboIngreso.add("Compra");
+        comboIngreso.add("Nacimiento");
+        comboIngreso.add("Trueque");
+        //Collections.sort(comboIngreso);/*Ordenar lista*/
         comboLLenado(spinner_tipo_ingreso, comboIngreso);
     }
 
 
-
-    void comboLLenado(Spinner spinner, ArrayList<String> combobox)
-    {
+    void comboLLenado(Spinner spinner, ArrayList<String> combobox) {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(activity, android.R.layout.simple_spinner_item, combobox);
         spinner.setAdapter(adapter);
 
@@ -246,33 +230,32 @@ public class LevanteGestionarFragment extends Fragment {
         });
     }
 
-    public void abrirFecha(){
+    public void abrirFecha() {
 
-       Calendar calendarNow = new GregorianCalendar(TimeZone.getTimeZone("Europe/Madrid"));
-        dia =calendarNow.get(Calendar.DAY_OF_MONTH);
+        Calendar calendarNow = new GregorianCalendar(TimeZone.getTimeZone("Europe/Madrid"));
+        dia = calendarNow.get(Calendar.DAY_OF_MONTH);
         mes = calendarNow.get(Calendar.MONTH);
         ano = calendarNow.get(Calendar.YEAR);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(activity, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    edi_fecha.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
-                }
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                edi_fecha.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
             }
-                    ,dia,mes,ano);
-            datePickerDialog.show();
-
         }
+                , dia, mes, ano);
+        datePickerDialog.show();
 
-    void eliminarLevante(String id)
-    {
+    }
+
+    void eliminarLevante(String id) {
         levanteFirebase.deleteLevante(id);
     }
 
     /*
       Validar campos: Vacios o nulo
      */
-    boolean validateCampo (String name, String fecha, String chapeta){
+    boolean validateCampo(String name, String fecha, String chapeta) {
         int vericar = 0;
 
 
@@ -284,21 +267,27 @@ public class LevanteGestionarFragment extends Fragment {
         NetworkInfo networkinfo = con.getActiveNetworkInfo();
 
 
-        if (TextUtils.isEmpty(name))
-        {name_animal.setError(getString(R.string.s_requerimiento).toString());vericar = 1;}
+        if (TextUtils.isEmpty(name)) {
+            name_animal.setError(getString(R.string.s_requerimiento).toString());
+            vericar = 1;
+        }
 
-        if (TextUtils.isEmpty(fecha))
-        {edi_fecha.setError(getString(R.string.s_requerimiento).toString()); vericar += 1;}
+        if (TextUtils.isEmpty(fecha)) {
+            edi_fecha.setError(getString(R.string.s_requerimiento).toString());
+            vericar += 1;
+        }
 
-        if (TextUtils.isEmpty(chapeta))
-        {numer_chapeta.setError(getString(R.string.s_requerimiento).toString()); vericar += 1;}
+        if (TextUtils.isEmpty(chapeta)) {
+            numer_chapeta.setError(getString(R.string.s_requerimiento).toString());
+            vericar += 1;
+        }
 
 
-        if(networkinfo == null && !networkinfo.isConnected()){
+        if (networkinfo == null && !networkinfo.isConnected()) {
             //Toast.makeText(getApplicationContext(), getString(R.string.s_web_not_conexion), Toast.LENGTH_SHORT).show();
             vericar += 1;
         }
-        return vericar>0?false:true;
+        return vericar > 0 ? false : true;
     }
 
 
@@ -311,32 +300,31 @@ public class LevanteGestionarFragment extends Fragment {
     }
 
 
-
-/*
-    void listaLotes() {
-        int i = 0;
-
-        for (i = 1; i <= NUMERO_LOTES; i++) {
-            comboLote.add("Lote " + i);
-        }
-
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(activity, android.R.layout.simple_spinner_item, comboLote);
-        spinner_lote.setAdapter(adapter);
-
-        spinner_lote.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String xx = adapterView.getItemAtPosition(i).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+    private void imagenGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/");
+        startActivityForResult(intent.createChooser(intent, "Seleccionar la aplicación"), 10);
     }
 
-*/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        int RESULT_OK = -1;
+
+        if (resultCode == RESULT_OK) {
+            filePath = data.getData();
+
+            try {
+                bitmaphoto = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), filePath);
+                campoPhoto.setImageBitmap(bitmaphoto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+   }
+
+
 
 
 }

@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,7 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,8 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,7 +41,7 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
 
 
-public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener{
+public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
 
 
     static List<User> recibirListUsuario;
@@ -42,18 +51,17 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
 
     static boolean menu_visible = true;
 
+    Activity activity;
+    private GoogleApiClient googleApiClient;
+
 
     ImageView campoPhoto; //imagen gris logo
-    ImageView campoPhoto2; //imagen gris camara
     EditText campoName, campoEmail, campoPassword;
     TextView campoId;
     Bitmap bitmaphoto;
 
-    Button butregistrarFirebase;
     public static int modo = 1; /*0.Nuevo, 1.Modificar*/
 
-
-    Activity activity;
 
 
     public ConfigUsuarioFragment() {
@@ -70,39 +78,134 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         init(view);
 
 
+        final FloatingActionButton fabfoto = (FloatingActionButton) view.findViewById(R.id.fabFotoUsuairo);
+        fabfoto.setOnClickListener(this);
+
+        activity = getActivity();
+
+
         int logueado;
         logueado = UserFirebase.logueado; //1.Gollge, 2.Usuario
 
         if(logueado == 1)
         {
-            campoName.setText("Usuario Google");
-            modo = 0; //nuevo
+
+                iniciarGoogle(); //Logueado con Google
+                loguinData();
+                modo = 0; //nuevo
+
+            campoName.setEnabled(false);
+            campoEmail.setEnabled(false);
+            campoPassword.setEnabled(false);
         }else if(logueado == 2){
+
             usuarioLogueado(); //logueo firebase
             modo = 1; //modificar
         }
 
-        activity = getActivity();
 
-        campoPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imagenGallery();
-            }
-        });
-
-        campoPhoto2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imagenGallery();
-            }
-        });
 
         setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
 
         return view;
     }
 
+    //implements View.OnClickListener
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fabFotoUsuairo:
+                imagenGallery();
+                break;
+        }
+    }
+
+
+    public  void init(View view)
+    {
+        campoName = (EditText) view.findViewById(R.id.ediNameUserR);
+        campoEmail = (EditText) view.findViewById(R.id.ediEmailUserR);
+        campoPassword = (EditText) view.findViewById(R.id.ediPasswordUserR);
+        campoPhoto = (ImageView) view.findViewById(R.id.imgUsuarioG);
+        campoId = (TextView) view.findViewById(R.id.texId);
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (googleApiClient != null && googleApiClient.isConnected()) {
+            googleApiClient.stopAutoManage(getActivity());
+            googleApiClient.disconnect();
+        }
+    }
+
+    void iniciarGoogle()
+    {
+
+
+        //segundo parametro de la autenticacion un objeto de opciones que dira como autenticarnos
+        //Obetenemos tambien un Token con requestIdToken
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        //inicializamos el GoogleApiCliente
+        //gestionamos el ciclo de vida googlecliente con el activity utilizando enableAutoManage
+        googleApiClient = new GoogleApiClient.Builder(activity)
+                .enableAutoManage((FragmentActivity) activity, 1, this) //el 1 es para enurar el fragmente
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+    }
+
+    void iniciarFirebaseList()
+    {
+        recibirListUsuario = UserFirebase.usuarioList;
+
+    }
+
+    void loguinData()
+    {
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
+        if(opr.isDone()){
+            GoogleSignInResult result = opr.get();
+            userLogueadoGoogle(result);
+        }else{
+            //Toast.makeText(getContext(), "NO SE HA INICIADO SESION", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //aca ponemos lo que queremos hacer con el resultado, validamos que la operacion fue exitosa
+    private void userLogueadoGoogle(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+
+            GoogleSignInAccount user = result.getSignInAccount();
+            campoName.setText(user.getDisplayName());
+            campoEmail.setText(user.getEmail());
+            Glide.with(activity).load(user.getPhotoUrl()).into(campoPhoto);
+
+        } else {
+            //Toast.makeText(this, "NO LOGUEADO", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //aca ponemos lo que queremos hacer con el resultado, validamos que la operacion fue exitosa
+    @SuppressLint("LongLogTag")
+    private void userLogueadoFirebase() {
+
+        boolean autenticado = false;
+        int i = 0;
+        for(i = 0; (i < recibirListUsuario.size() && !autenticado); i++)
+        {
+            if(recibirListUsuario.get(i).getAutenticado() == 1)
+            {
+                autenticado = true;
+                campoName.setText(recibirListUsuario.get(i).getName() );
+                campoEmail.setText(recibirListUsuario.get(i).getEmail());
+                Glide.with(activity).load(recibirListUsuario.get(i).getImagen()).into(campoPhoto);
+
+            }
+        }
+    }
 
 
     @Override
@@ -121,7 +224,7 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
 
         }else if (id == R.id.action_gestionar_nuevo) {
             limpiar();
-            modo = 1;
+            modo = 0;
         }
 
         return super.onOptionsItemSelected(item);
@@ -144,16 +247,6 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         }
     }
 
-
-    public  void init(View view)
-    {
-        campoName = (EditText) view.findViewById(R.id.ediNameUserR);
-        campoEmail = (EditText) view.findViewById(R.id.ediEmailUserR);
-        campoPassword = (EditText) view.findViewById(R.id.ediPasswordUserR);
-        campoPhoto = (ImageView) view.findViewById(R.id.imgUsuarioG);
-        campoPhoto2 = (ImageView) view.findViewById(R.id.imgUsuarioG2);
-        campoId = (TextView) view.findViewById(R.id.texId);
-    }
 
 
     public void usarioGuardar(){
@@ -262,6 +355,10 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         campoPassword.setText("");
         campoId.setText("");
         campoPhoto.setImageResource(R.drawable.ic_user_loguin);
+
+        campoName.setEnabled(true);
+        campoEmail.setEnabled(true);
+        campoPassword.setEnabled(true);
 
     }
 
