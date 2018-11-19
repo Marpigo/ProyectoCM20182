@@ -19,7 +19,6 @@ import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
-import co.edu.udea.compumovil.gr02_20182.proyecto.LevanteDetalleFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
@@ -86,11 +85,11 @@ public class FragmentListLevanteRecycler extends Fragment{
 
         //Toast.makeText(activity, "ID: " +  levante.getId(), Toast.LENGTH_LONG).show();
         //FragmentManager fm = getFragmentManager();
-        //fm.beginTransaction().replace(R.id.fragmentContainers, new LevanteDetalleFragment()).commit();
+        //fm.beginTransaction().replace(R.id.fragmentContainers, new LevanteDetalleFragmentDialogo()).commit();
 
         ///FragmentManager fm = ((FragmentActivity) mContext) .getSupportFragmentManager();
 
-        LevanteDetalleFragment dialogoPersonalizado = new LevanteDetalleFragment();
+        LevanteDetalleFragmentDialogo dialogoPersonalizado = new LevanteDetalleFragmentDialogo();
         dialogoPersonalizado.show(activity.getFragmentManager(), "Detalle levante");
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".LevanteDetalleFragment"
+    tools:context=".Fragment.LevanteDetalleFragmentDialogo"
     tools:layout_editor_absoluteY="81dp">
 
 
@@ -58,7 +58,7 @@
 
     <LinearLayout
         android:layout_width="116dp"
-        android:layout_height="117dp"
+        android:layout_height="136dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -190,7 +190,7 @@
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="259dp"
-        android:layout_height="114dp"
+        android:layout_height="136dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
@@ -391,10 +391,85 @@
         </TableLayout>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/background_dark">
+
+                <TextView
+                    android:id="@+id/txtInformTitulo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:singleLine="true"
+                    android:text="@string/s_lote_detalle"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
+
+                <TextView
+                    android:id="@+id/txtInformTitulo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:singleLine="true"
+                    android:text="@string/s_levante"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/cardview_light_background" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/texLoteInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:singleLine="true"
+                    android:text="@string/s_levante"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/texLevanteCantidadInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:singleLine="true"
+                    android:text="@string/s_levante"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/background_dark" />
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/butCancelarDetaL"
         android:layout_width="141dp"
-        android:layout_height="31dp"
+        android:layout_height="36dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -404,6 +479,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
 </android.support.constraint.ConstraintLayout>

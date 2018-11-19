@@ -48,7 +48,8 @@
                     android:gravity="center"
                     android:text="Animal"
                     android:textAppearance="@android:style/TextAppearance"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
             </TableRow>
 
             <TableRow
@@ -97,21 +98,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnDetails"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            <ImageButton
+                android:id="@+id/imageButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Detalle" />
+                app:srcCompat="@drawable/ic_search_black_24dp" />
 
-            <Button
-                android:id="@+id/btnEditHeader"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            <ImageButton
+                android:id="@+id/imageButton2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Modificar" />
+                app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
+
         </LinearLayout>
 
     </LinearLayout>

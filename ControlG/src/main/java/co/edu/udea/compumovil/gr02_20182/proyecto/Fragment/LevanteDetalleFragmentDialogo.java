@@ -1,4 +1,4 @@
-package co.edu.udea.compumovil.gr02_20182.proyecto;
+package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +16,9 @@ import java.util.List;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
+import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
-public class LevanteDetalleFragment extends DialogFragment {
+public class LevanteDetalleFragmentDialogo extends DialogFragment {
 
     Activity activity;
     static List<Levante> recibirListLevante;
@@ -30,9 +32,13 @@ public class LevanteDetalleFragment extends DialogFragment {
     TextView tex_chapeta;
     TextView tex_observacion;
 
-    ImageView img_Levanted;
+    TextView tex_infolote;
+    TextView tex_intocantidad;
 
-    public LevanteDetalleFragment() {
+    ImageView img_Levanted;
+    Button but_cancelar;
+
+    public LevanteDetalleFragmentDialogo() {
 
     }
 
@@ -48,6 +54,15 @@ public class LevanteDetalleFragment extends DialogFragment {
         iniciarFirebaseListLevante();
         cargarDetalleLevante();
 
+
+        but_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().cancel();
+            }
+        });
+
+
         return  view;
     }
 
@@ -61,7 +76,11 @@ public class LevanteDetalleFragment extends DialogFragment {
         tex_chapeta = (TextView) view.findViewById(R.id.texChapetaLd);
         tex_observacion = (TextView) view.findViewById(R.id.texObservacionLd);
 
+        tex_infolote = (TextView) view.findViewById(R.id.texLoteInfo);
+        tex_intocantidad = (TextView) view.findViewById(R.id.texLevanteCantidadInfo);
         img_Levanted = (ImageView) view.findViewById(R.id.imgLevanted);
+
+        but_cancelar = (Button) view.findViewById(R.id.butCancelarDetaL);
 
     }
 
@@ -73,8 +92,23 @@ public class LevanteDetalleFragment extends DialogFragment {
     public void cargarDetalleLevante()
     {
         String id= FragmentListLevanteRecycler.id_levante;
+        String lote ="";
+        int cantidadAnimal = 0;
 
         int i = 0;
+
+
+        for(i = 0; i < recibirListLevante.size(); i++) {
+            if(recibirListLevante.get(i).getId().equals(id))
+            {lote = recibirListLevante.get(i).getLote();}
+        }
+
+        for(i = 0; i < recibirListLevante.size(); i++) {
+            if (recibirListLevante.get(i).getLote().equals(lote)){
+                cantidadAnimal++;
+            }
+        }
+
         for(i = 0; i < recibirListLevante.size(); i++)
         {
             if(recibirListLevante.get(i).getId().equals(id))
@@ -87,9 +121,11 @@ public class LevanteDetalleFragment extends DialogFragment {
                 tex_fecha.setText(recibirListLevante.get(i).getDateI());
                 tex_chapeta.setText(recibirListLevante.get(i).getNumberPin());
                 tex_observacion.setText(recibirListLevante.get(i).getObservation());
-
+                tex_infolote.setText(lote);
+                tex_intocantidad.setText(cantidadAnimal +"");
                 //Glide.with(activity).load(recibirListLevante.get(i).getImagen()).into(img_Levanted);
             }
+
         }
     }
 
