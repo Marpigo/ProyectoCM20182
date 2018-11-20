@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
@@ -38,6 +40,7 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
     ImageView img_Levanted;
     Button but_cancelar;
 
+
     public LevanteDetalleFragmentDialogo() {
 
     }
@@ -61,6 +64,8 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
                 getDialog().cancel();
             }
         });
+
+
 
 
         return  view;
@@ -91,7 +96,7 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
 
     public void cargarDetalleLevante()
     {
-        String id= FragmentListLevanteRecycler.id_levante;
+        String id= AdapterDataRecycler_levante.id_levante;
         String lote ="";
         int cantidadAnimal = 0;
 

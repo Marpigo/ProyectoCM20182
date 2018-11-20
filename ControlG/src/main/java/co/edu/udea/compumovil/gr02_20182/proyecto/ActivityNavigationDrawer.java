@@ -1,5 +1,6 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -62,6 +64,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
     FloatingActionsMenu fabgrupo;
 
+    public static Activity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +73,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        activity = this;
 
         //fabagregar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgregar); //Agregar Levante
         com.getbase.floatingactionbutton.FloatingActionButton fabagregar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgregar);
@@ -129,6 +134,32 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
 
     }
+
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fabAgregar:
+                openFragmentLevanteGestionar();
+                break;
+
+            case R.id.imageViewLogo:
+                openFragmentControlMenu();/*Presionar el logo muestra el menu*/
+                break;
+
+            case R.id.imgLevanted: //detalle levante fragmento dialogo
+
+                break;
+
+            case R.id.imaEditarL: //editar levante
+
+                break;
+
+
+
+        }
+    }
+
+
+
 
     void iniciarFirebaseListLevante()
     {
@@ -201,12 +232,9 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
         }else if (id == R.id.action_inicio) {
@@ -275,18 +303,6 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     }
 
 
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.fabAgregar:
-                openFragmentLevanteGestionar();
-                break;
-
-            case R.id.imageViewLogo:
-                openFragmentControlMenu();/*Presionar el logo muestra el menu*/
-                break;
-        }
-    }
-
 
     private void singOff()
     {
@@ -339,21 +355,11 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     }
 
 
-    private void openFragmentInsumoGestionar() {
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragmentContainers, new InsumoGestionarFragment()).commit();
-    }
-
-
     private void openFragmentAgendar() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.fragmentContainers, new AgendarFragment()).commit();
     }
 
-    private void openFragmentPerfil() {
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragmentContainers, new PerfilFragment()).commit();
-    }
 
     private void openFragmentUsuario() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();

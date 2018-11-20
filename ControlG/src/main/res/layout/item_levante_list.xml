@@ -89,6 +89,15 @@
                     android:gravity="center"
                     android:text="Fecha"
                     android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/txtID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Fecha"
+                    android:textColor="@android:color/black"
+                    android:visibility="invisible" />
             </TableRow>
 
         </TableLayout>
@@ -99,17 +108,21 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/imaDetalleL"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="onClick"
                 app:srcCompat="@drawable/ic_search_black_24dp" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/imaEditarL"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="onClick"
                 app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
 
         </LinearLayout>

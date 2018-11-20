@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import java.util.List;
@@ -66,42 +67,7 @@ public class FragmentListLevanteRecycler extends Fragment{
         //  Toast.makeText(getContext(), "SIZE bebida : " + databasesqlitedrink.getListBebida().size(), Toast.LENGTH_SHORT).show();
         adapterlevat = new AdapterDataRecycler_levante(levaneList, getContext());//llenar el adaptador con la lista
         recycler.setAdapter(adapterlevat);
-
-        adapterlevat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                verDetalleLevante(levaneList.get(recycler.getChildAdapterPosition(view)));
-                //interfaceComunicaFragmen.enviarBebida(bebidaList.get(recycler.getChildAdapterPosition(view)));
-            }
-        });
-
     }
-
-    public void verDetalleLevante(Levante levante){
-
-
-        id_levante = levante.getId();
-
-        //Toast.makeText(activity, "ID: " +  levante.getId(), Toast.LENGTH_LONG).show();
-        //FragmentManager fm = getFragmentManager();
-        //fm.beginTransaction().replace(R.id.fragmentContainers, new LevanteDetalleFragmentDialogo()).commit();
-
-        ///FragmentManager fm = ((FragmentActivity) mContext) .getSupportFragmentManager();
-
-        LevanteDetalleFragmentDialogo dialogoPersonalizado = new LevanteDetalleFragmentDialogo();
-        dialogoPersonalizado.show(activity.getFragmentManager(), "Detalle levante");
-
-
-        Fragment frag = getFragmentManager().findFragmentByTag("personalizado");
-
-        if (frag != null) {
-            getFragmentManager().beginTransaction().remove(frag).commit();
-        }
-
-    }
-
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
