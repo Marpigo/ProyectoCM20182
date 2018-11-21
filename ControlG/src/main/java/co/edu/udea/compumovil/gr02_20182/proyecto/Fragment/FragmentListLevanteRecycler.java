@@ -1,20 +1,15 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
-
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 
 import java.util.List;
 
@@ -50,7 +45,7 @@ public class FragmentListLevanteRecycler extends Fragment{
         // Inflate the layout for this fragment
         View view;
         view = inflater.inflate(R.layout.fragment_list_levante_recycler, container, false);
-            generarDatosRecycler(view);
+        generarDatosRecycler(view);
         activity = getActivity();
         mContext = getActivity();
 
@@ -59,14 +54,22 @@ public class FragmentListLevanteRecycler extends Fragment{
 
     public void generarDatosRecycler(View vista)
     {
+
+        //recycler.setRefreshing(false);
+
+
         recycler= (RecyclerView) vista.findViewById(R.id.recyclerLevante);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         //recycler.setLayoutManager(new GridLayoutManager(this, 2)); ver en dos columna la informacion
+
         levaneList = LevanteFirebase.levanteList; //recibir lista
+
+        //recycler.removeAllViewsInLayout();//removes all the views
 
         //  Toast.makeText(getContext(), "SIZE bebida : " + databasesqlitedrink.getListBebida().size(), Toast.LENGTH_SHORT).show();
         adapterlevat = new AdapterDataRecycler_levante(levaneList, getContext());//llenar el adaptador con la lista
         recycler.setAdapter(adapterlevat);
+        adapterlevat.notifyDataSetChanged();
     }
 
 
@@ -76,33 +79,6 @@ public class FragmentListLevanteRecycler extends Fragment{
             mListener.onFragmentInteraction(uri);
         }
     }
-
-
-
-    public void alertDialogBasico(Levante levante){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        builder.setMessage(getString(R.string.s_lote_detalle) + ": " + levante.getLote() +
-                "\n" + getString(R.string.s_raza_detalle) + ": " +    levante.getRace())
-                .setTitle(levante.getName());
-
-
-        builder.setPositiveButton("FAVORITO", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-
-        builder.show();
-
-    }
-
 
     @Override
     public void onAttach(Context context) {

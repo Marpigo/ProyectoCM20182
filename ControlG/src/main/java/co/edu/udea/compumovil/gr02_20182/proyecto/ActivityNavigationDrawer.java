@@ -1,13 +1,12 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -32,7 +30,6 @@ import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.InsumoFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
-import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AcercadeFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AgendarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
@@ -40,7 +37,6 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListInsumoRec
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.InsumoGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
-import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.PerfilFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigUsuarioFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
@@ -50,13 +46,15 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         FragmentListLevanteRecycler.OnFragmentInteractionListener, FragmentListInsumoRecycler.OnFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
 
 
+    public static ActivityNavigationDrawer activityNavigationDrawer;
 
     static List<Levante> recibirListLevante;
     static List<Insumo> recibirListInsumo;
 
 
-    Toolbar toolbar;
-    boolean menu_visible = false;
+    public static Toolbar toolbar;
+    public static boolean menu_visible = false;
+    public static int opcion = 0;
 
     private GoogleApiClient googleApiClient;
     private FirebaseAuth firebaseAuth;
@@ -73,11 +71,9 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         activity = this;
 
-        //fabagregar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgregar); //Agregar Levante
-        com.getbase.floatingactionbutton.FloatingActionButton fabagregar = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabAgregar);
-      //  fabagregar.setOnClickListener((View.OnClickListener) this);
 
         fabgrupo = (FloatingActionsMenu) findViewById(R.id.fabGrupo);
         com.getbase.floatingactionbutton.FloatingActionButton fablevante = (com.getbase.floatingactionbutton.FloatingActionButton) findViewById(R.id.fabLevante);
@@ -86,12 +82,13 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         botonFlotanteMenu(true);
 
-
         fablevante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFragmentRecyclerLevante();
                 botonFlotanteMenu(false);
+                iconoMenuGestionActivar(true);
+                TituloToolbar(getString(R.string.s_levante));
                 fabgrupo.collapse();
             }
         });
@@ -101,6 +98,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             public void onClick(View view) {
                 openFragmentRecyclerInsumo();
                 botonFlotanteMenu(false);
+                iconoMenuGestionActivar(true);
+                TituloToolbar(getString(R.string.s_insumo_detalle));
                 fabgrupo.collapse();
             }
         });
@@ -111,6 +110,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             public void onClick(View view) {
                 openFragmentAgendar();
                 botonFlotanteMenu(false);
+                iconoMenuGestionActivar(true);
+                TituloToolbar(getString(R.string.s_menu_agenda));
                 fabgrupo.collapse();
             }
         });
@@ -131,46 +132,35 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         iniciarFirebaseListLevante();
         iniciarFirebaseListInsumo();
         openFragmentControlMenu();
-
-
     }
 
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.fabAgregar:
-                openFragmentLevanteGestionar();
-                break;
-
+        switch (view.getId()) {
             case R.id.imageViewLogo:
                 openFragmentControlMenu();/*Presionar el logo muestra el menu*/
                 break;
 
-            case R.id.imgLevanted: //detalle levante fragmento dialogo
-
+            case R.id.fabNuevoLevante: //editar levante
+                LevanteGestionarFragment.modo = 0;//Modo nuevo
+                editarAnimalLevanteNuevo();
                 break;
 
-            case R.id.imaEditarL: //editar levante
-
+            case R.id.fabNuevoInsumo: //editar levante
+                InsumoGestionarFragment.modo = 0;//Modo nuevo
+                editarInsumoNuevo();
                 break;
-
-
 
         }
     }
 
-
-
-
-    void iniciarFirebaseListLevante()
-    {
+    void iniciarFirebaseListLevante() {
         LevanteFirebase levanteFirebase = new LevanteFirebase();
         levanteFirebase.limpiarLista();
         levanteFirebase.cargarListLevante();
         recibirListLevante = LevanteFirebase.levanteList;
     }
 
-    void iniciarFirebaseListInsumo()
-    {
+    void iniciarFirebaseListInsumo() {
         InsumoFirebase insumoFirebase = new InsumoFirebase();
         insumoFirebase.limpiarLista();
         insumoFirebase.cargarListInsumo();
@@ -178,8 +168,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     }
 
 
-    public void autenticadoUser()
-    {
+    public void autenticadoUser() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -192,14 +181,11 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    //dentro de el evento no pones nada para que no genere ninguna acción en el momento que presionan el botón físico de atrás.
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
+
     }
 
     @Override
@@ -220,8 +206,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         return true;
     }
 
-    public void iconoMenuGestionActivar(boolean visibles)
-    {
+    public void iconoMenuGestionActivar(boolean visibles) {
         //Titele del toolbar
         //Toast.makeText(this, "ACTIVAR O DESACTIVAR", Toast.LENGTH_SHORT).show();
         menu_visible = visibles; //mostrar el icono de gestion
@@ -229,16 +214,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-
-        }else if (id == R.id.action_inicio) {
-
+        if (id == R.id.action_inicio) {
             openFragmentControlMenu();
             botonFlotanteMenu(true);
             iconoMenuGestionActivar(false);
@@ -248,15 +229,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void botonFlotanteMenu (boolean mostrar)
-    {
-        if(mostrar)
-        {
+    public void botonFlotanteMenu(boolean mostrar) {
+        if (mostrar) {
             fabgrupo.setVisibility(View.VISIBLE); //Mostrar o Ocultar el boton flotante
             fabgrupo.expand();
 
-        }else if (!mostrar)
-        {
+        } else if (!mostrar) {
             fabgrupo.setVisibility(View.INVISIBLE); //Ocultar o Ocultar el boton flotante
         }
     }
@@ -271,17 +249,21 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         if (id == R.id.nav_levante) {
             openFragmentRecyclerLevante();
             botonFlotanteMenu(false);
+            iconoMenuGestionActivar(true);
 
         } else if (id == R.id.nav_insumo) {
             openFragmentRecyclerInsumo();
+            botonFlotanteMenu(false);
+            iconoMenuGestionActivar(true);
         } else if (id == R.id.nav_agendar) {
             openFragmentAgendar();
+            botonFlotanteMenu(false);
+            iconoMenuGestionActivar(true);
         } else if (id == R.id.nav_profile) {
             //openFragmentPerfil();
             botonFlotanteMenu(false);
             iconoMenuGestionActivar(true);//mostrar el menu de gestion el toolbar configuracionAppTabbed
             openFragmentUsuario();
-
 
             TituloToolbar(getString(R.string.s_users));//Titulo de Toolbar
 
@@ -302,10 +284,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         toolbar.setTitle(menu); //Titulo de Toolbar
     }
 
-
-
-    private void singOff()
-    {
+    private void singOff() {
         firebaseAuth.signOut();
         Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -336,13 +315,9 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     private void openFragmentConfigurationTabbed() {
         Intent miIntent = new Intent(ActivityNavigationDrawer.this, ConfiguracionAppTabbed.class);
         startActivity(miIntent);
-       // finish();
+        // finish();
     }
 
-    private void openFragmentLevanteGestionar() {
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.fragmentContainers, new LevanteGestionarFragment()).commit();
-    }
 
     private void openFragmentRecyclerLevante() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
@@ -372,6 +347,15 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         fm.beginTransaction().replace(R.id.fragmentContainers, new AcercadeFragment()).commit();
     }
 
+    public void editarAnimalLevanteNuevo() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new LevanteGestionarFragment()).commit();
+    }
+
+    public void editarInsumoNuevo(){
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new InsumoGestionarFragment()).commit();
+    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

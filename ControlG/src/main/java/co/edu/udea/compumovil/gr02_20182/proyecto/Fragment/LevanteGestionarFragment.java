@@ -3,9 +3,11 @@ package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,9 +18,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +35,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
 
 import java.io.IOException;
@@ -42,11 +49,18 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
-public class LevanteGestionarFragment extends Fragment  implements View.OnClickListener{
+public class LevanteGestionarFragment extends Fragment implements View.OnClickListener{
+
+
+    public LevanteGestionarFragment() {
+
+
+    }
 
     static List<Levante> recibirListLevante;
     LevanteFirebase levanteFirebase = new LevanteFirebase();
@@ -68,6 +82,11 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
     EditText edi_fecha;
     EditText numer_chapeta;
     EditText observacion;
+    EditText edi_l;
+
+    ImageView campoPhoto;
+    Bitmap bitmaphoto;
+
 
     Activity activity;
     ArrayList<String> comboLote = new ArrayList<>();
@@ -76,8 +95,7 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
     ArrayList<String> comboIngreso = new ArrayList<>();
     public static final int NUMERO_LOTES = 10;
 
-    ImageView campoPhoto;
-    Bitmap bitmaphoto;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,14 +109,19 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
 
         init(view);
 
+
         llenarLote();
         llenarGenero();
         llenarRaza();
         llenarIngreso();
+        recibirFirebaseListLevante();
 
 
         final FloatingActionButton fabfoto = (FloatingActionButton) view.findViewById(R.id.fabFotoLevante);
         fabfoto.setOnClickListener(this);
+
+
+
 
         imgbfecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +132,19 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
 
 
 
+        if(modo == 1) //Animal levante a modificar
+        {
+            modificarLevante();
+        }
+
+        setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
+
         return view;
+    }
+
+    void recibirFirebaseListLevante()
+    {
+        recibirListLevante = LevanteFirebase.levanteList;
     }
 
 
@@ -119,9 +154,41 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
             case R.id.fabFotoLevante:
                 imagenGallery();
                 break;
+
         }
+
     }
 
+
+    void iniciarFirebaseListLevante()
+    {
+        LevanteFirebase levanteFirebase = new LevanteFirebase();
+        levanteFirebase.limpiarLista();
+        levanteFirebase.cargarListLevante();
+        recibirListLevante = LevanteFirebase.levanteList;
+    }
+
+
+    // setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_gestionar_guardar) {
+            guardarLevante();
+            iniciarFirebaseListLevante();
+
+        }else if (id == R.id.action_gestionar_nuevo) {
+            limpiar();
+            modo = 0;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
     public void guardarLevante() {
@@ -133,15 +200,17 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
         final String fecha = edi_fecha.getText().toString();
         final String chapeta = numer_chapeta.getText().toString();
         final String observa = observacion.getText().toString();
+        final String id = edi_l.getText().toString();
 
         boolean requerimientos = false;
         requerimientos = validateCampo(name_animal.getText().toString(), edi_fecha.getText().toString(), numer_chapeta.getText().toString());
         if (requerimientos) {
             if (modo == 0) { //Nuevo
-                levanteFirebase.insertLevante(lote, name, genero, raza, tipoingreso, fecha, chapeta, observa);
+                levanteFirebase.insertLevante(lote, name, genero, raza, tipoingreso, fecha, chapeta, observa, filePath);
                 Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
             } else if (modo == 1) { //Modificar
+                levanteFirebase.updateLevante(id, lote, name, genero, raza, tipoingreso, fecha, chapeta, observa);
                 //levanteFirebase.updateLevante(lote. name, genero, raza, tipoingreso, fecha, chapeta, observa);
                 Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
@@ -149,6 +218,32 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
 
         }
     }
+
+
+
+
+    public void modificarLevante(){
+
+        String id= AdapterDataRecycler_levante.id_levante;
+        int i =0;
+        for(i = 0; i < recibirListLevante.size(); i++)
+        {
+            if(recibirListLevante.get(i).getId().equals(id))
+            {
+                name_animal.setText(recibirListLevante.get(i).getName());
+                spinner_genero.setSelection(1);
+                spinner_raza.setSelection(1);
+                spinner_tipo_ingreso.setSelection(0);
+                edi_fecha.setText(recibirListLevante.get(i).getDateI());
+                numer_chapeta.setText(recibirListLevante.get(i).getNumberPin());
+                observacion.setText(recibirListLevante.get(i).getObservation());
+                edi_l.setText(recibirListLevante.get(i).getId());
+                String imag = recibirListLevante.get(i).getImagen();
+                Glide.with(activity).load(imag).into(campoPhoto);
+            }
+        }
+    }
+
 
     void init(View view) {
         spinner_lote = (Spinner) view.findViewById(R.id.spinnerLote);
@@ -159,6 +254,7 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
         edi_fecha = (EditText) view.findViewById(R.id.ediFechaL);
         numer_chapeta = (EditText) view.findViewById(R.id.ediChapetaL);
         observacion = (EditText) view.findViewById(R.id.ediObservacionL);
+        edi_l= (EditText) view.findViewById(R.id.ediIDL);
 
         imgbfecha = (ImageButton) view.findViewById(R.id.imabFechaL);
 
@@ -282,6 +378,8 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
             vericar += 1;
         }
 
+        if(filePath ==null)
+        { Toast.makeText(activity, "Imagen", Toast.LENGTH_SHORT).show();vericar += 1;}
 
         if (networkinfo == null && !networkinfo.isConnected()) {
             //Toast.makeText(getApplicationContext(), getString(R.string.s_web_not_conexion), Toast.LENGTH_SHORT).show();
@@ -292,6 +390,9 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
 
 
     private void limpiar() {
+        name_animal.setError(null);
+        edi_fecha.setError(null);
+        numer_chapeta.setError(null);
         name_animal.setText("");
         edi_fecha.setText("");
         numer_chapeta.setText("");
@@ -322,9 +423,25 @@ public class LevanteGestionarFragment extends Fragment  implements View.OnClickL
                 e.printStackTrace();
             }
         }
+        bitmaphoto=redimensionarImagen(bitmaphoto,256,123);
    }
 
+    private Bitmap redimensionarImagen(Bitmap bitmap, float anchoNuevo, float altoNuevo) {
+        int ancho=bitmap.getWidth();
+        int alto=bitmap.getHeight();
+        if(ancho>anchoNuevo || alto>altoNuevo){
+            float escalaAncho=anchoNuevo/ancho;
+            float escalaAlto= altoNuevo/alto;
 
+            Matrix matrix=new Matrix();
+            matrix.postScale(escalaAncho,escalaAlto);
+
+            return Bitmap.createBitmap(bitmap,0,0,ancho,alto,matrix,false);
+
+        }else{
+            return bitmap;
+        }
+    }
 
 
 }

@@ -129,4 +129,20 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imaLevante"
+        android:layout_width="106dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.27"
+        app:srcCompat="@drawable/levantefoto" />
+
 </android.support.constraint.ConstraintLayout>

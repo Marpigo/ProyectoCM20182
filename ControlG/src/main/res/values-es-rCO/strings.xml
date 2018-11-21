@@ -94,7 +94,7 @@
     <string name="s_nombre_detalle">Nombre</string>
     <string name="s_genero_detalle">Genero</string>
     <string name="s_raza_detalle">Raza</string>
-    <string name="s_tipo_ingreso_detalle">Tipo de ingreso</string>
+    <string name="s_tipo_ingreso_detalle">Ingreso</string>
     <string name="s_fecha_detalle">Fecha</string>
     <string name="s_numero_chapeta_detalle">Chapeta</string>
     <string name="s_observacion_detalle">Observación</string>
@@ -117,5 +117,6 @@
     <string name="s_configuracion_Insumo">Insumo</string>
     <string name="s_configuracion_levante">Levante</string>
     <string name="s_configuracion_privilegios">Privilegios</string>
+    <string name="s_saldo_detalle">Saldo</string>
 
 </resources>

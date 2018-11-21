@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="177dp"
+        android:layout_height="26dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/texiNombreLd"
+                android:id="@+id/texInsumdt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
@@ -35,23 +35,6 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/imgLevanted"
-                android:layout_width="184dp"
-                android:layout_height="160dp"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:onClick="onClick"
-                android:src="@drawable/levantefoto"
-                tools:layout_editor_absoluteX="115dp"
-                tools:layout_editor_absoluteY="119dp" />
         </TableRow>
 
     </LinearLayout>
@@ -66,7 +49,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         app:layout_constraintVertical_bias="0.0">
@@ -88,7 +71,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/s_lote_detalle"
+                    android:text="@string/s_insumo_detalle"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
 
@@ -104,7 +87,7 @@
                     android:id="@+id/textView5"
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/s_genero_detalle"
+                    android:text="@string/s_presentacion_detalle"
                     android:textColor="@android:color/black" />
 
             </TableRow>
@@ -119,7 +102,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/s_raza_detalle"
+                    android:text="@string/s_linea_detalle"
                     android:textColor="@android:color/black" />
 
             </TableRow>
@@ -133,7 +116,7 @@
                     android:id="@+id/textView8"
                     android:layout_width="112dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/s_tipo_ingreso_detalle"
+                    android:text="@string/s_marca_detalle"
                     android:textColor="@android:color/black" />
 
             </TableRow>
@@ -148,7 +131,7 @@
                     android:id="@+id/textView9"
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/s_fecha_detalle"
+                    android:text="@string/s_especies_detalle"
                     android:textColor="@android:color/black" />
 
             </TableRow>
@@ -160,13 +143,6 @@
                 tools:layout_editor_absoluteX="10dp"
                 tools:layout_editor_absoluteY="227dp">
 
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="143dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/s_numero_chapeta_detalle"
-                    android:textColor="@android:color/black" />
-
             </TableRow>
 
             <TableRow
@@ -175,13 +151,6 @@
                 android:layout_marginLeft="10dp"
                 tools:layout_editor_absoluteX="10dp"
                 tools:layout_editor_absoluteY="282dp">
-
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="119dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/s_observacion_detalle"
-                    android:textColor="@android:color/black" />
 
             </TableRow>
         </TableLayout>
@@ -201,7 +170,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TableLayout
-            android:id="@+id/tableLayout"
+            android:id="@+id/tableLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints"
@@ -221,11 +190,10 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/texLoteLd"
+                    android:id="@+id/texInsumod"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/s_nombre_detalle"
                     android:inputType="textPersonName"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
@@ -247,11 +215,10 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/texGeneroLd"
+                    android:id="@+id/texPresentacionId"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/s_nombre_detalle"
                     android:inputType="textPersonName"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
@@ -272,11 +239,10 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/texRazaLd"
+                    android:id="@+id/texLineaId"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/s_nombre_detalle"
                     android:inputType="textPersonName"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
@@ -297,11 +263,10 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/texIngresoLd"
+                    android:id="@+id/texMarcaId"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/s_nombre_detalle"
                     android:inputType="textPersonName"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
@@ -323,11 +288,10 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/texFechaLd"
+                    android:id="@+id/texSpecieId"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/s_nombre_detalle"
                     android:inputType="textPersonName"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
@@ -342,24 +306,6 @@
                 tools:layout_editor_absoluteX="10dp"
                 tools:layout_editor_absoluteY="227dp">
 
-                <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="18dp"
-                    android:layout_height="wrap_content"
-                    android:text=": "
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/texChapetaLd"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:hint="@string/s_nombre_detalle"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:textAlignment="viewStart"
-                    android:textColor="@android:color/black" />
-
             </TableRow>
 
             <TableRow
@@ -368,23 +314,6 @@
                 android:layout_marginLeft="10dp"
                 tools:layout_editor_absoluteX="10dp"
                 tools:layout_editor_absoluteY="282dp">
-
-                <TextView
-                    android:id="@+id/textView24"
-                    android:layout_width="18dp"
-                    android:layout_height="wrap_content"
-                    android:text=": "
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/texObservacionLd"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:singleLine="true"
-                    android:textAlignment="viewStart"
-                    android:textColor="@android:color/black" />
 
             </TableRow>
         </TableLayout>
@@ -418,7 +347,7 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:singleLine="true"
-                    android:text="@string/s_lote_detalle"
+                    android:text="@string/s_insumo_detalle"
                     android:textAlignment="viewStart"
                     android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
 
@@ -429,7 +358,7 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:singleLine="true"
-                    android:text="@string/s_levante"
+                    android:text="@string/s_saldo_detalle"
                     android:textAlignment="viewStart"
                     android:textColor="@color/cardview_light_background" />
             </TableRow>
@@ -439,7 +368,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/texLoteInfo"
+                    android:id="@+id/texInfoinsumo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
@@ -450,13 +379,13 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/texLevanteCantidadInfo"
+                    android:id="@+id/texinfosaldoI"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:singleLine="true"
-                    android:text="@string/s_levante"
+                    android:text="@string/s_saldo_detalle"
                     android:textAlignment="viewStart"
                     android:textColor="@android:color/background_dark" />
             </TableRow>
@@ -466,7 +395,7 @@
 
 
     <Button
-        android:id="@+id/butCancelarDetaL"
+        android:id="@+id/butCancelarDetaI"
         android:layout_width="141dp"
         android:layout_height="36dp"
         android:layout_marginBottom="8dp"
@@ -477,7 +406,9 @@
         android:text="@string/s_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintVertical_bias="0.03" />
 
 </android.support.constraint.ConstraintLayout>

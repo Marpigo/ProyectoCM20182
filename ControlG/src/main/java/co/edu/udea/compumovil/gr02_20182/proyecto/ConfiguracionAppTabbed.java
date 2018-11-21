@@ -98,9 +98,9 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+    //    if (id == R.id.action_settings) {
+      //      return true;
+       // }
 
         return super.onOptionsItemSelected(item);
     }
@@ -181,5 +181,10 @@ public class ConfiguracionAppTabbed extends AppCompatActivity {
         }
     }
 
+    //dentro de el evento no pones nada para que no genere ninguna acción en el momento que presionan el botón físico de atrás.
+    @Override
+    public void onBackPressed() {
 
+
+    }
 }

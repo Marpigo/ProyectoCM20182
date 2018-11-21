@@ -216,9 +216,6 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-
-        }
         if (id == R.id.action_gestionar_guardar) {
             usarioGuardar();
 

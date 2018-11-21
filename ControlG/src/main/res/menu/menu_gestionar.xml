@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/action_gestionar_nuevo"
-        android:icon="@drawable/ic_new_black_24dp"
+        android:icon="@drawable/limpiar"
         app:showAsAction="always"
         android:title="Nuevo" />
 

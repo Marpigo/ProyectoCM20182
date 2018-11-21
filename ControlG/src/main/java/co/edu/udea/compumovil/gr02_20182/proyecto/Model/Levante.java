@@ -11,12 +11,13 @@ public class Levante {
     private String dateI;
     private String numberPin;
     private String observation;
+    private String imagen;
 
     public Levante() {
 
     }
 
-    public Levante(String id, String lote, String name, String gender, String race, String type, String dateI, String numberPin, String observation) {
+    public Levante(String id, String lote, String name, String gender, String race, String type, String dateI, String numberPin, String observation, String imagen) {
         this.id = id;
         this.lote = lote;
         this.name = name;
@@ -26,6 +27,7 @@ public class Levante {
         this.dateI = dateI;
         this.numberPin = numberPin;
         this.observation = observation;
+        this.imagen = imagen;
     }
 
     public String getId() {
@@ -98,5 +100,13 @@ public class Levante {
 
     public void setObservation(String observation) {
         this.observation = observation;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

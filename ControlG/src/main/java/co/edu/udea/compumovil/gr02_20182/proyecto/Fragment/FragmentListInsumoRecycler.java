@@ -54,13 +54,6 @@ public class FragmentListInsumoRecycler extends Fragment {
         adapterInsumo = new AdapterDataRecycler_insumo(insumoList, getContext());//llenar el adaptador con la lista
         recycler.setAdapter(adapterInsumo);
 
-        adapterInsumo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialogBasico(insumoList.get(recycler.getChildAdapterPosition(view)));
-                //interfaceComunicaFragmen.enviarBebida(bebidaList.get(recycler.getChildAdapterPosition(view)));
-            }
-        });
 
     }
 

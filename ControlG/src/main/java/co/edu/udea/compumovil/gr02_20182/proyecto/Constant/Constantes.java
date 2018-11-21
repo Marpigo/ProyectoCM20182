@@ -23,6 +23,8 @@ public class Constantes {
     public static final String CAMPO_DATEI_L="dateI";
     public static final String CAMPO_NUMBERPIN_L="numberPin";
     public static final String CAMPO_OBSERVATION_L="observation";
+    public static final String CAMPO_FOTO_L="imagen";
+
 
     public static final String TABLA_INSUMO="insumo";
     public static final String CAMPO_ID_I= "id";

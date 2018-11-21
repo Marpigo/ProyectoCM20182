@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
@@ -128,7 +130,9 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
                 tex_observacion.setText(recibirListLevante.get(i).getObservation());
                 tex_infolote.setText(lote);
                 tex_intocantidad.setText(cantidadAnimal +"");
-                //Glide.with(activity).load(recibirListLevante.get(i).getImagen()).into(img_Levanted);
+
+                String imag = recibirListLevante.get(i).getImagen();
+                Glide.with(activity).load(imag).into(img_Levanted);
             }
 
         }

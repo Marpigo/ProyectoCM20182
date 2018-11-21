@@ -89,7 +89,7 @@
                     android:layout_marginLeft="5dp"
                     android:ems="10"
                     android:hint="@string/s_email_user"
-                    android:inputType="textPersonName" />
+                    android:inputType="textEmailAddress|textEmailSubject|textPersonName" />
             </TableRow>
 
             <TableRow

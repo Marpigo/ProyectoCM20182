@@ -77,8 +77,13 @@ public class InsumoFirebase {
                     mDatabase.child(Constantes.TABLA_INSUMO).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Insumo insumo = snapshot.getValue(Insumo.class); //Obtenemos los valores que solo estan declarado en Usuario models
-                            insumoList.add(insumo);
+                            try{
+                                Insumo insumo = snapshot.getValue(Insumo.class); //Obtenemos los valores que solo estan declarado en Usuario models
+                                insumoList.add(insumo);
+                            }catch (Exception e){
+
+                            }
+
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {

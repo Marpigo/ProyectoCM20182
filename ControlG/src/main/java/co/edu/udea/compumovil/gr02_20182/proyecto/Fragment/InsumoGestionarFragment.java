@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.InsumoFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
@@ -35,17 +37,14 @@ public class InsumoGestionarFragment extends Fragment {
 
     public static int modo = 0; /*0.Nuevo, 1.Modificar*/
 
-    //Gestionar Levante
-    ImageView img_guardar;
-    ImageView img_nuevo;
-    ImageView img_borrar;
-
 
     EditText insumo_edi;
     EditText presentacion_edi;
     EditText marca_edi;
     Spinner spinner_especies;
     Spinner spinner_linea;
+    EditText saldo;
+    EditText id_insumo;
 
     Activity activity;
     ArrayList<String> comboSpecie =new ArrayList<>();
@@ -66,52 +65,18 @@ public class InsumoGestionarFragment extends Fragment {
 
         llenarEspecie();
         llenarLinea();
+        iniciarFirebaseListLevante();
+        setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
 
-        img_guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(modo == 1) //Insumo modificar
+        {
+            cargarDetalleLevante(view);
 
-                java.util.Date fecha = new Date();
-
-                final String insum = insumo_edi.getText().toString();
-                final String presenta = presentacion_edi.getText().toString();
-                final String marc = marca_edi.getText().toString();
-                final String line = spinner_linea.getSelectedItem().toString();
-                final String espec = spinner_especies.getSelectedItem().toString();
-                final String cantidad = "0"; //cantidad del insumo solo se gestiona
-                final String fecha_actual = fecha.toString();
+        }else if(modo == 0){ //Insumo nuevo
 
 
-                boolean requerimientos = false;
-                requerimientos = validateCampo(insumo_edi.getText().toString(), presentacion_edi.getText().toString(), marca_edi.getText().toString());
-                if (requerimientos) {
-                    if (modo == 0 ){ //Nuevo
-                       insumoFirebase.insertInsumo(insum, presenta, line, marc, espec, cantidad, fecha_actual);
-                        Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
-                        limpiar();
-                    }else if(modo == 1){ //Modificar
-                        //levanteFirebase.updateLevante(insum, presenta, line, marc, espec, cantidad, fecha_actual);
-                        Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
-                        limpiar();
-                    }
-
-                }
-            }
-        });
-
-        img_nuevo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        img_borrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                limpiar();
-            }
-        });
+            saldo.setText("0");
+        }
 
 
         return  view;
@@ -120,16 +85,93 @@ public class InsumoGestionarFragment extends Fragment {
 
     void init(View view)
     {
+
+        id_insumo = (EditText) view.findViewById(R.id.ediIDins);
         insumo_edi = (EditText) view.findViewById(R.id.ediInsumoI);
         presentacion_edi= (EditText) view.findViewById(R.id.ediPresentacionI);
         spinner_linea = (Spinner) view.findViewById(R.id.spinnerLineaI);
         marca_edi = (EditText) view.findViewById(R.id.ediMarcaI);
         spinner_especies = (Spinner) view.findViewById(R.id.spinnerEspecieI);
+        saldo = (EditText) view.findViewById(R.id.ediBalanceI);
 
-        img_guardar=(ImageView)view.findViewById(R.id.imaSaveI);
-        img_borrar=(ImageView) view.findViewById(R.id.imaDeleteI);
-        img_nuevo=(ImageView) view.findViewById(R.id.imaNewI);
     }
+
+    void iniciarFirebaseListLevante()
+    {
+        recibirListInsumo = InsumoFirebase.insumoList;
+    }
+
+    // setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_gestionar_guardar) {
+            guardarInsumo();
+            iniciarFirebaseListLevante();
+
+        }else if (id == R.id.action_gestionar_nuevo) {
+            limpiar();
+            modo = 0;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    public void guardarInsumo() {
+        java.util.Date fecha = new Date();
+
+        final String insum = insumo_edi.getText().toString();
+        final String presenta = presentacion_edi.getText().toString();
+        final String marc = marca_edi.getText().toString();
+        final String line = spinner_linea.getSelectedItem().toString();
+        final String espec = spinner_especies.getSelectedItem().toString();
+        final String cantidad = saldo.getText().toString(); //cantidad del insumo solo se gestiona
+        final String fecha_actual = fecha.toString();
+        final String id = id_insumo.getText().toString();
+
+
+        boolean requerimientos = false;
+        requerimientos = validateCampo(insumo_edi.getText().toString(), presentacion_edi.getText().toString(), marca_edi.getText().toString());
+        if (requerimientos) {
+            if (modo == 0 ){ //Nuevo
+                insumoFirebase.insertInsumo(insum, presenta, line, marc, espec, cantidad, fecha_actual);
+                Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
+                limpiar();
+            }else if(modo == 1){ //Modificar
+                insumoFirebase.updateInsumo(id, insum, presenta, line, marc, espec, cantidad, fecha_actual);
+                Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
+                limpiar();
+            }
+
+        }
+    }
+
+
+
+
+    public void cargarDetalleLevante(View view)
+    {
+        String id= AdapterDataRecycler_insumo.id_insumo;
+
+        int i = 0;
+
+        for(i = 0; i < recibirListInsumo.size(); i++)
+        {
+            if(recibirListInsumo.get(i).getId().equals(id))
+            {
+                id_insumo.setText(recibirListInsumo.get(i).getId());
+                insumo_edi.setText(recibirListInsumo.get(i).getSupply());
+                presentacion_edi.setText(recibirListInsumo.get(i).getPresentation());
+                spinner_linea.setSelection(0);
+                marca_edi.setText(recibirListInsumo.get(i).getBrand());
+                saldo.setText(recibirListInsumo.get(i).getBalance());
+                spinner_especies.setSelection(0);
+            }
+        }
+    }
+
 
     void llenarEspecie(){
         /*LLenado del Spinner Genero*/
@@ -140,6 +182,7 @@ public class InsumoGestionarFragment extends Fragment {
 
     void llenarLinea(){
         /*LLenado del Spinner Genero*/
+        comboLinea.add("Agro insumos");
         comboLinea.add("Medicamentos");
         comboLinea.add("Sales");
         comboLinea.add("Ferreteria");
@@ -206,6 +249,7 @@ public class InsumoGestionarFragment extends Fragment {
 
 
     private void limpiar() {
+        id_insumo.setText("");
         insumo_edi.setError(null);
         presentacion_edi.setError(null);
         marca_edi.setError(null);
@@ -213,6 +257,7 @@ public class InsumoGestionarFragment extends Fragment {
         insumo_edi.setText("");
         presentacion_edi.setText("");
         marca_edi.setText("");
+        saldo.setText("0");
     }
 
 
