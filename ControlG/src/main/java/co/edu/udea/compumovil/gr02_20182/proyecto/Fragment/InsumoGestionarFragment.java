@@ -241,7 +241,7 @@ public class InsumoGestionarFragment extends Fragment {
 
 
         if(networkinfo == null && !networkinfo.isConnected()){
-           Toast.makeText(activity, getString(R.string.s_web_not_conexion), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, getString(R.string.s_web_not_conexion), Toast.LENGTH_SHORT).show();
             vericar += 1;
         }
         return vericar>0?false:true;

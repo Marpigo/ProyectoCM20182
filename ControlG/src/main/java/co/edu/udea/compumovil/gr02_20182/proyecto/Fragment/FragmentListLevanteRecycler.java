@@ -10,11 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.List;
 
-import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
@@ -25,15 +23,17 @@ public class FragmentListLevanteRecycler extends Fragment{
 
 
 
-    static List<Levante> recibirListLevante;
     private OnFragmentInteractionListener mListener;
 
     public static AdapterDataRecycler_levante adapterlevat;
     RecyclerView recycler;
+    List<Levante> levaneList;
+    String idlevante;
     Activity activity;
     Context mContext;
     public static String id_levante  ="";
-    List<Levante> levaneList;
+
+    LevanteFirebase levanteFirebase = new LevanteFirebase();
 
     public FragmentListLevanteRecycler() {
         // Required empty public constructor
@@ -48,13 +48,10 @@ public class FragmentListLevanteRecycler extends Fragment{
         View view;
         view = inflater.inflate(R.layout.fragment_list_levante_recycler, container, false);
 
-
-        generarDatosRecycler(view);
         activity = getActivity();
         mContext = getActivity();
 
-
-
+        generarDatosRecycler(view);
 
 
         return view;
@@ -63,7 +60,7 @@ public class FragmentListLevanteRecycler extends Fragment{
     public void generarDatosRecycler(View vista)
     {
 
-
+        //recycler.setRefreshing(false);
 
 
         recycler= (RecyclerView) vista.findViewById(R.id.recyclerLevante);
@@ -71,20 +68,13 @@ public class FragmentListLevanteRecycler extends Fragment{
         //recycler.setLayoutManager(new GridLayoutManager(this, 2)); ver en dos columna la informacion
 
         levaneList = LevanteFirebase.levanteList; //recibir lista
-     //Toast.makeText(ActivityNavigationDrawer.activity, "SIZE levante : " + levanteList.size(), Toast.LENGTH_SHORT).show();
 
+        //recycler.removeAllViewsInLayout();//removes all the views
+
+        //  Toast.makeText(getContext(), "SIZE bebida : " + databasesqlitedrink.getListBebida().size(), Toast.LENGTH_SHORT).show();
         adapterlevat = new AdapterDataRecycler_levante(levaneList, getContext());//llenar el adaptador con la lista
         recycler.setAdapter(adapterlevat);
         adapterlevat.notifyDataSetChanged();
-    }
-
-
-    void iniciarFirebaseListLevante()
-    {
-        LevanteFirebase levanteFirebase= new LevanteFirebase();
-        levanteFirebase.limpiarLista();
-        levanteFirebase.cargarListLevante();
-        recibirListLevante = LevanteFirebase.levanteList;
     }
 
 

@@ -67,30 +67,6 @@ public class FragmentListInsumoRecycler extends Fragment {
         }
     }
 
-    public void alertDialogBasico(Insumo insumo){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        builder.setMessage(getString(R.string.s_presentacion_detalle) + ": " + insumo.getPresentation() +
-                "\n" + getString(R.string.s_linea_detalle) + ": " +    insumo.getLine() +
-                "\n" + getString(R.string.s_marca_detalle) + ": " +    insumo.getBrand())
-                .setTitle(insumo.getSupply());
-
-
-        builder.setPositiveButton("FAVORITO", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-        builder.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-
-        builder.show();
-
-    }
 
 
     @Override

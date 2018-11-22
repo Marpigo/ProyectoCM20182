@@ -4,7 +4,6 @@ package co.edu.udea.compumovil.gr02_20182.proyecto.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -24,15 +23,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
-import co.edu.udea.compumovil.gr02_20182.proyecto.Constant.Constantes;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteDetalleFragmentDialogo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
@@ -152,7 +147,7 @@ public class AdapterDataRecycler_levante extends RecyclerView.Adapter<AdapterDat
                     editarAnimalLevante();
                     break;
 
-                }
+            }
         }
 
 
@@ -204,7 +199,6 @@ public class AdapterDataRecycler_levante extends RecyclerView.Adapter<AdapterDat
             notifyDataSetChanged();
         }
     };
-
 
 
 }

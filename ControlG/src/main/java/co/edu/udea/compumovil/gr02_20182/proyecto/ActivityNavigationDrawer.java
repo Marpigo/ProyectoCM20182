@@ -129,7 +129,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         autenticadoUser();
 
-        iniciarFirebaseListLevante();
+       iniciarFirebaseListLevante();
         iniciarFirebaseListInsumo();
         openFragmentControlMenu();
     }
@@ -153,7 +153,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         }
     }
 
-    public void iniciarFirebaseListLevante() {
+    void iniciarFirebaseListLevante() {
         LevanteFirebase levanteFirebase = new LevanteFirebase();
         levanteFirebase.limpiarLista();
         levanteFirebase.cargarListLevante();

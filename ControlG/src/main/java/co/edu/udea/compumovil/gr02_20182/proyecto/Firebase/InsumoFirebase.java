@@ -73,6 +73,7 @@ public class InsumoFirebase {
 
                 for(final DataSnapshot snapshot: dataSnapshot.getChildren()) //getChildren: obtiene los datos de cada nodo de dataSnapshot, lo almacena en snapshot
                 {
+
                     //Itero dentro de cada uno de los push o key subido de usuarios
                     mDatabase.child(Constantes.TABLA_INSUMO).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
                         @Override

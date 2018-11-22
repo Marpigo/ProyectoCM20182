@@ -40,13 +40,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,7 +50,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
-import co.edu.udea.compumovil.gr02_20182.proyecto.Constant.Constantes;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
@@ -118,14 +110,17 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         init(view);
 
 
-
         llenarLote();
         llenarGenero();
         llenarRaza();
         llenarIngreso();
+        recibirFirebaseListLevante();
+
 
         final FloatingActionButton fabfoto = (FloatingActionButton) view.findViewById(R.id.fabFotoLevante);
         fabfoto.setOnClickListener(this);
+
+
 
 
         imgbfecha.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +141,12 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
         return view;
     }
+
+    void recibirFirebaseListLevante()
+    {
+        recibirListLevante = LevanteFirebase.levanteList;
+    }
+
 
     //implements View.OnClickListener
     public void onClick(View view) {
@@ -422,8 +423,7 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
                 e.printStackTrace();
             }
         }
-   }
-
+    }
 
 
 

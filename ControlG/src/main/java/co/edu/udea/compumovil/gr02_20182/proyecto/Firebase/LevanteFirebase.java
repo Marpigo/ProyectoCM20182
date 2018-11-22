@@ -29,7 +29,7 @@ public class LevanteFirebase {
     static StorageReference mStorageRef; // para referenciar la foto a guardar Storage
 
     public static List<Levante> levanteList = new ArrayList<>();
-    public static LevanteFirebase levanteFirebase;
+
 
     public LevanteFirebase() {
         inicilizarFirebase();

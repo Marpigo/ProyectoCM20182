@@ -42,7 +42,7 @@ public class AdapterDataRecycler_insumo extends RecyclerView.Adapter<AdapterData
 
         this.insumoList = insumoList;
         this.insumoListfull = new ArrayList<>(insumoList);
-         this.contesto = context;
+        this.contesto = context;
 
     }
 
@@ -113,7 +113,7 @@ public class AdapterDataRecycler_insumo extends RecyclerView.Adapter<AdapterData
                     verDetalleLevante();
                     break;
                 case R.id.imaEditarI:
-                   InsumoGestionarFragment.modo = 1;
+                    InsumoGestionarFragment.modo = 1;
                     id_insumo = (String) id_in.getText();
                     editarAnimalLevante();
                     break;
@@ -137,7 +137,7 @@ public class AdapterDataRecycler_insumo extends RecyclerView.Adapter<AdapterData
 
 
 
-        /*Encargado de escuchar el evento onclik*/
+    /*Encargado de escuchar el evento onclik*/
     public void setOnClickListener(View.OnClickListener listener){
         this.listener = listener;
     }
