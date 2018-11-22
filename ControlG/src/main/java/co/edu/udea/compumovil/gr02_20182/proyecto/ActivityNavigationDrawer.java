@@ -153,7 +153,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         }
     }
 
-    void iniciarFirebaseListLevante() {
+    public void iniciarFirebaseListLevante() {
         LevanteFirebase levanteFirebase = new LevanteFirebase();
         levanteFirebase.limpiarLista();
         levanteFirebase.cargarListLevante();

@@ -37,4 +37,15 @@ public class Constantes {
     public static final String CAMPO_SALDO_I ="balance";
 
 
+    public static final String TABLA_AGENDAR="agendar";
+
+    public static final String CAMPO_ID_A= "id";
+    public static final String CAMPO_DATE_A ="date";
+    public static final String CAMPO_ACTIVITY_A = "activity";
+    public static final String CAMPO_LOTE = "lote";
+    public static final String CAMPO_OBSERVACION = "observacion";
+    public static final String CAMPO_ESTADO ="estado";
+
+
+
 }
