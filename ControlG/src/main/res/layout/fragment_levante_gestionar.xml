@@ -202,6 +202,38 @@
 
                 </TableRow>
             </TableLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/imaCancelarLG"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_clear_black_24dp"
+                        android:text="Cancelar"
+                        android:textAlignment="textEnd" />
+
+                    <ImageView
+                        android:id="@+id/imaGuardarLG"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_check_black_24dp"
+                        android:text="Editar" />
+
+                </TableRow>
+
+            </TableLayout>
+
         </LinearLayout>
     </ScrollView>
 

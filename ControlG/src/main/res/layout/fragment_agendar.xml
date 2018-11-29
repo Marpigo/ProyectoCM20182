@@ -12,15 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/linearLayout11"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="25dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:orientation="vertical"
@@ -36,7 +35,7 @@
                     <TextView
                         android:id="@+id/texFechaA"
                         android:layout_width="259dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="35dp"
                         android:text="@string/s_fecha_detalle"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
@@ -47,9 +46,8 @@
 
             <CalendarView
                 android:id="@+id/calendarViewAgend"
-                style="@android:style/Widget.Material.CalendarView"
                 android:layout_width="match_parent"
-                android:layout_height="329dp"
+                android:layout_height="295dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:alwaysDrawnWithCache="false"
@@ -72,17 +70,16 @@
             <LinearLayout
                 android:id="@+id/linearLayout10"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="107dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calendarViewAgend"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintTop_toBottomOf="@+id/calendarViewAgend">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -144,7 +141,48 @@
                 </TableRow>
 
             </LinearLayout>
-        </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout9"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="fill_horizontal|center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom">
+
+                    <ImageView
+                        android:id="@+id/imaCancelarA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_clear_black_24dp"
+                        android:text="Cancelar"
+                        android:textAlignment="textEnd" />
+
+                    <ImageView
+                        android:id="@+id/imaGuardarA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_check_black_24dp"
+                        android:text="Editar" />
+
+                </TableRow>
+
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

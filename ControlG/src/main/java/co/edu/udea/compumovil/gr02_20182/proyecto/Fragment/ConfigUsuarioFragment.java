@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import java.io.IOException;
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.User;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
@@ -59,6 +61,10 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
     EditText campoName, campoEmail, campoPassword;
     TextView campoId;
     Bitmap bitmaphoto;
+
+    ImageView img_cancelar;
+    ImageView img_nuevo;
+    ImageView img_guardar;
 
     public static int modo = 1; /*0.Nuevo, 1.Modificar*/
 
@@ -89,8 +95,7 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
 
         if(logueado == 1)
         {
-
-                iniciarGoogle(); //Logueado con Google
+            iniciarGoogle(); //Logueado con Google
                 loguinData();
                 modo = 0; //nuevo
 
@@ -104,10 +109,42 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         }
 
 
+        img_guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                usarioGuardar();
 
-        setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
+            }
+        });
 
+        img_nuevo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                limpiar();
+                modo = 0;
+            }
+        });
+
+        img_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuRegresar();
+                botonFlotanteMenu(true);
+                modo = 0;
+            }
+        });
         return view;
+    }
+
+
+    public void botonFlotanteMenu(boolean mostrar) {
+        if (mostrar) {
+            ActivityNavigationDrawer.fabgrupo.setVisibility(View.VISIBLE); //Mostrar o Ocultar el boton flotante
+            ActivityNavigationDrawer.fabgrupo.expand();
+
+        } else if (!mostrar) {
+            ActivityNavigationDrawer.fabgrupo.setVisibility(View.INVISIBLE); //Ocultar o Ocultar el boton flotante
+        }
     }
 
     //implements View.OnClickListener
@@ -127,6 +164,11 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         campoPassword = (EditText) view.findViewById(R.id.ediPasswordUserR);
         campoPhoto = (ImageView) view.findViewById(R.id.imgUsuarioG);
         campoId = (TextView) view.findViewById(R.id.texId);
+
+        img_cancelar = (ImageView) view.findViewById(R.id.imaCancelarU);
+        img_nuevo = (ImageView) view.findViewById(R.id.imaNuevoU);
+        img_guardar = (ImageView) view.findViewById(R.id.imaGuardarU);
+
     }
 
 
@@ -208,24 +250,6 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_gestionar_guardar) {
-            usarioGuardar();
-
-        }else if (id == R.id.action_gestionar_nuevo) {
-            limpiar();
-            modo = 0;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     void usuarioLogueado(){
         recibirListUsuario = UserFirebase.usuarioList;
@@ -362,6 +386,11 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void menuRegresar(){
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new ControlMenuFragment()).commit();
     }
 
 

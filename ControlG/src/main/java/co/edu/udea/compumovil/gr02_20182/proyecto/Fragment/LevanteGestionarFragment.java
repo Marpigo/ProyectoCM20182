@@ -95,24 +95,21 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
     ArrayList<String> comboIngreso = new ArrayList<>();
     public static final int NUMERO_LOTES = 10;
 
-
+    ImageView img_guardar;
+    ImageView img_cancelar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         activity = getActivity();
 
-
        String idlenvate = getArguments() != null ? getArguments().getString("idanimal") : "000000";
-
 
         View view;
         view = inflater.inflate(R.layout.fragment_levante_gestionar, container, false);
 
         init(view);
-
 
         llenarLote();
         llenarGenero();
@@ -120,12 +117,25 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         llenarIngreso();
         recibirFirebaseListLevante();
 
-
         final FloatingActionButton fabfoto = (FloatingActionButton) view.findViewById(R.id.fabFotoLevante);
         fabfoto.setOnClickListener(this);
 
+        img_guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardarLevante();
+                iniciarFirebaseListLevante();
+            }
+        });
 
-
+        img_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                limpiar();
+                modo = 0;
+                openFragmentRecyclerLevante();
+            }
+        });
 
         imgbfecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,8 +143,6 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
                 abrirFecha();
             }
         });
-
-
 
         if(modo == 1) //Animal levante a modificar
         {
@@ -151,18 +159,15 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         recibirListLevante = LevanteFirebase.levanteList;
     }
 
-
     //implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.fabFotoLevante:
                 imagenGallery();
                 break;
-
-        }
+           }
 
     }
-
 
     void iniciarFirebaseListLevante()
     {
@@ -171,29 +176,6 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         levanteFirebase.cargarListLevante();
         recibirListLevante = LevanteFirebase.levanteList;
     }
-
-
-    // setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_gestionar_guardar) {
-            guardarLevante();
-            iniciarFirebaseListLevante();
-
-        }else if (id == R.id.action_gestionar_nuevo) {
-            limpiar();
-            modo = 0;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public void guardarLevante() {
         final String lote = spinner_lote.getSelectedItem().toString();
@@ -222,9 +204,6 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
         }
     }
-
-
-
 
     public void modificarLevante(String id_levat){
 
@@ -264,7 +243,8 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
         campoPhoto = (ImageView) view.findViewById(R.id.imgLevante);
 
-
+        img_guardar= (ImageView) view.findViewById(R.id.imaGuardarLG);
+        img_cancelar= (ImageView) view.findViewById(R.id.imaCancelarLG);
     }
 
     void llenarLote() {
@@ -429,6 +409,11 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    private void openFragmentRecyclerLevante() {
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListLevanteRecycler()).commit();
+
+    }
 
 
 }

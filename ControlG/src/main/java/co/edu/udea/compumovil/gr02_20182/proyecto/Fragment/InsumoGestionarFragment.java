@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -50,14 +53,14 @@ public class InsumoGestionarFragment extends Fragment {
     ArrayList<String> comboSpecie =new ArrayList<>();
     ArrayList<String> comboLinea =new ArrayList<>();
 
+    ImageView img_guardar;
+    ImageView img_cancelar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         activity = getActivity();
-
 
         String idInsumo = getArguments() != null ? getArguments().getString("idinsumo") : "000000";
 
@@ -76,11 +79,25 @@ public class InsumoGestionarFragment extends Fragment {
             cargarDetalleLevante(view, idInsumo);
 
         }else if(modo == 0){ //Insumo nuevo
-
-
             saldo.setText("0");
         }
 
+        img_guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guardarInsumo();
+                iniciarFirebaseListLevante();
+            }
+        });
+
+
+        img_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragmentRecyclerInsumo();
+                modo = 0;
+            }
+        });
 
         return  view;
     }
@@ -97,28 +114,14 @@ public class InsumoGestionarFragment extends Fragment {
         spinner_especies = (Spinner) view.findViewById(R.id.spinnerEspecieI);
         saldo = (EditText) view.findViewById(R.id.ediBalanceI);
 
+        img_cancelar = (ImageView) view.findViewById(R.id.imaCancelarIG);
+        img_guardar = (ImageView) view.findViewById(R.id.imaGuardarIG);
+
     }
 
     void iniciarFirebaseListLevante()
     {
         recibirListInsumo = InsumoFirebase.insumoList;
-    }
-
-    // setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_gestionar_guardar) {
-            guardarInsumo();
-            iniciarFirebaseListLevante();
-
-        }else if (id == R.id.action_gestionar_nuevo) {
-            limpiar();
-            modo = 0;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -150,8 +153,6 @@ public class InsumoGestionarFragment extends Fragment {
 
         }
     }
-
-
 
 
     public void cargarDetalleLevante(View view, String idIns)
@@ -264,4 +265,11 @@ public class InsumoGestionarFragment extends Fragment {
     }
 
 
-}
+    private void openFragmentRecyclerInsumo() {
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListInsumoRecycler()).commit();
+
+    }
+
+
+    }

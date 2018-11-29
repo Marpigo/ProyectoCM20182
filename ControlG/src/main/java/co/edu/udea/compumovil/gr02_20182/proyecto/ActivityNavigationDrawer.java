@@ -60,7 +60,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     private FirebaseAuth firebaseAuth;
     static boolean visible_menu = false; //ocultar icono del menu
 
-    FloatingActionsMenu fabgrupo;
+    public static FloatingActionsMenu fabgrupo;
 
     public static Activity activity;
 
@@ -87,7 +87,6 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             public void onClick(View view) {
                 openFragmentRecyclerLevante();
                 botonFlotanteMenu(false);
-                iconoMenuGestionActivar(true);
                 TituloToolbar(getString(R.string.s_levante));
                 fabgrupo.collapse();
             }
@@ -98,7 +97,6 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             public void onClick(View view) {
                 openFragmentRecyclerInsumo();
                 botonFlotanteMenu(false);
-                iconoMenuGestionActivar(true);
                 TituloToolbar(getString(R.string.s_insumo_detalle));
                 fabgrupo.collapse();
             }
@@ -110,7 +108,6 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             public void onClick(View view) {
                 openFragmentAgendar();
                 botonFlotanteMenu(false);
-                iconoMenuGestionActivar(true);
                 TituloToolbar(getString(R.string.s_menu_agenda));
                 fabgrupo.collapse();
             }
@@ -196,21 +193,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         MenuItem menuItem;
         menuItem = menu.findItem(R.id.action_inicio);
 
-        getMenuInflater().inflate(R.menu.menu_gestionar, menu);
-        menuItem = menu.findItem(R.id.action_gestionar_guardar);
-        menuItem.setVisible(menu_visible);
-
-        menuItem = menu.findItem(R.id.action_gestionar_nuevo);
-        menuItem.setVisible(menu_visible);
-
         return true;
-    }
-
-    public void iconoMenuGestionActivar(boolean visibles) {
-        //Titele del toolbar
-        //Toast.makeText(this, "ACTIVAR O DESACTIVAR", Toast.LENGTH_SHORT).show();
-        menu_visible = visibles; //mostrar el icono de gestion
-        this.invalidateOptionsMenu(); // este llamano ejecuta nuevamente onCreateOptionsMenu()
     }
 
 
@@ -222,10 +205,8 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         if (id == R.id.action_inicio) {
             openFragmentControlMenu();
             botonFlotanteMenu(true);
-            iconoMenuGestionActivar(false);
             TituloToolbar(getString(R.string.app_name));
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -249,20 +230,18 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         if (id == R.id.nav_levante) {
             openFragmentRecyclerLevante();
             botonFlotanteMenu(false);
-            iconoMenuGestionActivar(true);
 
         } else if (id == R.id.nav_insumo) {
             openFragmentRecyclerInsumo();
             botonFlotanteMenu(false);
-            iconoMenuGestionActivar(true);
+
         } else if (id == R.id.nav_agendar) {
             openFragmentAgendar();
             botonFlotanteMenu(false);
-            iconoMenuGestionActivar(true);
+
         } else if (id == R.id.nav_profile) {
             //openFragmentPerfil();
             botonFlotanteMenu(false);
-            iconoMenuGestionActivar(true);//mostrar el menu de gestion el toolbar configuracionAppTabbed
             openFragmentUsuario();
 
             TituloToolbar(getString(R.string.s_users));//Titulo de Toolbar
