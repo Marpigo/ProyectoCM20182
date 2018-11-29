@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.FragmentListLevanteRecycler">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/accent_material_light_1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:gravity="bottom|center"
+                    android:text="Actividades Programadas"
+                    android:textAlignment="gravity"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal|center"
+                    android:textAlignment="center">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ultima Actividad:  "
+                        android:textAlignment="gravity"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/texActividadtFechaultima"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="gravity"
+                        android:textColor="@android:color/background_light" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Agendadas:  "
+                        android:textAlignment="gravity"
+                        android:textColor="@android:color/background_light"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtActividadCantidadA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/background_light" />
+                </TableRow>
+
+            </LinearLayout>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/background_dark"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/txtTituloFecha"
+                    android:layout_width="129dp"
+                    android:layout_height="22dp"
+                    android:text="Fecha"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTituloActividadA"
+                    android:layout_width="128dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Actividad"
+                    android:textAlignment="textStart"
+                    android:textAppearance="@android:style/TextAppearance"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtTituloLotaA"
+                    android:layout_width="72dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/s_lote_detalle"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerAgendar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:id="@+id/layoutSearchBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="574dp">
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabNuevoAgendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="OnClick" />
+
+</android.support.constraint.ConstraintLayout>

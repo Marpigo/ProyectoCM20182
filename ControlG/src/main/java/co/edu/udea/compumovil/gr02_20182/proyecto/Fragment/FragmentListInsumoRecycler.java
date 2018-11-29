@@ -62,8 +62,6 @@ public class FragmentListInsumoRecycler extends Fragment {
 
     }
 
-
-
     public void fragmentDetalleInsumo(Insumo insumo){
         String idlevante = insumo.getId();//enviamos por Bundle el id del animal a modificar
         Bundle args = new Bundle();
@@ -75,7 +73,6 @@ public class FragmentListInsumoRecycler extends Fragment {
         ft.replace(R.id.fragmentContainers, frag2);
         ft.commit();
     }
-
 
 
     // TODO: Rename method, update argument and hook method into UI event

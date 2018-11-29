@@ -28,16 +28,19 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.AgendarFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.InsumoFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AcercadeFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AgendarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListAgendarRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListInsumoRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.InsumoGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigUsuarioFragment;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Agendar;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 
@@ -50,6 +53,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
     static List<Levante> recibirListLevante;
     static List<Insumo> recibirListInsumo;
+    static List<Agendar> recibirListAgendar;
 
 
     public static Toolbar toolbar;
@@ -102,13 +106,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             }
         });
 
-
         fabagendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFragmentAgendar();
+                openFragmentRecyclerAgendar();
                 botonFlotanteMenu(false);
-                TituloToolbar(getString(R.string.s_menu_agenda));
+                TituloToolbar("Agenda");
                 fabgrupo.collapse();
             }
         });
@@ -128,6 +131,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
        iniciarFirebaseListLevante();
         iniciarFirebaseListInsumo();
+        iniciarFirebaseListAgendar();
         openFragmentControlMenu();
     }
 
@@ -147,6 +151,10 @@ public class ActivityNavigationDrawer extends AppCompatActivity
                 editarInsumoNuevo();
                 break;
 
+            case R.id.fabNuevoAgendar: //nuevo actividad a agendar
+                AgendarFragment.modo = 0; //Modo nuevo
+                editarAgendaNuevo();
+                break;
         }
     }
 
@@ -163,6 +171,14 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         insumoFirebase.cargarListInsumo();
         recibirListInsumo = InsumoFirebase.insumoList;
     }
+
+    void iniciarFirebaseListAgendar() {
+        AgendarFirebase agendarFirebase = new AgendarFirebase();
+        agendarFirebase.limpiarLista();
+        agendarFirebase.cargarListAgendar();
+        recibirListAgendar = AgendarFirebase.agendarList;
+    }
+
 
 
     public void autenticadoUser() {
@@ -308,11 +324,17 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListInsumoRecycler()).commit();
     }
 
+    private void openFragmentRecyclerAgendar() {
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListAgendarRecycler()).commit();
+    }
+
 
     private void openFragmentAgendar() {
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.fragmentContainers, new AgendarFragment()).commit();
     }
+
 
 
     private void openFragmentUsuario() {
@@ -335,6 +357,12 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.fragmentContainers, new InsumoGestionarFragment()).commit();
     }
+
+    public void editarAgendaNuevo(){
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new AgendarFragment()).commit();
+    }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
