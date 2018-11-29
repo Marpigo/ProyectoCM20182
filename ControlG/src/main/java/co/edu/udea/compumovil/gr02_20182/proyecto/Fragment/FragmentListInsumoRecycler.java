@@ -1,11 +1,10 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,9 +53,28 @@ public class FragmentListInsumoRecycler extends Fragment {
         adapterInsumo = new AdapterDataRecycler_insumo(insumoList, getContext());//llenar el adaptador con la lista
         recycler.setAdapter(adapterInsumo);
 
+        adapterInsumo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentDetalleInsumo(insumoList.get(recycler.getChildAdapterPosition(view)));
+            }
+        });
 
     }
 
+
+
+    public void fragmentDetalleInsumo(Insumo insumo){
+        String idlevante = insumo.getId();//enviamos por Bundle el id del animal a modificar
+        Bundle args = new Bundle();
+        args.putString("idinsumo", idlevante);
+
+        Fragment frag2 = new InsumoDetalleFragment();
+        frag2.setArguments(args);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainers, frag2);
+        ft.commit();
+    }
 
 
 

@@ -2,7 +2,11 @@ package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +26,7 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
-public class InsumoDetalleFragmentDialogo extends DialogFragment {
+public class InsumoDetalleFragment extends android.support.v4.app.Fragment {
 
     Activity activity;
     static List<Insumo> recibirListInsumo;
@@ -38,10 +42,14 @@ public class InsumoDetalleFragmentDialogo extends DialogFragment {
     TextView tex_infoins;
     TextView tex_intosaldo;
 
-    Button but_cancelar;
+
+    String idInsumo;
+
+    ImageView img_cancelar;
+    ImageView img_editar;
 
 
-    public InsumoDetalleFragmentDialogo() {
+    public InsumoDetalleFragment() {
 
     }
 
@@ -53,15 +61,28 @@ public class InsumoDetalleFragmentDialogo extends DialogFragment {
 
         activity = getActivity();
 
+        idInsumo = getArguments() != null ? getArguments().getString("idinsumo") : "000000";
+
         init(view);
         iniciarFirebaseListLevante();
-        cargarDetalleLevante();
+        cargarDetalleLevante(idInsumo);
 
 
-        but_cancelar.setOnClickListener(new View.OnClickListener() {
+        img_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDialog().cancel();
+                openFragmentRecyclerInsumo();
+
+            }
+        });
+
+
+        img_editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InsumoGestionarFragment.modo = 1;
+                openFragmentInsumoGestionar(idInsumo);
+
             }
         });
 
@@ -80,7 +101,10 @@ public class InsumoDetalleFragmentDialogo extends DialogFragment {
         tex_infoins= (TextView) view.findViewById(R.id.texInfoinsumo);
         tex_intosaldo= (TextView) view.findViewById(R.id.texinfosaldoI);
 
-        but_cancelar = (Button) view.findViewById(R.id.butCancelarDetaI);
+
+        img_cancelar = (ImageView) view.findViewById(R.id.imaCancelarI);
+        img_editar = (ImageView) view.findViewById(R.id.imaEditarI);
+
     }
 
     void iniciarFirebaseListLevante()
@@ -88,9 +112,9 @@ public class InsumoDetalleFragmentDialogo extends DialogFragment {
          recibirListInsumo = InsumoFirebase.insumoList;
     }
 
-    public void cargarDetalleLevante()
+    public void cargarDetalleLevante(String idinsm)
     {
-        String id= AdapterDataRecycler_insumo.id_insumo;
+        String id= idinsm;
         String lote ="";
         int cantidadAnimal = 0;
 
@@ -113,6 +137,28 @@ public class InsumoDetalleFragmentDialogo extends DialogFragment {
              }
         }
     }
+
+
+    private void openFragmentRecyclerInsumo() {
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListInsumoRecycler()).commit();
+
+    }
+
+    private void openFragmentInsumoGestionar(String id) {
+
+        String idlevt = id;//enviamos por Bundle el id del animal a modificar
+        Bundle args = new Bundle();
+        args.putString("idinsumo", idlevt);
+
+        android.support.v4.app.Fragment frag2 = new InsumoGestionarFragment();
+        frag2.setArguments(args);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainers, frag2);
+        ft.commit();
+
+    }
+
 
 
 }

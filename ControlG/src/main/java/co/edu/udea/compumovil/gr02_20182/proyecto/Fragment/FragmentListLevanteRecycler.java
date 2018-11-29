@@ -5,14 +5,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
@@ -27,7 +32,7 @@ public class FragmentListLevanteRecycler extends Fragment{
 
     public static AdapterDataRecycler_levante adapterlevat;
     RecyclerView recycler;
-    List<Levante> levaneList;
+    List<Levante> levanteList;
     String idlevante;
     Activity activity;
     Context mContext;
@@ -67,15 +72,41 @@ public class FragmentListLevanteRecycler extends Fragment{
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         //recycler.setLayoutManager(new GridLayoutManager(this, 2)); ver en dos columna la informacion
 
-        levaneList = LevanteFirebase.levanteList; //recibir lista
+        levanteList = LevanteFirebase.levanteList; //recibir lista
 
-        //recycler.removeAllViewsInLayout();//removes all the views
 
-        //  Toast.makeText(getContext(), "SIZE bebida : " + databasesqlitedrink.getListBebida().size(), Toast.LENGTH_SHORT).show();
-        adapterlevat = new AdapterDataRecycler_levante(levaneList, getContext());//llenar el adaptador con la lista
+        //  Toast.makeText(getContext(), "SIZE Levante : " + levanteList.size(), Toast.LENGTH_SHORT).show();
+
+        adapterlevat = new AdapterDataRecycler_levante(levanteList, getContext());//llenar el adaptador con la lista
         recycler.setAdapter(adapterlevat);
         adapterlevat.notifyDataSetChanged();
+
+        adapterlevat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentDetalleLevante(levanteList.get(recycler.getChildAdapterPosition(view)));
+            }
+        });
+
+
     }
+
+
+
+
+    public void fragmentDetalleLevante(Levante levante){
+        String idlevante = levante.getId();//enviamos por Bundle el id del animal a modificar
+        Bundle args = new Bundle();
+        args.putString("idanimal", idlevante);
+
+        Fragment frag2 = new LevanteDetalleFragment();
+        frag2.setArguments(args);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainers, frag2);
+        ft.commit();
+    }
+
+
 
 
 

@@ -104,6 +104,10 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
         activity = getActivity();
 
+
+       String idlenvate = getArguments() != null ? getArguments().getString("idanimal") : "000000";
+
+
         View view;
         view = inflater.inflate(R.layout.fragment_levante_gestionar, container, false);
 
@@ -134,7 +138,7 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
         if(modo == 1) //Animal levante a modificar
         {
-            modificarLevante();
+            modificarLevante(idlenvate);
         }
 
         setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
@@ -222,9 +226,9 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
 
 
-    public void modificarLevante(){
+    public void modificarLevante(String id_levat){
 
-        String id= AdapterDataRecycler_levante.id_levante;
+        String id= id_levat;
         int i =0;
         for(i = 0; i < recibirListLevante.size(); i++)
         {

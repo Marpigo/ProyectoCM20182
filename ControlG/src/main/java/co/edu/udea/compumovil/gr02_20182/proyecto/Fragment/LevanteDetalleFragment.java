@@ -3,7 +3,10 @@ package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +19,14 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.FragmentListLevanteRecycler;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
-public class LevanteDetalleFragmentDialogo extends DialogFragment {
+public class LevanteDetalleFragment extends Fragment {
 
     Activity activity;
     static List<Levante> recibirListLevante;
@@ -40,10 +44,13 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
     TextView tex_intocantidad;
 
     ImageView img_Levanted;
-    Button but_cancelar;
+    ImageView img_cancelar;
+    ImageView img_editar;
+
+    static String idlenvate="000";
 
 
-    public LevanteDetalleFragmentDialogo() {
+    public LevanteDetalleFragment() {
 
     }
 
@@ -55,19 +62,30 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
 
         activity = getActivity();
 
+        idlenvate = getArguments() != null ? getArguments().getString("idanimal") : "000000";
+
         init(view);
         iniciarFirebaseListLevante();
-        cargarDetalleLevante();
+        cargarDetalleLevante(idlenvate);
 
 
-        but_cancelar.setOnClickListener(new View.OnClickListener() {
+        img_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDialog().cancel();
+                openFragmentRecyclerLevante();
+
             }
         });
 
 
+        img_editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LevanteGestionarFragment.modo = 1;
+                openFragmentLevanteGestionar(idlenvate);
+
+            }
+        });
 
 
         return  view;
@@ -87,7 +105,8 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
         tex_intocantidad = (TextView) view.findViewById(R.id.texLevanteCantidadInfo);
         img_Levanted = (ImageView) view.findViewById(R.id.imgLevanted);
 
-        but_cancelar = (Button) view.findViewById(R.id.butCancelarDetaL);
+        img_cancelar = (ImageView) view.findViewById(R.id.imaCancelarL);
+        img_editar = (ImageView) view.findViewById(R.id.imaEditarL);
 
     }
 
@@ -96,9 +115,9 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
          recibirListLevante = LevanteFirebase.levanteList;
     }
 
-    public void cargarDetalleLevante()
+    public void cargarDetalleLevante(String idver)
     {
-        String id= AdapterDataRecycler_levante.id_levante;
+        String id= idver; // AdapterDataRecycler_levante.id_levante
         String lote ="";
         int cantidadAnimal = 0;
 
@@ -137,6 +156,30 @@ public class LevanteDetalleFragmentDialogo extends DialogFragment {
 
         }
     }
+
+
+    private void openFragmentRecyclerLevante() {
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListLevanteRecycler()).commit();
+
+    }
+
+    private void openFragmentLevanteGestionar(String id) {
+
+        String idlevt = id;//enviamos por Bundle el id del animal a modificar
+        Bundle args = new Bundle();
+        args.putString("idanimal", idlevt);
+
+        Fragment frag2 = new LevanteGestionarFragment();
+        frag2.setArguments(args);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentContainers, frag2);
+        ft.commit();
+
+    }
+
+
+
 
 
 }

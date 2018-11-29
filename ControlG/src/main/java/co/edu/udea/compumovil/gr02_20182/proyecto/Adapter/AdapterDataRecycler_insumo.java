@@ -17,10 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
-import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.InsumoDetalleFragmentDialogo;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.InsumoDetalleFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.InsumoGestionarFragment;
-import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteDetalleFragmentDialogo;
-import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.LevanteGestionarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
@@ -35,7 +33,6 @@ public class AdapterDataRecycler_insumo extends RecyclerView.Adapter<AdapterData
     private View.OnClickListener listener;
     Context contesto;
 
-    public static String id_insumo  ="";
 
 
     public AdapterDataRecycler_insumo(List<Insumo> insumoList, Context context) {
@@ -68,7 +65,6 @@ public class AdapterDataRecycler_insumo extends RecyclerView.Adapter<AdapterData
         holder.saldo.setText(insumoList.get(position).getBalance());
         holder.linea.setText(insumoList.get(position).getLine());
 
-        holder.setOnClickListeners();
 
     }
 
@@ -79,10 +75,8 @@ public class AdapterDataRecycler_insumo extends RecyclerView.Adapter<AdapterData
     }
 
 
-    public class ViewHolderDatos extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolderDatos extends RecyclerView.ViewHolder{
         TextView id_in, referencia, presentacion, saldo, linea;
-        ImageButton imgb_info_detalle_i;
-        ImageButton imgb_info_editar_i;
 
 
         public ViewHolderDatos(View itemView) {
@@ -93,48 +87,9 @@ public class AdapterDataRecycler_insumo extends RecyclerView.Adapter<AdapterData
             saldo = (TextView) itemView.findViewById(R.id.txtsaldo_item_insumo);
             linea = (TextView) itemView.findViewById(R.id.txtlinea_item_insumo);
 
-            imgb_info_detalle_i = (ImageButton) itemView.findViewById(R.id.imaDetalleI);
-            imgb_info_editar_i = (ImageButton) itemView.findViewById(R.id.imaEditarI);
 
         }
-
-
-        void setOnClickListeners() {
-            imgb_info_detalle_i.setOnClickListener(this);
-            imgb_info_editar_i.setOnClickListener(this);
-            //fabnuevo.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.imaDetalleI:
-                    id_insumo = (String) id_in.getText();
-                    verDetalleLevante();
-                    break;
-                case R.id.imaEditarI:
-                    InsumoGestionarFragment.modo = 1;
-                    id_insumo = (String) id_in.getText();
-                    editarAnimalLevante();
-                    break;
-            }
-
-        }
-        public void verDetalleLevante() {
-            InsumoDetalleFragmentDialogo dialogoPersonalizado = new InsumoDetalleFragmentDialogo();
-            dialogoPersonalizado.show(ActivityNavigationDrawer.activity.getFragmentManager(), "Detalle levante");
-        }
-
-        public void editarAnimalLevante() {
-            FragmentManager fm = ((FragmentActivity) contesto).getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.fragmentContainers, new InsumoGestionarFragment()).commit();
-        }
-
-
     }
-
-
-
 
 
     /*Encargado de escuchar el evento onclik*/

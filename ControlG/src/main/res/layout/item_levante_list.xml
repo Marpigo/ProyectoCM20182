@@ -102,31 +102,6 @@
 
         </TableLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:id="@+id/imaDetalleL"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:onClick="onClick"
-                app:srcCompat="@drawable/ic_search_black_24dp" />
-
-            <ImageButton
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:id="@+id/imaEditarL"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="onClick"
-                app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
-
-        </LinearLayout>
-
     </LinearLayout>
 
     <ImageView

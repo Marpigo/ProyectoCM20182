@@ -58,6 +58,9 @@ public class InsumoGestionarFragment extends Fragment {
 
         activity = getActivity();
 
+
+        String idInsumo = getArguments() != null ? getArguments().getString("idinsumo") : "000000";
+
         View view;
         view = inflater.inflate(R.layout.fragment_insumo_gestionar, container, false);
 
@@ -70,7 +73,7 @@ public class InsumoGestionarFragment extends Fragment {
 
         if(modo == 1) //Insumo modificar
         {
-            cargarDetalleLevante(view);
+            cargarDetalleLevante(view, idInsumo);
 
         }else if(modo == 0){ //Insumo nuevo
 
@@ -151,9 +154,9 @@ public class InsumoGestionarFragment extends Fragment {
 
 
 
-    public void cargarDetalleLevante(View view)
+    public void cargarDetalleLevante(View view, String idIns)
     {
-        String id= AdapterDataRecycler_insumo.id_insumo;
+        String id= idIns;
 
         int i = 0;
 
