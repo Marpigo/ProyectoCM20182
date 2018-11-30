@@ -1,12 +1,14 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Firebase;
 
 
+import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,13 +33,14 @@ public class LevanteFirebase {
     public static List<Levante> levanteList = new ArrayList<>();
 
 
-    public LevanteFirebase() {
-        inicilizarFirebase();
+    public LevanteFirebase(Activity activity) {
+        inicilizarFirebase(activity);
     }
 
 
-    void inicilizarFirebase()
+    void inicilizarFirebase(Activity activity)
     {
+        FirebaseApp.initializeApp(activity);
         mDatabase = FirebaseDatabase.getInstance().getReference(); //Inicia la referencia con la base de datos en el nodo principal 'mRootReference'
         mStorageRef = FirebaseStorage.getInstance().getReference();
     }
@@ -94,40 +97,25 @@ public class LevanteFirebase {
     }
 
 
-    public  void cargarListLevante() {
-
-        //estamos dentro del nodo usuario
+    public void cargarListLevante() {
         mDatabase.child(Constantes.TABLA_LEVANTE).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { //dataSnapshot: Nos devuelve  un solo valor de los tipos de usuarios
-
-                for(final DataSnapshot snapshot: dataSnapshot.getChildren()) //getChildren: obtiene los datos de cada nodo de dataSnapshot, lo almacena en snapshot
-                {
-                    //Itero dentro de cada uno de los push o key subido de usuarios
-                    mDatabase.child(Constantes.TABLA_LEVANTE).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            try{
-                                Levante levante = snapshot.getValue(Levante.class); //Obtenemos los valores que solo estan declarado en Usuario models
-                                levanteList.add(levante);
-                            }catch (Exception e){
-
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                levanteList.clear();
+                for (DataSnapshot objSnaptshot : dataSnapshot.getChildren()){
+                    try{
+                        Levante levante = objSnaptshot.getValue(Levante.class); //Obtenemos los valores que solo estan declarado en Usuario models
+                        levanteList.add(levante);
+                    }catch (Exception e){
+                    }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
+
 
 
     public void deleteLevante(String id) {

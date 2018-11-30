@@ -38,7 +38,7 @@ public class FragmentListLevanteRecycler extends Fragment{
     Context mContext;
     public static String id_levante  ="";
 
-    LevanteFirebase levanteFirebase = new LevanteFirebase();
+
 
     public FragmentListLevanteRecycler() {
         // Required empty public constructor
@@ -56,6 +56,7 @@ public class FragmentListLevanteRecycler extends Fragment{
         activity = getActivity();
         mContext = getActivity();
 
+
         generarDatosRecycler(view);
 
 
@@ -64,16 +65,12 @@ public class FragmentListLevanteRecycler extends Fragment{
 
     public void generarDatosRecycler(View vista)
     {
-
         //recycler.setRefreshing(false);
-
-
         recycler= (RecyclerView) vista.findViewById(R.id.recyclerLevante);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         //recycler.setLayoutManager(new GridLayoutManager(this, 2)); ver en dos columna la informacion
 
-        levanteList = LevanteFirebase.levanteList; //recibir lista
-
+        levanteList = LevanteFirebase.levanteList;
 
         //  Toast.makeText(getContext(), "SIZE Levante : " + levanteList.size(), Toast.LENGTH_SHORT).show();
 
@@ -90,7 +87,6 @@ public class FragmentListLevanteRecycler extends Fragment{
 
 
     }
-
 
 
 

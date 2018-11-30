@@ -1,8 +1,10 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Firebase;
 
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,13 +29,14 @@ public class InsumoFirebase {
     public static List<Insumo> insumoList = new ArrayList<>();
 
 
-    public InsumoFirebase() {
-        inicilizarFirebase();
+    public InsumoFirebase(Activity activity) {
+        inicilizarFirebase(activity);
     }
 
 
-    void inicilizarFirebase()
+    void inicilizarFirebase(Activity activity)
     {
+        FirebaseApp.initializeApp(activity);
         mDatabase = FirebaseDatabase.getInstance().getReference(); //Inicia la referencia con la base de datos en el nodo principal 'mRootReference'
         mStorageRef = FirebaseStorage.getInstance().getReference();
     }
@@ -64,42 +67,26 @@ public class InsumoFirebase {
         mDatabase.child(Constantes.TABLA_INSUMO).child(datos.getId()).setValue(datos);
     }
 
-    public  void cargarListInsumo() {
 
-        //estamos dentro del nodo usuario
+    public void cargarListInsumo() {
         mDatabase.child(Constantes.TABLA_INSUMO).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { //dataSnapshot: Nos devuelve  un solo valor de los tipos de usuarios
-
-                for(final DataSnapshot snapshot: dataSnapshot.getChildren()) //getChildren: obtiene los datos de cada nodo de dataSnapshot, lo almacena en snapshot
-                {
-
-                    //Itero dentro de cada uno de los push o key subido de usuarios
-                    mDatabase.child(Constantes.TABLA_INSUMO).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            try{
-                                Insumo insumo = snapshot.getValue(Insumo.class); //Obtenemos los valores que solo estan declarado en Usuario models
-                                insumoList.add(insumo);
-                            }catch (Exception e){
-
-                            }
-
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                insumoList.clear();
+                for (DataSnapshot objSnaptshot : dataSnapshot.getChildren()){
+                    try{
+                        Insumo insumo = objSnaptshot.getValue(Insumo.class); //Obtenemos los valores que solo estan declarado en Usuario models
+                        insumoList.add(insumo);
+                    }catch (Exception e){
+                    }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
+
 
 
     public void deleteInsumo(String id) {

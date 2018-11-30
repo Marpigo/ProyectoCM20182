@@ -33,7 +33,7 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 public class InsumoGestionarFragment extends Fragment {
 
     static List<Insumo> recibirListInsumo;
-    InsumoFirebase insumoFirebase = new InsumoFirebase();
+
 
 
 
@@ -137,6 +137,7 @@ public class InsumoGestionarFragment extends Fragment {
         final String fecha_actual = fecha.toString();
         final String id = id_insumo.getText().toString();
 
+        InsumoFirebase insumoFirebase = new InsumoFirebase(activity);
 
         boolean requerimientos = false;
         requerimientos = validateCampo(insumo_edi.getText().toString(), presentacion_edi.getText().toString(), marca_edi.getText().toString());
@@ -150,7 +151,6 @@ public class InsumoGestionarFragment extends Fragment {
                 Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
             }
-
         }
     }
 
@@ -212,11 +212,6 @@ public class InsumoGestionarFragment extends Fragment {
         });
     }
 
-
-    void eliminarInsumo(String id)
-    {
-        insumoFirebase.deleteInsumo(id);
-    }
 
 
     /*

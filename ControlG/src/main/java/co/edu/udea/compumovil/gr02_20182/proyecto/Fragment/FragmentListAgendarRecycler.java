@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_agendar;
@@ -31,14 +32,17 @@ public class FragmentListAgendarRecycler extends Fragment{
 
     private OnFragmentInteractionListener mListener;
 
-    public static AdapterDataRecycler_agendar adapterAgendar;
+    AdapterDataRecycler_agendar adapterAgendar;
     RecyclerView recycler;
     List<Agendar> agendarList;
+
+    List<Agendar> agendarListAuxi = new ArrayList<>();//lista auxiliar contiene solo las actividades sin realizar
+
     String idagendar;
     Activity activity;
     Context mContext;
 
-    AgendarFirebase agendarFirebase = new AgendarFirebase();
+
 
     public FragmentListAgendarRecycler() {
         // Required empty public constructor
@@ -56,6 +60,7 @@ public class FragmentListAgendarRecycler extends Fragment{
         activity = getActivity();
         mContext = getActivity();
 
+
         generarDatosRecycler(view);
 
 
@@ -65,32 +70,38 @@ public class FragmentListAgendarRecycler extends Fragment{
     public void generarDatosRecycler(View vista)
     {
 
-
         recycler= (RecyclerView) vista.findViewById(R.id.recyclerAgendar);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         //recycler.setLayoutManager(new GridLayoutManager(this, 2)); ver en dos columna la informacion
 
+        agendarList = new ArrayList<>(AgendarFirebase.agendarList); //clonar la lista
 
-        agendarList = AgendarFirebase.agendarList; //recibir lista
+        activiadesPorRealizar();
+        llenarEncabezadoConsulta(vista);
 
-         // Toast.makeText(getContext(), "SIZE Agendar : " + agendarList.size(), Toast.LENGTH_SHORT).show();
-
-
-        adapterAgendar = new AdapterDataRecycler_agendar(agendarList, getContext());//llenar el adaptador con la lista
+        adapterAgendar = new AdapterDataRecycler_agendar(agendarListAuxi, getContext());//llenar el adaptador con la lista
         recycler.setAdapter(adapterAgendar);
         //adapterAgendar.notifyDataSetChanged();
 
 
-        llenarEncabezadoConsulta(vista);
+
 
         adapterAgendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //fragmentDetalleLevante(agendarList.get(recycler.getChildAdapterPosition(view)));
+                fragmentAgendaActiviadRealizada(agendarListAuxi.get(recycler.getChildAdapterPosition(view)));
             }
         });
+    }
 
+    //Activiades pendintes por realizar
+    public void activiadesPorRealizar(){
 
+        for (Agendar agendar : agendarList) {
+            if(Integer.parseInt(agendar.getEstado()) == 0) {
+                agendarListAuxi.add(agendar);
+            }
+        }
     }
 
     public void llenarEncabezadoConsulta(View view)
@@ -110,18 +121,19 @@ public class FragmentListAgendarRecycler extends Fragment{
                 fech = agendarList.get(i).getDate();
             }
         }
-
         cantidadactivo.setText(cantidad +" Actividad");
         ultimaagendfecha.setText(fech +"");
 
     }
 
-    public void fragmentDetalleLevante(Agendar agendar){
-        String idlevante = agendar.getId();//enviamos por Bundle el id del animal a modificar
-        Bundle args = new Bundle();
-        args.putString("idanimal", idlevante);
+    public void fragmentAgendaActiviadRealizada(Agendar agendar){
 
-        Fragment frag2 = new LevanteDetalleFragment();
+
+        String id_agenda = agendar.getId();//enviamos por Bundle el id del animal a modificar
+        Bundle args = new Bundle();
+        args.putString("id_agenda", id_agenda);
+
+        Fragment frag2 = new AgendarFragmentRealizada();
         frag2.setArguments(args);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentContainers, frag2);

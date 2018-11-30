@@ -28,10 +28,15 @@ public class AdapterDataRecycler_agendar extends RecyclerView.Adapter<AdapterDat
 
 
 
-    public AdapterDataRecycler_agendar(List<Agendar> agendarList, Context context) {
+    public AdapterDataRecycler_agendar(List<Agendar> agendarListx, Context context) {
 
-        this.agendarList = agendarList;
-        this.agendarListfull = new ArrayList<>(agendarList);
+        if(this.agendarList !=null){
+            this.agendarList.clear();
+            this.agendarListfull.clear();
+        }
+
+        this.agendarList = new ArrayList<>(agendarListx);;
+        this.agendarListfull = new ArrayList<>(agendarListx);
         this.contesto = context;
 
     }
@@ -53,15 +58,12 @@ public class AdapterDataRecycler_agendar extends RecyclerView.Adapter<AdapterDat
     @Override
     public void onBindViewHolder(AdapterDataRecycler_agendar.ViewHolderDatos holder, int position) {
      //   holder.id_ag.setText(agendarList.get(position).getId());
-        holder.fecha.setText(agendarList.get(position).getDate());
-        holder.actividad.setText(agendarList.get(position).getActivity());
-        holder.lote.setText(agendarList.get(position).getLote());
 
+            holder.fecha.setText(agendarList.get(position).getDate());
+            holder.actividad.setText(agendarList.get(position).getActivity());
+            holder.lote.setText(agendarList.get(position).getLote());
 
     }
-
-
-
 
 
     @Override

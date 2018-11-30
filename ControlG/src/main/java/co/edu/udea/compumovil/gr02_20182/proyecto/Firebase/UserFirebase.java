@@ -94,42 +94,25 @@ public class UserFirebase {
     }
 
 
-    public  void cargarListUsuario() {
-
-        //estamos dentro del nodo usuario
+    public void cargarListUsuario() {
         mDatabase.child(Constantes.TABLA_USER).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { //dataSnapshot: Nos devuelve  un solo valor de los tipos de usuarios
-
-                for(final DataSnapshot snapshot: dataSnapshot.getChildren()) //getChildren: obtiene los datos de cada nodo de dataSnapshot, lo almacena en snapshot
-                {
-                    //Itero dentro de cada uno de los push o key subido de usuarios
-                    mDatabase.child(Constantes.TABLA_USER).child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            try{
-                                User user = snapshot.getValue(User.class); //Obtenemos los valores que solo estan declarado en Usuario models
-                                usuarioList.add(user);
-                            }catch (Exception e){
-
-                            }
-
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {//dataSnapshot: Nos devuelve  un solo valor de los tipos de usuarios
+                usuarioList.clear();
+                for (DataSnapshot objSnaptshot : dataSnapshot.getChildren()){ //getChildren: obtiene los datos de cada nodo de dataSnapshot, lo almacena en snapshot
+                    try{
+                        User user = objSnaptshot.getValue(User.class); //Obtenemos los valores que solo estan declarado en Usuario models
+                        usuarioList.add(user);
+                    }catch (Exception e){
+                    }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
+
 
 
     public void deleteUsers(String id) {

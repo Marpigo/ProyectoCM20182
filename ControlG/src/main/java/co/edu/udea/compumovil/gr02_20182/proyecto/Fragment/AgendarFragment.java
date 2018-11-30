@@ -7,6 +7,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,7 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 public class AgendarFragment extends Fragment {
 
 
-    static List<Levante> recibirListLevante;
+    List<Levante> recibirListLevante;
 
     Spinner spinner_actividad;
     Spinner spinner_lote;
@@ -53,7 +55,7 @@ public class AgendarFragment extends Fragment {
     ImageView img_guardar;
 
     String id_actividad;
-    AgendarFirebase agendarFirebase = new AgendarFirebase();
+
 
     public static int modo = 0; /*0.Nuevo, 1.Modificar*/
 
@@ -94,10 +96,10 @@ public class AgendarFragment extends Fragment {
         img_cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    menuRegresar();
-          //      botonFlotanteMenu(true);
                 limpiar();
                 modo = 0;
+                openFragmentRecyclerAgendar();
+
             }
         });
 
@@ -189,11 +191,8 @@ public class AgendarFragment extends Fragment {
         requerimientos = validateCampo(txt_fecha.getText().toString(), edi_observacion.getText().toString());
         if (requerimientos) {
             if (modo == 0 ){ //Nuevo
+                AgendarFirebase agendarFirebase = new AgendarFirebase(activity);
                 agendarFirebase.inserAgendar(fecha, actividad, lote, observacion, estado);
-                Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
-                limpiar();
-            }else if(modo == 1){ //Modificar
-                agendarFirebase.updateAgendar(id_actividad, fecha, actividad, lote, observacion, estado);
                 Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
             }
@@ -233,6 +232,12 @@ public class AgendarFragment extends Fragment {
         edi_observacion.setError(null);
         edi_observacion.setText("");
     }
+
+    private void openFragmentRecyclerAgendar() {
+        FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListAgendarRecycler()).commit();
+    }
+
 
 
 

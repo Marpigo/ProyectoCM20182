@@ -129,7 +129,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         autenticadoUser();
 
-       iniciarFirebaseListLevante();
+        iniciarFirebaseListLevante();
         iniciarFirebaseListInsumo();
         iniciarFirebaseListAgendar();
         openFragmentControlMenu();
@@ -158,28 +158,31 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         }
     }
 
-    void iniciarFirebaseListLevante() {
-        LevanteFirebase levanteFirebase = new LevanteFirebase();
+    void iniciarFirebaseListLevante()
+    {
+        LevanteFirebase levanteFirebase = new LevanteFirebase(this);
         levanteFirebase.limpiarLista();
         levanteFirebase.cargarListLevante();
         recibirListLevante = LevanteFirebase.levanteList;
     }
 
+
+
     void iniciarFirebaseListInsumo() {
-        InsumoFirebase insumoFirebase = new InsumoFirebase();
+        InsumoFirebase insumoFirebase = new InsumoFirebase(this);
         insumoFirebase.limpiarLista();
         insumoFirebase.cargarListInsumo();
         recibirListInsumo = InsumoFirebase.insumoList;
     }
 
     void iniciarFirebaseListAgendar() {
-        AgendarFirebase agendarFirebase = new AgendarFirebase();
+
+        AgendarFirebase agendarFirebase = new AgendarFirebase(this);
         agendarFirebase.limpiarLista();
         agendarFirebase.cargarListAgendar();
         recibirListAgendar = AgendarFirebase.agendarList;
+
     }
-
-
 
     public void autenticadoUser() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

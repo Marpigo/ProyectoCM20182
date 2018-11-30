@@ -63,7 +63,7 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
     }
 
     static List<Levante> recibirListLevante;
-    LevanteFirebase levanteFirebase = new LevanteFirebase();
+
 
 
     public static int modo = 0; /*0.Nuevo, 1.Modificar*/
@@ -171,9 +171,6 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
     void iniciarFirebaseListLevante()
     {
-        LevanteFirebase levanteFirebase = new LevanteFirebase();
-        levanteFirebase.limpiarLista();
-        levanteFirebase.cargarListLevante();
         recibirListLevante = LevanteFirebase.levanteList;
     }
 
@@ -187,7 +184,7 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         final String chapeta = numer_chapeta.getText().toString();
         final String observa = observacion.getText().toString();
         final String id = edi_l.getText().toString();
-
+        LevanteFirebase levanteFirebase = new LevanteFirebase(activity);
         boolean requerimientos = false;
         requerimientos = validateCampo(name_animal.getText().toString(), edi_fecha.getText().toString(), numer_chapeta.getText().toString());
         if (requerimientos) {
@@ -328,9 +325,6 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
     }
 
-    void eliminarLevante(String id) {
-        levanteFirebase.deleteLevante(id);
-    }
 
     /*
       Validar campos: Vacios o nulo
