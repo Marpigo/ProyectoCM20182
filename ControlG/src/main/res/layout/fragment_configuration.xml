@@ -17,20 +17,18 @@
         android:id="@+id/tableLayoutConfiguracion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="5dp">
+        android:layout_margin="5dp">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Switch
-                android:id="@+id/switch2"
-                android:layout_width="228dp"
+            <CheckBox
+                android:id="@+id/cheSesion"
+                android:layout_width="211dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:onClick="onClick"
-                android:text="@string/s_keep_session"
-                tools:ignore="OnClick" />
+                android:text="@string/s_keep_session" />
+
         </TableRow>
 
         <TableRow
@@ -53,19 +51,10 @@
                 android:id="@+id/cheAuthorization_notification"
                 android:layout_width="211dp"
                 android:layout_height="wrap_content"
-                android:text="@string/s_authorization_notification" />
+                android:text="@string/s_authorization_notification"
+                android:visibility="invisible" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <CheckBox
-                android:id="@+id/cheSound_notification"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/s_sound_notification" />
-        </TableRow>
     </TableLayout>
 
 

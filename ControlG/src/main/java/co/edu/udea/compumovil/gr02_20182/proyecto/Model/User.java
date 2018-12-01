@@ -7,17 +7,19 @@ public class User {
     private String email;
     private  String password;
     private String imagen;
+    private String tipo;
     private int autenticado = 0;
 
     public User() {
     }
 
-    public User(String id, String name, String email, String password, String imagen, int autenticado) {
+    public User(String id, String name, String email, String password, String imagen, String tipo, int autenticado) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.imagen = imagen;
+        this.tipo = tipo;
         this.autenticado = autenticado;
     }
 
@@ -59,6 +61,14 @@ public class User {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int getAutenticado() {

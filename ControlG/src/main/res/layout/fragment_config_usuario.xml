@@ -40,7 +40,7 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="213dp"
+        android:layout_height="207dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/tableRow3"
@@ -48,7 +48,7 @@
 
         <TableLayout
             android:layout_width="358dp"
-            android:layout_height="161dp">
+            android:layout_height="wrap_content">
 
             <TableRow
                 android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                     android:layout_marginLeft="5dp"
                     android:ems="10"
                     android:hint="@string/s_email_user"
-                    android:inputType="textEmailAddress|textEmailSubject|textPersonName" />
+                    android:inputType="textEmailAddress" />
             </TableRow>
 
             <TableRow
@@ -110,6 +110,23 @@
                     android:ems="10"
                     android:hint="@string/s_pass_loguin"
                     android:inputType="textPassword" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="31dp"
+                    android:layout_height="25dp"
+                    app:srcCompat="@drawable/ic_tipo_black_24dp" />
+
+                <Spinner
+                    android:id="@+id/spinnerTipoUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             </TableRow>
 
         </TableLayout>
@@ -185,4 +202,5 @@
 
         </TableLayout>
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

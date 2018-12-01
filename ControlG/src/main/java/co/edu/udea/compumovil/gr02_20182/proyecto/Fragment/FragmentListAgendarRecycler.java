@@ -28,8 +28,6 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
 public class FragmentListAgendarRecycler extends Fragment{
 
-
-
     private OnFragmentInteractionListener mListener;
 
     AdapterDataRecycler_agendar adapterAgendar;
@@ -41,7 +39,6 @@ public class FragmentListAgendarRecycler extends Fragment{
     String idagendar;
     Activity activity;
     Context mContext;
-
 
 
     public FragmentListAgendarRecycler() {

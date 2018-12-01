@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/tableRow2154"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
@@ -39,7 +39,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <TextView
-                android:id="@+id/textView28"
+                android:id="@+id/textView328"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Grupos Raza"
@@ -56,7 +56,8 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout8"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -66,10 +67,10 @@
             tools:layout_editor_absoluteY="177dp">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/ediGrupoRaza"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Brahama, Caqueteño,  Cebu, Casanareño, Chino, Hartón, Lucerna, Red pull, Romosinuano" />
+                android:layout_marginLeft="10dp" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -80,7 +81,8 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints">
 
         <TableRow
             android:id="@+id/tableRow2"
@@ -117,7 +119,8 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout13"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -127,10 +130,10 @@
             tools:layout_editor_absoluteY="177dp">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/ediGrupoIngreso"
                 android:layout_width="match_parent"
                 android:layout_height="84dp"
-                android:layout_marginLeft="10dp"
-                android:text="Consignación, Compra, Nacimiento, Trueque" />
+                android:layout_marginLeft="10dp" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 

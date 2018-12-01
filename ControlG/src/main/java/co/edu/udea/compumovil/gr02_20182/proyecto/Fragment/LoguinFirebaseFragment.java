@@ -1,7 +1,9 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -40,13 +44,14 @@ public class LoguinFirebaseFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_loguin_firebase, container, false);
         init(view);
 
+        activity = getActivity();
 
         iniciarFirebaseList();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity = getActivity();
+
 
                 String email = campoEmail.getText().toString();
                 String password = campoPassword.getText().toString();
@@ -67,7 +72,7 @@ public class LoguinFirebaseFragment extends Fragment {
 
     void iniciarFirebaseList()
     {
-        UserFirebase userFirebase = new  UserFirebase();
+        UserFirebase userFirebase = new  UserFirebase(activity);
         userFirebase.limpiarLista();
         userFirebase.cargarListUsuario();
         usuarioList = userFirebase.getListaUsuarios();
@@ -128,6 +133,9 @@ public class LoguinFirebaseFragment extends Fragment {
             {
                 autenticado = true;
                 usuarioList.get(i).setAutenticado(1);
+
+                    actualizarUserLogueado(usuarioList, i);
+
             }else{
                 usuarioList.get(i).setAutenticado(0);
             }
@@ -139,6 +147,21 @@ public class LoguinFirebaseFragment extends Fragment {
             Toast.makeText(activity, "User no valido", Toast.LENGTH_SHORT).show();
         }
         return  autenticado;
+    }
+
+
+    public void actualizarUserLogueado(List<User> listau, int i){
+
+        UserFirebase userFirebase = new  UserFirebase(activity);
+
+        final String name = listau.get(i).getName();
+        final String email = listau.get(i).getEmail();
+        final String password = listau.get(i).getPassword();
+        final String idU = listau.get(i).getId();
+        final String tipo = listau.get(i).getTipo();
+        final String imagenurl= listau.get(i).getImagen();
+        final int autenticado = 1;
+        userFirebase.updateUserAutenticado(idU, name, email, password, imagenurl, tipo, autenticado);
     }
 
 

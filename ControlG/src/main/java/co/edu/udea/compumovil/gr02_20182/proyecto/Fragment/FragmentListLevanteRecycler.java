@@ -2,6 +2,7 @@ package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,9 @@ import java.util.List;
 import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Adapter.AdapterDataRecycler_levante;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Model.User;
 import co.edu.udea.compumovil.gr02_20182.proyecto.R;
 
 
@@ -101,8 +104,6 @@ public class FragmentListLevanteRecycler extends Fragment{
         ft.replace(R.id.fragmentContainers, frag2);
         ft.commit();
     }
-
-
 
 
 

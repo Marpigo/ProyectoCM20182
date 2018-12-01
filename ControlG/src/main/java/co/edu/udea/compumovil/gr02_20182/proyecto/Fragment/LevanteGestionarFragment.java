@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.Image;
@@ -113,8 +114,9 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
 
         llenarLote();
         llenarGenero();
-        llenarRaza();
-        llenarIngreso();
+
+        cargarPreferencias(); //llenar los combobox desde parametros en referencias
+
         recibirFirebaseListLevante();
 
         final FloatingActionButton fabfoto = (FloatingActionButton) view.findViewById(R.id.fabFotoLevante);
@@ -150,6 +152,8 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         }
 
         setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
+
+
 
         return view;
     }
@@ -254,6 +258,7 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         comboLLenado(spinner_lote, comboLote);
     }
 
+
     void llenarGenero() {
         /*LLenado del Spinner Genero*/
         comboGnero.add(getString(R.string.s_genero_detalle));
@@ -262,31 +267,28 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         comboLLenado(spinner_genero, comboGnero);
     }
 
-    void llenarRaza() {
-        /*LLenado del Spinner Genero*/
-        comboRaza.add(getString(R.string.s_raza_detalle));
-        comboRaza.add("Brahman");
-        comboRaza.add("Caqueteño");
-        comboRaza.add("Casanareño");
-        comboRaza.add("Cebú");
-        comboRaza.add("Chino");
-        comboRaza.add("Hartón");
-        comboRaza.add("Lucerna");
-        comboRaza.add("Red poll");
-        comboRaza.add("Romosinuano");
+
+
+    public  void cargarPreferencias(){
+        SharedPreferences preferences = activity.getSharedPreferences("configuracionLevante", Context.MODE_PRIVATE);
+        String raza = preferences.getString("gruporaza", "Brahama, Caqueteño,  Cebu, Casanareño, Chino, Hartón, Lucerna, Red pull, Romosinuano"); //segundo parametro es informacion por defecto dado el caso que el archivo preferecnias no exita
+        String ingreso = preferences.getString("grupoingreso", "Consignación, Compra, Nacimiento, Trueque");
+
+        comboRaza = tokeNizer(raza, comboRaza);
+        comboIngreso= tokeNizer(ingreso, comboIngreso);
+
         comboLLenado(spinner_raza, comboRaza);
+        comboLLenado(spinner_tipo_ingreso, comboIngreso);
     }
 
+    ArrayList<String>  tokeNizer(String cadenagrupo, ArrayList<String> combobox){
+       String[] grupo = cadenagrupo.split(", ");
+       int i=0;
+       for (i=0; i<grupo.length; i++){
 
-    void llenarIngreso() {
-        /*LLenado del Spinner Genero*/
-        comboIngreso.add(getString(R.string.s_tipo_ingreso_detalle));
-        comboIngreso.add("Consignación");
-        comboIngreso.add("Compra");
-        comboIngreso.add("Nacimiento");
-        comboIngreso.add("Trueque");
-        //Collections.sort(comboIngreso);/*Ordenar lista*/
-        comboLLenado(spinner_tipo_ingreso, comboIngreso);
+           combobox.add(grupo[i]);
+       }
+       return  combobox;
     }
 
 
@@ -408,6 +410,9 @@ public class LevanteGestionarFragment extends Fragment implements View.OnClickLi
         fm.beginTransaction().replace(R.id.fragmentContainers, new FragmentListLevanteRecycler()).commit();
 
     }
+
+
+
 
 
 }

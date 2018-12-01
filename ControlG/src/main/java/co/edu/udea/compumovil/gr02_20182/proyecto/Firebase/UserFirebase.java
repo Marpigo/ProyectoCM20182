@@ -1,11 +1,13 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Firebase;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,13 +32,14 @@ public class UserFirebase {
     public static List<User> usuarioList = new ArrayList<>();
     public static int logueado = 0; //1.Gollge, 2.Usuario
 
-    public UserFirebase() {
-        inicilizarFirebase();
+    public UserFirebase(Activity activity) {
+        inicilizarFirebase(activity);
     }
 
 
-    void inicilizarFirebase()
+    void inicilizarFirebase(Activity activity)
     {
+        FirebaseApp.initializeApp(activity);
         mDatabase = FirebaseDatabase.getInstance().getReference(); //Inicia la referencia con la base de datos en el nodo principal 'mRootReference'
         mStorageRef = FirebaseStorage.getInstance().getReference();
     }
@@ -57,7 +60,7 @@ public class UserFirebase {
 
 
 
-    public void insertUser(final String name, final String email, final String password, Uri filePath)
+    public void insertUser(final String name, final String email, final String password, Uri filePath, final String tipo)
     {
         final boolean registro = false;
         //Subimos la imagen un direcotorio Fotos, nombre de la foto filepath
@@ -86,11 +89,26 @@ public class UserFirebase {
                     datosuser.setPassword(password);
                     datosuser.setImagen(downloadLink.toString());
                     datosuser.setAutenticado(0);
+                    datosuser.setTipo(tipo);
                     mDatabase.child(Constantes.TABLA_USER).child(datosuser.getId()).setValue(datosuser);
 
                 }
             }
         });
+    }
+
+
+    public void updateUserAutenticado(final String id, final String name, final String email, final String password, final String imangeurl, final String tipo, final int autenticado)
+    {
+        User datosuser = new User();
+        datosuser.setId(id); //id actualizar
+        datosuser.setName(name);
+        datosuser.setEmail(email);
+        datosuser.setPassword(password);
+        datosuser.setImagen(imangeurl);
+        datosuser.setAutenticado(autenticado);
+        datosuser.setTipo(tipo);
+        mDatabase.child(Constantes.TABLA_USER).child(id).setValue(datosuser);
     }
 
 
@@ -120,7 +138,7 @@ public class UserFirebase {
     }
 
 
-    public void updateUser(final String id, final String name, final String email, final String password, Uri filePath)
+    public void updateUser(final String id, final String name, final String email, final String password, Uri filePath, final String tipo)
     {
         final boolean registro = false;
         //Subimos la imagen un direcotorio Fotos, nombre de la foto filepath
@@ -149,6 +167,7 @@ public class UserFirebase {
                     datosuser.setPassword(password);
                     datosuser.setImagen(downloadLink.toString());
                     datosuser.setAutenticado(1);
+                    datosuser.setTipo(tipo);
                     mDatabase.child(Constantes.TABLA_USER).child(id).setValue(datosuser);
 
                 }

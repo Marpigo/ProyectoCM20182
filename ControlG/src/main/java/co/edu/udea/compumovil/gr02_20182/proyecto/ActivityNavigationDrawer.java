@@ -1,9 +1,12 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
@@ -17,20 +20,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.AgendarFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.InsumoFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.LevanteFirebase;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Firebase.UserFirebase;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AcercadeFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.AgendarFragment;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ControlMenuFragment;
@@ -43,18 +51,20 @@ import co.edu.udea.compumovil.gr02_20182.proyecto.Fragment.ConfigUsuarioFragment
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Agendar;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Insumo;
 import co.edu.udea.compumovil.gr02_20182.proyecto.Model.Levante;
+import co.edu.udea.compumovil.gr02_20182.proyecto.Model.User;
 
 public class ActivityNavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentListLevanteRecycler.OnFragmentInteractionListener, FragmentListInsumoRecycler.OnFragmentInteractionListener, GoogleApiClient.OnConnectionFailedListener {
 
-
     public static ActivityNavigationDrawer activityNavigationDrawer;
 
+    static List<User> recibirListUsuario;
     static List<Levante> recibirListLevante;
     static List<Insumo> recibirListInsumo;
     static List<Agendar> recibirListAgendar;
 
+    Boolean accesoLevante, accesoInsumo, accesoConfiguracon; //acceso a crear
 
     public static Toolbar toolbar;
     public static boolean menu_visible = false;
@@ -129,10 +139,13 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
         autenticadoUser();
 
+        iniciarFirebaseListUsuario();
         iniciarFirebaseListLevante();
         iniciarFirebaseListInsumo();
         iniciarFirebaseListAgendar();
         openFragmentControlMenu();
+
+
     }
 
     public void onClick(View view) {
@@ -142,20 +155,41 @@ public class ActivityNavigationDrawer extends AppCompatActivity
                 break;
 
             case R.id.fabNuevoLevante: //editar levante
-                LevanteGestionarFragment.modo = 0;//Modo nuevo
-                editarAnimalLevanteNuevo();
-                break;
+                cargarPreferencias(); //Parametros de configuracion de acceso Levante, Insumo, Configuracion tipo Usuario
+                if(privilegioUsuario(accesoLevante)){//envio el tipo de acceso
 
+                    LevanteGestionarFragment.modo = 0;//Modo nuevo
+                    editarAnimalLevanteNuevo();
+                }else
+                {
+                    Toast.makeText(this, "Acceso denegado para crear", Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.fabNuevoInsumo: //editar levante
-                InsumoGestionarFragment.modo = 0;//Modo nuevo
-                editarInsumoNuevo();
+               cargarPreferencias(); //Parametros de configuracion de acceso Levante, Insumo, Configuracion tipo Usuario
+                if(privilegioUsuario(accesoInsumo)){//envio el tipo de acceso
+                    InsumoGestionarFragment.modo = 0;//Modo nuevo
+                    editarInsumoNuevo();
+                }else
+                {
+                    Toast.makeText(this, "Acceso denegado para crear", Toast.LENGTH_SHORT).show();
+                }
                 break;
-
             case R.id.fabNuevoAgendar: //nuevo actividad a agendar
                 AgendarFragment.modo = 0; //Modo nuevo
                 editarAgendaNuevo();
                 break;
         }
+    }
+
+
+    void iniciarFirebaseListUsuario() {
+
+        UserFirebase userFirebase = new UserFirebase(this);
+        userFirebase.limpiarLista();
+        userFirebase.cargarListUsuario();
+        recibirListUsuario = UserFirebase.usuarioList;
+
     }
 
     void iniciarFirebaseListLevante()
@@ -165,8 +199,6 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         levanteFirebase.cargarListLevante();
         recibirListLevante = LevanteFirebase.levanteList;
     }
-
-
 
     void iniciarFirebaseListInsumo() {
         InsumoFirebase insumoFirebase = new InsumoFirebase(this);
@@ -203,6 +235,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -255,7 +288,7 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             botonFlotanteMenu(false);
 
         } else if (id == R.id.nav_agendar) {
-            openFragmentAgendar();
+            openFragmentRecyclerAgendar();
             botonFlotanteMenu(false);
 
         } else if (id == R.id.nav_profile) {
@@ -266,7 +299,17 @@ public class ActivityNavigationDrawer extends AppCompatActivity
             TituloToolbar(getString(R.string.s_users));//Titulo de Toolbar
 
         } else if (id == R.id.nav_configuration) {
-            openFragmentConfigurationTabbed();
+
+            cargarPreferencias(); //Parametros de configuracion de acceso Levante, Insumo, Configuracion tipo Usuario
+
+            if(privilegioUsuario(accesoConfiguracon)){//envio el tipo de acceso
+
+                openFragmentConfigurationTabbed();
+            }else
+            {
+                Toast.makeText(getApplicationContext(), "Acceso denegado", Toast.LENGTH_SHORT).show();
+            }
+
         } else if (id == R.id.nav_Sing_off) {
             singOff();
         } else if (id == R.id.nav_about) {
@@ -276,6 +319,18 @@ public class ActivityNavigationDrawer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    Boolean privilegioUsuario(Boolean opcion){
+        Boolean permitir = true;
+
+        if(UserFirebase.logueado == 2){//si estoy por firebase
+            if(tipoUsuario().equals("Usuario")){ //Si el usuario no es administrador
+                permitir = opcion; //la opcion es el parametro general de acceso
+            }
+        }
+        return  permitir;
     }
 
     public void TituloToolbar(String menu) {
@@ -376,4 +431,35 @@ public class ActivityNavigationDrawer extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
+    public  void cargarPreferencias(){
+        SharedPreferences preferences = activity.getSharedPreferences("configuracionPrivilegio", Context.MODE_PRIVATE);
+        Boolean levanteUs =  preferences.getBoolean("levanteUs", true); //segundo parametro es informacion por defecto dado el caso que el archivo preferecnias no exita
+        Boolean insmoUs  =  preferences.getBoolean("insumoUs", true);
+        Boolean configuUs  =  preferences.getBoolean("configuracionUs", true);
+
+        accesoLevante = levanteUs;
+        accesoInsumo = insmoUs;
+        accesoConfiguracon = configuUs;
+    }
+
+
+
+    //Buscar el tipo de usuario logueado en Firebase para el privilegio de acceso
+    String tipoUsuario(){
+        recibirListUsuario = UserFirebase.usuarioList;
+        boolean autenticado = false;
+        String tipo="Administrador";
+        int i = 0;
+        for(i = 0; (i < recibirListUsuario.size() && !autenticado); i++) {
+            if (recibirListUsuario.get(i).getAutenticado() == 1) {
+                autenticado = true;
+                tipo = recibirListUsuario.get(i).getTipo();
+            }
+        }
+        return  tipo;
+    }
+
+
 }

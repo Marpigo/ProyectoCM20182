@@ -2,6 +2,7 @@ package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -70,7 +71,7 @@ public class InsumoGestionarFragment extends Fragment {
         init(view);
 
         llenarEspecie();
-        llenarLinea();
+        cargarPreferencias(); //carga las lineas desde parametros de referencia
         iniciarFirebaseListLevante();
         setHasOptionsMenu(true);//nos permite ejecutar icono del menu toobar onOptionsItemSelected
 
@@ -184,14 +185,27 @@ public class InsumoGestionarFragment extends Fragment {
         comboLLenado(spinner_especies, comboSpecie);
     }
 
-    void llenarLinea(){
-        /*LLenado del Spinner Genero*/
-        comboLinea.add("Agro insumos");
-        comboLinea.add("Medicamentos");
-        comboLinea.add("Sales");
-        comboLinea.add("Ferreteria");
+
+
+    public  void cargarPreferencias(){
+        SharedPreferences preferences = activity.getSharedPreferences("configuracionInsumo", Context.MODE_PRIVATE);
+        String linea = preferences.getString("grupolinea", "Agro insumos, Medicamentos, Sales, Ferreteria"); //segundo parametro es informacion por defecto dado el caso que el archivo preferecnias no exita
+        comboLinea = tokeNizer(linea, comboLinea);
         comboLLenado(spinner_linea, comboLinea);
+
+
     }
+
+    ArrayList<String>  tokeNizer(String cadenagrupo, ArrayList<String> combobox){
+        String[] grupo = cadenagrupo.split(", ");
+        int i=0;
+        for (i=0; i<grupo.length; i++){
+
+            combobox.add(grupo[i]);
+        }
+        return  combobox;
+    }
+
 
 
     void comboLLenado(Spinner spinner, ArrayList<String> combobox)

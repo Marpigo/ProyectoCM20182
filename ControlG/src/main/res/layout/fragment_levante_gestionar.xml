@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,211 +12,250 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent">
 
-            <TableRow
-                android:id="@+id/tableRow3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:gravity="bottom|center"
+            <LinearLayout
+                android:id="@+id/linearLayout15"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/imgLevante"
-                    android:layout_width="155dp"
-                    android:layout_height="119dp"
-                    android:layout_gravity="center"
-                    android:layout_margin="10dp"
-                    android:onClick="onClick"
-                    android:src="@drawable/levantefoto" />
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"
+                    android:gravity="bottom|center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fabFotoLevante"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:src="@drawable/ic_camera_alt_black_24dp"
-                    tools:layout_editor_absoluteX="287dp"
-                    tools:layout_editor_absoluteY="70dp" />
+                    <ImageView
+                        android:id="@+id/imgLevante"
+                        android:layout_width="155dp"
+                        android:layout_height="119dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:onClick="onClick"
+                        android:src="@drawable/levantefoto" />
 
-            </TableRow>
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fabFotoLevante"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:src="@drawable/ic_camera_alt_black_24dp"
+                        tools:layout_editor_absoluteX="287dp"
+                        tools:layout_editor_absoluteY="70dp" />
 
-            <TableLayout
-                android:id="@+id/tableLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                </TableRow>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout14"
+                android:layout_width="360dp"
+                android:layout_height="362dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tableRow3"
-                tools:ignore="MissingConstraints">
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout15"
+                app:layout_constraintVertical_bias="0.0">
 
-                <TableRow
+                <TableLayout
+                    android:id="@+id/tableLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tableRow3"
+                    tools:ignore="MissingConstraints">
 
-                    <Spinner
-                        android:id="@+id/spinnerLote"
-                        android:layout_width="114dp"
-                        android:layout_height="35dp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp">
-
-                    <EditText
-                        android:id="@+id/ediNombreL"
-                        android:layout_width="231dp"
-                        android:layout_height="match_parent"
-                        android:ems="10"
-                        android:hint="@string/s_nombre_detalle"
-                        android:inputType="textCapCharacters"
-                        android:singleLine="true" />
-
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp">
-
-                    <Spinner
-                        android:id="@+id/spinnerGenero"
-                        android:layout_width="303dp"
-                        android:layout_height="35dp" />
-
-                </TableRow>
-
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp">
-
-                    <Spinner
-                        android:id="@+id/spinnerRaza"
-                        android:layout_width="130dp"
-                        android:layout_height="35dp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp">
-
-                    <Spinner
-                        android:id="@+id/spinnerIngreso"
-                        android:layout_width="130dp"
-                        android:layout_height="35dp" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
+                    <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_marginLeft="10dp">
+
+                        <Spinner
+                            android:id="@+id/spinnerLote"
+                            android:layout_width="114dp"
+                            android:layout_height="35dp" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp">
 
                         <EditText
-                            android:id="@+id/ediFechaL"
-                            android:layout_width="173dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:id="@+id/ediNombreL"
+                            android:layout_width="231dp"
+                            android:layout_height="match_parent"
                             android:ems="10"
-                            android:gravity="fill_horizontal"
-                            android:hint="@string/s_fecha_detalle"
-                            android:inputType="textPersonName|date" />
+                            android:hint="@string/s_nombre_detalle"
+                            android:inputType="textCapCharacters"
+                            android:singleLine="true" />
 
-                        <ImageButton
-                            android:id="@+id/imabFechaL"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:onClick="onClick"
-                            android:src="@drawable/ic_date_range_gris_24dp" />
+                    </TableRow>
 
-                    </LinearLayout>
 
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    tools:layout_editor_absoluteX="10dp"
-                    tools:layout_editor_absoluteY="227dp">
-
-                    <EditText
-                        android:id="@+id/ediChapetaL"
-                        android:layout_width="238dp"
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:ems="10"
-                        android:hint="@string/s_numero_chapeta_detalle"
-                        android:inputType="textPersonName|number" />
-                </TableRow>
+                        android:layout_marginLeft="10dp">
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    tools:layout_editor_absoluteX="10dp"
-                    tools:layout_editor_absoluteY="282dp">
+                        <Spinner
+                            android:id="@+id/spinnerGenero"
+                            android:layout_width="303dp"
+                            android:layout_height="35dp" />
 
-                    <EditText
-                        android:id="@+id/ediObservacionL"
-                        android:layout_width="278dp"
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:ems="10"
-                        android:hint="@string/s_observacion_detalle"
-                        android:inputType="textPersonName" />
+                        android:layout_marginLeft="10dp">
 
-                    <EditText
-                        android:id="@+id/ediIDL"
-                        android:layout_width="336dp"
+                        <Spinner
+                            android:id="@+id/spinnerRaza"
+                            android:layout_width="130dp"
+                            android:layout_height="35dp" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:ems="10"
-                        android:hint="@string/s_observacion_detalle"
-                        android:inputType="textPersonName"
-                        android:visibility="invisible" />
+                        android:layout_marginLeft="10dp">
 
-                </TableRow>
-            </TableLayout>
+                        <Spinner
+                            android:id="@+id/spinnerIngreso"
+                            android:layout_width="130dp"
+                            android:layout_height="35dp" />
 
-            <TableLayout
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/ediFechaL"
+                                android:layout_width="173dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ems="10"
+                                android:gravity="fill_horizontal"
+                                android:hint="@string/s_fecha_detalle"
+                                android:inputType="textPersonName|date" />
+
+                            <ImageButton
+                                android:id="@+id/imabFechaL"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:onClick="onClick"
+                                android:src="@drawable/ic_date_range_gris_24dp" />
+
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        tools:layout_editor_absoluteX="10dp"
+                        tools:layout_editor_absoluteY="227dp">
+
+                        <EditText
+                            android:id="@+id/ediChapetaL"
+                            android:layout_width="238dp"
+                            android:layout_height="match_parent"
+                            android:ems="10"
+                            android:hint="@string/s_numero_chapeta_detalle"
+                            android:inputType="textPersonName|number" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        tools:layout_editor_absoluteX="10dp"
+                        tools:layout_editor_absoluteY="282dp">
+
+                        <EditText
+                            android:id="@+id/ediObservacionL"
+                            android:layout_width="278dp"
+                            android:layout_height="match_parent"
+                            android:ems="10"
+                            android:hint="@string/s_observacion_detalle"
+                            android:inputType="textPersonName" />
+
+                        <EditText
+                            android:id="@+id/ediIDL"
+                            android:layout_width="336dp"
+                            android:layout_height="match_parent"
+                            android:ems="10"
+                            android:hint="@string/s_observacion_detalle"
+                            android:inputType="textPersonName"
+                            android:visibility="invisible" />
+
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout12"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_height="23dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical">
 
                     <ImageView
                         android:id="@+id/imaCancelarLG"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:src="@drawable/ic_clear_black_24dp"
                         android:text="Cancelar"
@@ -232,10 +271,10 @@
 
                 </TableRow>
 
-            </TableLayout>
+            </LinearLayout>
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

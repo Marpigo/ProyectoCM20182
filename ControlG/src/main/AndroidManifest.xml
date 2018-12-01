@@ -27,9 +27,6 @@
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UsuarioAtivity"
-            android:parentActivityName=".ActivityNavigationDrawer" />
-        <activity
             android:name=".LoguinTabbed"
             android:label="@string/title_activity_loguin_tabbed"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -18,9 +18,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.udea.compumovil.gr02_20182.proyecto.ActivityNavigationDrawer;
@@ -47,7 +51,7 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
 
 
     static List<User> recibirListUsuario;
-    UserFirebase userFirebase = new  UserFirebase();
+
 
     private Uri filePath;
 
@@ -61,10 +65,13 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
     EditText campoName, campoEmail, campoPassword;
     TextView campoId;
     Bitmap bitmaphoto;
+    Spinner spinner_tipo;
 
     ImageView img_cancelar;
     ImageView img_nuevo;
     ImageView img_guardar;
+
+    ArrayList<String> comboTipo = new ArrayList<>();
 
     public static int modo = 1; /*0.Nuevo, 1.Modificar*/
 
@@ -89,6 +96,7 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
 
         activity = getActivity();
 
+        llenarIngreso();
 
         int logueado;
         logueado = UserFirebase.logueado; //1.Gollge, 2.Usuario
@@ -164,12 +172,40 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         campoPassword = (EditText) view.findViewById(R.id.ediPasswordUserR);
         campoPhoto = (ImageView) view.findViewById(R.id.imgUsuarioG);
         campoId = (TextView) view.findViewById(R.id.texId);
+        spinner_tipo = (Spinner) view.findViewById(R.id.spinnerTipoUsuario);
 
         img_cancelar = (ImageView) view.findViewById(R.id.imaCancelarU);
         img_nuevo = (ImageView) view.findViewById(R.id.imaNuevoU);
         img_guardar = (ImageView) view.findViewById(R.id.imaGuardarU);
 
     }
+
+
+    void llenarIngreso() {
+        /*LLenado del Spinner Genero*/
+        comboTipo.add("Administrador");
+        comboTipo.add("Invitado");
+        comboLLenado(spinner_tipo, comboTipo);
+    }
+
+
+    void comboLLenado(Spinner spinner, ArrayList<String> combobox) {
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(activity, android.R.layout.simple_spinner_item, combobox);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String xx = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
 
 
     @Override
@@ -262,6 +298,7 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
                 campoEmail.setText(recibirListUsuario.get(i).getEmail());
                 campoPassword.setText(recibirListUsuario.get(i).getPassword());
                 campoId.setText(recibirListUsuario.get(i).getId());
+                spinner_tipo.setSelection(recibirListUsuario.get(i).getTipo().equals("Administrador")?0:1);
                 String imag = recibirListUsuario.get(i).getImagen();
                 Glide.with(this).load(imag).into(campoPhoto);
             }
@@ -275,27 +312,25 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
         final String email = campoEmail.getText().toString();
         final String password = campoPassword.getText().toString();
         final String idU = campoId.getText().toString();
+        final String tipo = spinner_tipo.getSelectedItem().toString();
+
+        UserFirebase userFirebase = new  UserFirebase(activity);
 
         boolean requerimientos = false;
         requerimientos = validateCampo(campoName.getText().toString(), campoEmail.getText().toString(), campoPassword.getText().toString());
         if (requerimientos) {
             if (modo == 0 ){ //Nuevo
-                userFirebase.insertUser(name, email, password, filePath);
+                userFirebase.insertUser(name, email, password, filePath, tipo);
                 Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
             }else if(modo == 1){ //Modificar
-                userFirebase.updateUser(idU, name, email, password, filePath);
+                userFirebase.updateUser(idU, name, email, password, filePath, tipo);
                 Toast.makeText(activity, getString(R.string.s_Firebase_registro), Toast.LENGTH_SHORT).show();
                 limpiar();
             }
         }
     }
 
-
-    void eliminarUser(String id)
-    {
-        userFirebase.deleteUsers(id);
-    }
 
     /*
       Validar campos: Vacios o nulo
@@ -361,10 +396,6 @@ public class ConfigUsuarioFragment extends Fragment implements GoogleApiClient.O
                 e.printStackTrace();
             }
         }
-
-
-
-
     }
 
     private void limpiar() {

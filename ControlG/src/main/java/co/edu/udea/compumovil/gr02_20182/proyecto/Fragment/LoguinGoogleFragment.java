@@ -1,7 +1,9 @@
 package co.edu.udea.compumovil.gr02_20182.proyecto.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -91,6 +93,8 @@ public class LoguinGoogleFragment extends Fragment implements GoogleApiClient.On
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SIGN_IN_CODE) {
+
+
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             iniciarSesionResultado(result);
         }
@@ -117,6 +121,7 @@ public class LoguinGoogleFragment extends Fragment implements GoogleApiClient.On
         Intent miIntent = new Intent(getContext(), ActivityNavigationDrawer.class);
         startActivity(miIntent);
     }
+
 
 
 
